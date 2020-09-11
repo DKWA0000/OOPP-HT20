@@ -15,7 +15,7 @@ Problem som diskuterades var att omfattningen kan bli för stor i och med alla h
 Applikationen kan alltid begränsas och planen blir att utveckla och lägga till funktionaliteter allt eftersom. Till exempel börja med enbart spårvagnar och spårvagnshållplatserna och finns tid kan man gå in på busslinjerna. Eller om man bara nöjer sig med spårvagnshållplatserna och lägger till mer övrig funktionalitet istället, som att utöka algoritmen för en varning.
 
 ### Nästa möte:
-```Handledningsmöte, 2020-09-04 14:00 (1 dag)``` [länk](#)
+```Handledningsmöte, 2020-09-04 14:00 (1 dag)``` [länk](https://github.com/DKWA0000/OOPP-HT20/blob/master/Notes%20from%20projectmeetings/2020-09-04%20-%20Handledningsm%C3%B6te%20LV1.md)
 
 ### Att göra till nästa möte:
 - Minst en varsin enkelt utformad User Story med en funktionalitet vi vill ska finnas med.

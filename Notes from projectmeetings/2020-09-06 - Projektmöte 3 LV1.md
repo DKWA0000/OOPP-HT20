@@ -16,7 +16,7 @@ Utöver detta så skapade gruppen även några nya User Stories.
 
 
 ### Nästa möte:
-```Projektmöte, 2020-09-08 10:00 (2 dagar)``` [länk](#)
+```Projektmöte, 2020-09-08 10:00 (2 dagar)``` [länk](https://github.com/DKWA0000/OOPP-HT20/blob/master/Notes%20from%20projectmeetings/2020-09-08%20-%20Projektm%C3%B6te%201%20LV2.md)
 
 ### Att göra till nästa möte:
 - Seif och Joakim T fokuserar på att vidareutveckla applikationens modell.
