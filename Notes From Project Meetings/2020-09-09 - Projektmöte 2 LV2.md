@@ -1,6 +1,6 @@
 Filnamn: 2020-09-09 - Projektmöte 2 LV2.md
 
-# Projektmöte X LVX - 2020-09-09
+# Projektmöte 2 LV2 - 2020-09-09
 *Sekreterare: Seif Bourogaa*
 
 ### Agenda:
