@@ -2,16 +2,14 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Graph {
 
     /*
-    Make the graph an adjacency list.
-     */
+        Make the graph an adjacency list.
+    */
     private Map<Node, List<Node>> adjacencyList;
     public Graph()
     {
@@ -31,7 +29,7 @@ public class Graph {
 
     /*
         Remove node.
-     */
+    */
     public void removeNode(String station)
     {
         Node n = new Node(station);
@@ -42,7 +40,7 @@ public class Graph {
 
     /*
         Add edge between two nodes. This edge is one directional.
-     */
+    */
     public void addEdge(String source, String destination)
     {
         Node sourceNode = new Node(source);
@@ -53,7 +51,7 @@ public class Graph {
 
     /*
         Remove edge between a source and destination node.
-     */
+    */
     public void removeEdge(String source, String destination)
     {
         Node sourceNode = new Node(source);
@@ -65,11 +63,17 @@ public class Graph {
         }
     }
 
+    /*
+        Get nodes adjacent to x node.
+    */
     public List<Node> getAdjacentNodes(String station)
     {
        return adjacencyList.get(new Node(station));
     }
 
+    /*
+        Create route and add nodes and its edges to network.
+     */
     public void createRoute(String pathToFolderHoldingFiles) throws IOException, FileNotFoundException
     {
 
@@ -122,7 +126,11 @@ public class Graph {
 
         return routeNodes;
     }
-    
+
+    /*
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+     */
     class Node {
         String station;
         Node(String station) {
@@ -130,6 +138,9 @@ public class Graph {
         }
 
         @Override
+        /*
+            To make it easier to find our nodes.
+        */
         public int hashCode() {
             final int prime = 31;
             int result = 1;
