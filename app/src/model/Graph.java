@@ -32,8 +32,7 @@ public class Graph {
     */
     public void removeNode(String station)
     {
-        Node n = new Node(station);
-        adjacencyList.values().stream().forEach(e -> e.remove(n));
+        adjacencyList.values().stream().forEach(e -> e.remove(new Node(station)));
         adjacencyList.remove(new Node(station));
         System.out.print(adjacencyList.size());
     }
@@ -43,9 +42,8 @@ public class Graph {
     */
     public void addEdge(String source, String destination)
     {
-        Node sourceNode = new Node(source);
-        Node destinationNode = new Node(destination);
-        adjacencyList.get(sourceNode).add(destinationNode);
+        adjacencyList.get(new Node(source)).add(new Node(destination));
+        List<Node> abc = adjacencyList.get(new Node(source));
     }
 
 
@@ -54,12 +52,10 @@ public class Graph {
     */
     public void removeEdge(String source, String destination)
     {
-        Node sourceNode = new Node(source);
-        Node destinationNode = new Node(destination);
-        List<Node> sourceEdges = adjacencyList.get(sourceNode);
+        List<Node> sourceEdges = adjacencyList.get(new Node(source));
         if (sourceEdges != null)
         {
-            sourceEdges.remove(destinationNode);
+            sourceEdges.remove(new Node(destination));
         }
     }
 
