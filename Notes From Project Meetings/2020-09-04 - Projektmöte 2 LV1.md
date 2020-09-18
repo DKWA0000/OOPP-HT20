@@ -15,7 +15,7 @@ Vi gick igenom grejer som vi skulle ta med oss från förra mötet. Alla hade t�
 Utöver detta var det enda vi gjorde att försöka sätta upp ett fungerande projekt med android och gradle. Detta tog väldigt lång tid på grund av en hel del problem som uppkom, men i slutet av mötet hade alla fått det att funka. Därefter diskuterade vi vad vi skulle behöva göra innan nästa möte.
 
 ### Nästa möte:
-```Projektmöte, 2020-09-06 15:00 (2 dagar)``` [länk](https://github.com/DKWA0000/OOPP-HT20/blob/master/Notes%20from%20projectmeetings/2020-09-06%20-%20Projektm%C3%B6te%203%20LV1.md)
+```Projektmöte, 2020-09-06 15:00 (2 dagar)``` [länk](https://github.com/DKWA0000/OOPP-HT20/blob/master/Notes%20From%20Project%20Meetings/2020-09-06%20-%20Projektm%C3%B6te%203%20LV1.md)
 
 ### Att göra till nästa möte:
 - Kolla lite på möjliga designer för appen, både GUI och modell.

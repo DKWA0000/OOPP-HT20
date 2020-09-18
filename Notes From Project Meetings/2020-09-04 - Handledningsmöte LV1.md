@@ -15,6 +15,6 @@ Vi delade alla våra kommunikationskanaler och delade allt som behövdes.
 Mazdak gav oss även massa tips på saker vi borde tänka på gällande bl.a. omfattning och komplexitet, testning, user stories, git-flöde.
 
 ### Nästa möte:
-```Projektmöte, 2020-09-04 15:00 (0 dagar)``` [länk](https://github.com/DKWA0000/OOPP-HT20/blob/master/Notes%20from%20projectmeetings/2020-09-04%20-%20Projektm%C3%B6te%202%20LV1.md)
+```Projektmöte, 2020-09-04 15:00 (0 dagar)``` [länk](https://github.com/DKWA0000/OOPP-HT20/blob/master/Notes%20From%20Project%20Meetings/2020-09-04%20-%20Projektm%C3%B6te%202%20LV1.md)
 
 ### Att göra till nästa möte:
