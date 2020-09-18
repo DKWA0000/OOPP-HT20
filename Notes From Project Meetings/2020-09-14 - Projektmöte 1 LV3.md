@@ -16,5 +16,9 @@ göra. Sedan började vi dela ut tasks och de går att följa i våran trello so
 
 ### Att göra till nästa möte:
 - Böra programmera och sätta upp egna branches 
-  - Följa trellon
+  - Lucas Karlsson ska implementera raport klasserna och incident klassen.
+  - Joakim Ohlsson ska implementera en klass för modellen och skapa cvs filer för att modellera linjerna
+  - Seif Bourogaa ska skapa och implementera grafstrukturen och network klassen.
+  - Joakim Tubring ska implementera klasserna för Station och Linje.
+  - Filip Hanberg börjar implementera och skapa ett basic men fungerade GUI.
 - Snabb träff innan presentation av domänmodell
