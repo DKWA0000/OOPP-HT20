@@ -12,7 +12,7 @@ vara svårt att gissa modellen. Sen gick vi alla in i trello och började skapa 
 göra. Sedan började vi dela ut tasks och de går att följa i våran trello som finns länkad i ```readMe.md``` [länk](https://github.com/DKWA0000/OOPP-HT20#oopp-ht20)
 
 ### Nästa möte:
-```Projektmöte, 2020-09-17 14:00 (3 dagar)``` [länk](https://github.com/DKWA0000/OOPP-HT20/blob/master/Notes%20From%20Project%20Meetings/2020-09-14%20-%20Projektm%C3%B6te%202%20LV3.md)
+```Projektmöte, 2020-09-17 14:00 (3 dagar)``` [länk](https://github.com/DKWA0000/OOPP-HT20/blob/master/Notes%20From%20Project%20Meetings/2020-09-17%20-%20Projektm%C3%B6te%202%20LV3.md)
 
 ### Att göra till nästa möte:
 - Böra programmera och sätta upp egna branches 
