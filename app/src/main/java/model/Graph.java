@@ -8,11 +8,11 @@ import java.util.stream.Collectors;
 public class Graph {
 
     /*
-        Make an adjacency list to store the nodes and its connections. 
+        Make an adjacency list to store the nodes and its connections.
     */
 
     private Map<Node, List<Node>> adjacencyList;
-    
+
     public Graph()
     {
         /*
@@ -23,24 +23,24 @@ public class Graph {
 
     /*
         Insert a new Node to the Graph, if it does not already exist. Every Node
-        is given its own ArrayList holding all Nodes it is connecting to. 
+        is given its own ArrayList holding all Nodes it is connecting to.
 
         Args:
             @station: Name of the Node to create as well as the Graph.Node.station attribute.
 
-        See: 
+        See:
             Class: Graph.Node
     */
     public void addNode(String station)
     {
-       adjacencyList.putIfAbsent(new Node(station), new ArrayList<>());
+        adjacencyList.putIfAbsent(new Node(station), new ArrayList<>());
     }
 
     /*
         Remove a Node and its ArrayList from the Graph.
 
-        Args: 
-            @station: Name of the Node to remove from the Graph.  
+        Args:
+            @station: Name of the Node to remove from the Graph.
 
     */
     public void removeNode(String station)
@@ -52,11 +52,11 @@ public class Graph {
     /*
         Create an edge between any two Nodes in the Graph by adding the @destination Node
         into ArrayList of @source Node. Such that @source maps to @destination, but @destination
-        does not map to @source. 
+        does not map to @source.
 
         Args:
             @source: Name of Node to map from.
-            @destination: Name of Node to map to.   
+            @destination: Name of Node to map to.
     */
     public void addEdge(String source, String destination)
     {
@@ -71,7 +71,7 @@ public class Graph {
 
         Args:
             @source: Name of Node to remove mapping from.
-            @destination: Name of Node to remove mapping to.  
+            @destination: Name of Node to remove mapping to.
     */
     public void removeEdge(String source, String destination)
     {
@@ -85,28 +85,28 @@ public class Graph {
     /*
         Get Nodes adjacent to Node @station.
 
-        Args: 
+        Args:
             @station: Name of Node to find adjacent Nodes to.
 
-        To do: 
+        To do:
             This needs to be fixed. I just realized it only get Nodes mapped from it.
     */
     public List<Node> getAdjacentNodes(String station)
     {
-       return adjacencyList.get(new Node(station));
+        return adjacencyList.get(new Node(station));
     }
 
     /*
         Add an entire route to the Graph. Adds every station as a Node, and maps every connection.
 
-        Args: 
+        Args:
             @pathToFolderHoldingFiles: name of file containing every relevant route informaiton.
 
-        See: 
+        See:
             @getNodesFromCSV()
 
-        To do: 
-            This should be moved to route Class.  
+        To do:
+            This should be moved to route Class.
      */
     public void createRoute(String pathToFolderHoldingFiles) throws IOException, FileNotFoundException
     {
