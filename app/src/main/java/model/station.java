@@ -5,7 +5,7 @@ import java.util.*;
 public class station {
 
     private String name;
-    private ArrayList<Node> nodeList;
+    private ArrayList<Graph.Node> nodeList;
 
     public station(String name, ArrayList nodeList){
         this.name = name;
