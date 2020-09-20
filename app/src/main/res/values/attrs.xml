@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="IncidentViewItem">
+        <attr name="incidentPosition" format="string" />
+        <attr name="incidentTime" format="integer" />
+        <attr name="incidentImage" format="reference" />
+        <attr name="incidentNumber" format="integer" />
+    </declare-styleable>
+
+</resources>
