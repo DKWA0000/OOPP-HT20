@@ -44,7 +44,8 @@ public class station {
         String line;
         String subString;
         ArrayList<station> stations = new ArrayList<>();
-        ArrayList<String> tmp = new ArrayList<>();
+        ArrayList<String> tmp1 = new ArrayList<>();
+        ArrayList<String> tmp2 = new ArrayList<>();
 
         for (int i = 0; i < f.length; i++) {
 
@@ -55,16 +56,22 @@ public class station {
                     line = br.readLine();
                     station s;
 
-                    if(line != null && !(tmp.contains(line))){
+                    if(line != null && !(tmp1.contains(line))){
 
                         String[] l = line.split(",");
                         subString = l[0];
 
-                        if(!(tmp.contains(subString))) {
+                        if(!(tmp1.contains(subString))) {
                             stations.add(new station(subString, new ArrayList()));
+                            tmp2.add(subString);
                         }
-                        tmp.add(line);
-                        stations.get(stations.size() - 1).nodeList.add(new Node(line));
+                        tmp1.add(line);
+
+                        if(tmp2.contains(subString)){
+                        int index = tmp2.indexOf(subString);
+                        stations.get(index).nodeList.add(new Node(line));
+                        }
+
                     }
             }
         }
