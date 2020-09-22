@@ -1,73 +1,76 @@
 import java.io.*;
 import java.util.*;
 
-
 public class station {
 
     private String name;
-    private ArrayList<Graph.Node> nodeList;
+    private ArrayList<Node> nodeList;
 
-    public station(String name, ArrayList nodeList){
+    /**
+     * Constructor for creating station-objects.
+     * @param name
+     * @param nodeList
+     */
+    public station(String name, ArrayList nodeList) {
         this.name = name;
         this.nodeList = nodeList;
     }
 
-    public String getName(){
+    /**
+     * @return String name
+     */
+    public String getName() {
         return this.name;
     }
 
-    public ArrayList getnodes(){
+    /**
+     * @return ArrayList nodes
+     */
+    public ArrayList getnodes() {
         return this.nodeList;
     }
 
-    public ArrayList<station> createStations(String path){
+    /**
+     * Takes a path and returns a list of stations created
+     * from CSV-files in path.
+     * @param path
+     * @return ArrayList stations
+     * @throws IOException
+     */
 
-        ArrayList<station> result = new ArrayList<>();
-        ArrayList<String> tmp = multibleListToOne(path);
-        int i = 0;
+    public ArrayList createStations(String path) throws IOException{
 
-        for(int i = 0; i < tmp.size(); i++){
-            if(!(result.contains(tmp.get(i)))){
-                result.add(new station(tmp.get(i), new ArrayList()));
-            }
-            for(int j = 0; i < tmp.size(); i++){
-                if()
-
-            }
-        }
-
-    }
-
-    private ArrayList multibleListToOne(String path) throws IOException {
-
-        ArrayList<String> result = new ArrayList<>();
         File[] f = new File(path).listFiles();
-        List<String> tmp;
-        String[] fileNames;
+        String line;
+        String subString;
+        ArrayList<station> stations = new ArrayList<>();
+        ArrayList<String> tmp = new ArrayList<>();
 
-        for(int i = 0; i < f.length; i++){
-            fileNames[i] = (f[i].getName());
+        for (int i = 0; i < f.length; i++) {
+
+            BufferedReader br = new BufferedReader(new FileReader(f[i]));
+
+            while ((br.readLine()) != null) {
+
+                    line = br.readLine();
+                    station s;
+
+                    if(line != null && !(tmp.contains(line))){
+
+                        String[] l = line.split(",");
+                        subString = l[0];
+
+                        if(!(tmp.contains(subString))) {
+                            stations.add(new station(subString, new ArrayList()));
+                        }
+                        tmp.add(line);
+                        stations.get(stations.size() - 1).nodeList.add(new Node(line));
+                    }
+            }
         }
 
-        for(int i = 0; i < result.size(); i++) {
-            BufferedReader br = new BufferedReader(new FileReader(result.get(i)));
-            String line;
+        return stations;
+}
 
-            while ((line = br.readLine()) != null) {
-                {
-                    String[] l = line.split(",");
-                    tmp = Arrays.asList(l);
-                    System.out.println(Arrays.toString(l));
-
-                for(int j = 0; j < tmp.size(); j++) {
-                    result.add(tmp.get(i));
-                }
-            }
-            }
-
-        }
-
-        return result;
-    }
 
 }

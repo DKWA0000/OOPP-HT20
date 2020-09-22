@@ -6,7 +6,7 @@ public class route {
     private int lineNumber;
     private Set<Node> stops;
 
-    public route(int lineNumber, Set stops){
+    public route(int lineNumber, Set<Node> stops){
         this.lineNumber = lineNumber;
         this.stops = stops;
     }
@@ -19,24 +19,24 @@ public class route {
         return this.stops;
     }
 
-    public route createRoute(int lineNr) throws IOException {
+    public route createRoute(String filePath, int lineNr) throws IOException {
 
-            BufferedReader br = new BufferedReader(new FileReader("C:\\testApp\\src\\6_Kortedala.csv"));
-            String line;
-            List tmp = new ArrayList<>();
-            route r = new route(lineNr, new HashSet());
+        BufferedReader br = new BufferedReader(new FileReader(filePath));
+        String line;
+        ArrayList tmp = new ArrayList<>();
+        route r = new route(lineNr, new HashSet<Node>());
 
-            while ((line = br.readLine()) != null) {
-                String[] l = line.split(",");
-                tmp = Arrays.asList(l);
-                System.out.println(Arrays.toString(l));
-            }
-            for(int i = 0; i < tmp.size(); i++){
-                stops.add(new Node((String) tmp.get(i), false));
-            }
+        while ((br.readLine()) != null) {
+            line = br.readLine();
+            tmp.add(line);
 
-            return r;
         }
+        for(int i = 0; i < tmp.size(); i++){
+            r.stops.add(new Node((String) tmp.get(i)));
+        }
+
+        return r;
+    }
 
 
 }
