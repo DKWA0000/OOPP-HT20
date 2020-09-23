@@ -1,11 +1,8 @@
 package model;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import android.content.res.AssetManager;
+import java.io.*;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
 * A graph structure representing the public transportation network. 
@@ -19,15 +16,118 @@ public class Graph {
     /*
         Make an adjacency list to store the nodes and their connections. 
     */
+
+
+    private List<Route> routes = new ArrayList<>();
     private Map<Node, List<Node>> adjacencyList;
-    
-    public Graph()
+    private Map<String, Station> stations;
+
+
+    /**
+     * Constructor of Graph-object takes the AssetManager and passes it
+     *
+     * @param am AssetManager
+     */
+    public Graph(AssetManager am)
     {
-        /*
-            Use HashTable for smoother insertion and removal.
-        */
-        this.adjacencyList = new HashMap<>();
+
+        stations = new HashMap<>();
+        adjacencyList = new HashMap<>();
+
+        loadAllRoutes(am);
+        mapAllNodes();
+
     }
+
+
+    /**
+     * Maps all the Nodes from every existing Route.
+     * Loads the Nodes into the adjecencyList and also creates Stations and adds each Node to corresponding Station.
+     */
+    private void mapAllNodes() {
+        for(Route r : routes){
+            for(int i = 0 ; i < r.getNodes().size() ; i++){
+                Node n = r.getNodes().get(i);
+
+                //TODO: should be broken down into smaller method(s)
+                if(!adjacencyList.containsKey(n)){
+                    List<Graph.Node> nodes = new ArrayList<Graph.Node>();
+                    if(i!=0)
+                        nodes.add(r.getNodes().get(i-1));
+                    if(i!=r.getNodes().size()-1)
+                        nodes.add(r.getNodes().get(i+1));
+
+                    adjacencyList.put(n,nodes);
+                }
+                else{
+                    List<Graph.Node> list = adjacencyList.get(n);
+
+                    if(i!=0 && !list.contains(r.getNodes().get(i-1)))
+                        list.add(r.getNodes().get(i-1));
+
+                    if(i!=r.getNodes().size()-1 && !list.contains(r.getNodes().get(i+1)))
+                        list.add(r.getNodes().get(i+1));
+                }
+
+
+                if(!stations.containsKey(n.getStationName())){
+                    Station s = new Station(n.getStationName());
+                    s.addNode(n);
+                    stations.put(n.getStationName(),s);
+                }
+                else{
+                    stations.get(n.getStationName()).addNode(n);
+                }
+            }
+        }
+
+
+        /*      TESTING x)
+        System.out.println("ALL STATIONS:");
+        for (Iterator<String> it = stations.keySet().iterator(); it.hasNext(); ) {
+            String s = it.next();
+            System.out.print(s + " --> ");
+            System.out.println(stations.get(s).getNodes());
+        }
+
+
+        System.out.println("ALL NODES:");
+        for (Iterator<Node> it = adjacencyList.keySet().iterator(); it.hasNext(); ) {
+            Node l = it.next();
+            System.out.print(l + " --> ");
+            System.out.println(adjacencyList.get(l));
+        }
+        */
+    }
+
+    /**
+     * Creates new Routes from all .txt files in the /routes/ folder.
+     *
+     * @param am AssetManager to access /routes/
+     */
+    private void loadAllRoutes(AssetManager am){
+
+        try {
+            for (String s : am.list("routes/")) {
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(am.open("routes/" + s)));
+                String name = s.replace(".txt" , "");
+                ArrayList<Node> stops = new ArrayList<Node>();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    stops.add(new Node(line.trim()));
+                }
+
+                routes.add(new Route(name,stops));
+
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
 
     /**
     * Insert a new Node to the Graph, if it doesn not already exist. Every Node is given its own ArrayList
@@ -105,86 +205,26 @@ public class Graph {
     */
     public List<Node> getAdjacentNodes(String station)
     {
-       return adjacencyList.get(new Node(station));
-    }
+        //TODO: Maybe use this code for the other method?
+        ArrayList<Node> nodes = new ArrayList<Node>();
 
-    /**
-    * Add an entire route to the Graph. Adds every station and maps every connection for the route.
-    *
-    * @param pathToFolderHoldingFiles path to .csv file holding route specification.  
-    *
-    * @see Graph.Node
-    * @see getNodesFromCSV()
-    *
-    * To do: This should be moved to the Class Route. 
-    */
-    public void createRoute(String pathToFolderHoldingFiles) throws IOException, FileNotFoundException
-    {
 
-        List<String> routeNodes = getNodesFromCSV(pathToFolderHoldingFiles);
-
-        /*
-            Add all stations to network.
-         */
-        for(int i = 0; i < routeNodes.size(); i++)
-        {
-            addNode(routeNodes.get(i));
+        for (Node n :adjacencyList.get(new Node(station))
+             ) {
+            nodes.add(n);
         }
 
-        /*
-            Create edge between stations.
-         */
-        for(int i = 0; i < routeNodes.size(); i++)
-        {
-            if(i + 1 < routeNodes.size())
-            {
-                addEdge(routeNodes.get(i), routeNodes.get(i+1));
-            }
-        }
-    }
-
-    /**
-    * Reads route specification from a file. 
-    *
-    * @param pathToFolderHoldingFiles path to .csv file holding route specification. 
-    *
-    * @return List of all stations for a route.  
-    *
-    * @see Graph.Node
-    */
-    public List<String> getNodesFromCSV(String pathToFolderHoldingFiles) throws IOException, FileNotFoundException
-    {
-        String file = "/home/loqotia/GraphTest/Stations/" + pathToFolderHoldingFiles;
-        List<List<String>> temp = new ArrayList<>();
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file)))
-        {
-            String line;
-            while ((line = bufferedReader.readLine()) != null)
-            {
-                String[] nodes = line.split(",");
-                temp.add(Arrays.asList(nodes));
-            }
-        }
-        catch(IOException e) {
-            e.printStackTrace();
-        }
-
-        /*
-            We want a 1D list, not 2D. Convert it.
-        */
-        List<String> routeNodes = temp.stream().flatMap(List::stream).collect(Collectors.toList());
-
-        return routeNodes;
+        return nodes;
     }
 
     /**
     * Temporary Node class until I can fix it. Need Graph specific information to get keys to work
     * smoothly in order to find and adress Nodes.
     */
-    class Node {
-        String station;
-        Node(String station) {
-            this.station = station;
+    public class Node {
+        private String name;
+        public Node(String name) {
+            this.name = name;
         }
 
         @Override
@@ -195,7 +235,7 @@ public class Graph {
             final int prime = 31;
             int result = 1;
             result = prime * result + getOuterType().hashCode();
-            result = prime * result + ((station == null) ? 0 : station.hashCode());
+            result = prime * result + ((name == null) ? 0 : name.hashCode());
             return result;
         }
 
@@ -210,22 +250,105 @@ public class Graph {
             Node other = (Node) obj;
             if (!getOuterType().equals(other.getOuterType()))
                 return false;
-            if (station == null) {
-                if (other.station != null)
+            if (name == null) {
+                if (other.name != null)
                     return false;
-            } else if (!station.equals(other.station))
+            } else if (!name.equals(other.name))
                 return false;
             return true;
         }
 
         @Override
         public String toString() {
-            return station;
+            return name;
+        }
+
+        public String getStationName(){
+            return name.substring(0,name.lastIndexOf(' '));
         }
 
 
         private Graph getOuterType() {
             return Graph.this;
         }
+
+        public String getName() {
+            return this.name;
+        }
+    }
+
+    /**
+     * Returns the Node before the given Node in given Route.
+     * Returns null if there is no Node before given Node.
+     *
+     * @param n Node of interest
+     * @param r Route of interest
+     * @return The Node before n
+     */
+    public Node getPrevNode(Node n ,Route r){
+
+        for (int i = 1; i < r.getNodes().size(); i++) {
+            Node current = r.getNodes().get(i);
+            if(current == n){
+                return r.getNodes().get(i-1);
+            }
+        }
+        return null;
+    }
+
+
+    /**
+     * Returns the Node after the given Node in given Route.
+     * Returns null if there is no Node after given Node.
+     *
+     * @param n Node of interest
+     * @param r Route of interest
+     * @return The Node after n
+     */
+    public Node getNextNode(Node n ,Route r) {
+
+        for (int i = 0; i < r.getNodes().size()-1; i++) {
+            Node current = r.getNodes().get(i);
+            if(current == n){
+                return r.getNodes().get(i+1);
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Returns all Nodes in the given Route.
+     * @param r Route of interest
+     * @return An ordered list of all nodes in that Route
+     */
+    public List<Graph.Node> getRouteNodes(Route r){
+        return r.getNodes();
+    }
+
+    /**
+     * Returns the Sation of the given Node.
+     * @param n Node of interest
+     * @return The Nodes Station
+     */
+    public Station getNodeStation(Node n){
+        return stations.get(n.getStationName());
+    }
+
+    /**
+     * Returns all Nodes at the given Station.
+     * @param s Station of interest
+     * @return An ordered list of all nodes at that Station
+     */
+    public List<Graph.Node> getStationRoutes(Station s){
+        return s.getNodes();
+    }
+
+
+    public void getAdjacentNodes(Node n){
+        // TODO:
+    }
+
+    public void getAdjacentStations(Station s){
+        // TODO: Maybe use getAdjacentNodes() or vice versa?
     }
 }

@@ -7,69 +7,30 @@ import java.util.*;
 public class Station {
 
     private String name;
-    private ArrayList<Node> nodeList;
+    private ArrayList<Graph.Node> nodeList;
 
-    public Station(String name, ArrayList nodeList){
+    public Station(String name) {
         this.name = name;
-        this.nodeList = nodeList;
+        this.nodeList = new ArrayList<Graph.Node>();
     }
 
-    public String getName(){
+    public void addNode(Graph.Node n){
+        if(!nodeList.contains(n)) {
+            nodeList.add(n);
+        }
+    }
+
+    public String getName() {
         return this.name;
     }
 
-    public ArrayList getnodes(){
+    public ArrayList<Graph.Node> getNodes() {
         return this.nodeList;
     }
 
-    public ArrayList<Station> createStations(String path){
 
-        ArrayList<Station> result = new ArrayList<>();
-        ArrayList<String> tmp = multibleListToOne(path);
-        int i = 0;
 
-        for(int i = 0; i < tmp.size(); i++){
-            if(!(result.contains(tmp.get(i)))){
-                result.add(new Station(tmp.get(i), new ArrayList()));
-            }
-            for(int j = 0; i < tmp.size(); i++){
-                if()
 
-            }
-        }
 
-    }
-
-    private ArrayList multibleListToOne(String path) throws IOException {
-
-        ArrayList<String> result = new ArrayList<>();
-        File[] f = new File(path).listFiles();
-        List<String> tmp;
-        String[] fileNames;
-
-        for(int i = 0; i < f.length; i++){
-            fileNames[i] = (f[i].getName());
-        }
-
-        for(int i = 0; i < result.size(); i++) {
-            BufferedReader br = new BufferedReader(new FileReader(result.get(i)));
-            String line;
-
-            while ((line = br.readLine()) != null) {
-                {
-                    String[] l = line.split(",");
-                    tmp = Arrays.asList(l);
-                    System.out.println(Arrays.toString(l));
-
-                for(int j = 0; j < tmp.size(); j++) {
-                    result.add(tmp.get(i));
-                }
-            }
-            }
-
-        }
-
-        return result;
-    }
 
 }
