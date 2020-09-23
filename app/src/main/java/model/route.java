@@ -23,16 +23,11 @@ public class route {
 
         BufferedReader br = new BufferedReader(new FileReader(filePath));
         String line;
-        ArrayList tmp = new ArrayList<>();
         route r = new route(lineNr, new HashSet<Node>());
 
         while ((br.readLine()) != null) {
             line = br.readLine();
-            tmp.add(line);
-
-        }
-        for(int i = 0; i < tmp.size(); i++){
-            r.stops.add(new Node((String) tmp.get(i)));
+            r.stops.add(new Node(line));
         }
 
         return r;

@@ -54,7 +54,6 @@ public class station {
             while ((br.readLine()) != null) {
 
                     line = br.readLine();
-                    station s;
 
                     if(line != null && !(tmp1.contains(line))){
 
