@@ -8,20 +8,18 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MapActivity extends AppCompatActivity {
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_map);
         IncidentViewItem testing = new IncidentViewItem(this);
-        LinearLayout itemlist = findViewById(R.id.ItemList);
-        itemlist.addView(testing);
     }
 
-    public void ToMap(View view){
-        Intent intent = new Intent(this, MapActivity.class);
+    public void ToMain(View view) {
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 }
