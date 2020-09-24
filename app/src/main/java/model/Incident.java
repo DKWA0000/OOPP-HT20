@@ -1,3 +1,4 @@
+
 package model;
 
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ public class Incident {
 
     Incident(String string) {
         this.typeOfIncident = string;
+        this.nominalTrustFactor = 0;
     }
 
     public String getTypeOfIncident() {
@@ -19,5 +21,8 @@ public class Incident {
         return listReports;
     }
 
+    //TODO Add user trustfactor and calculate nominal.
+    public void updateNominalTrustFactor(AbstractReport report) {
 
+    }
 }
