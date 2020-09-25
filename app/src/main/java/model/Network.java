@@ -7,17 +7,15 @@ import java.util.*;
 /**
 * A graph structure representing the public transportation network. 
 *
-* @see Graph.Node
+* @see Network.Node
 * 
 * @author: Seif Eddine Bourogaa.
 */
-public class Graph {
+public class Network {
 
     /*
         Make an adjacency list to store the nodes and their connections. 
     */
-
-
     private List<Route> routes = new ArrayList<>();
     private Map<Node, List<Node>> adjacencyList;
     private Map<String, Station> stations;
@@ -28,7 +26,7 @@ public class Graph {
      *
      * @param am AssetManager
      */
-    public Graph(AssetManager am)
+    public Network(AssetManager am)
     {
 
         stations = new HashMap<>();
@@ -51,7 +49,7 @@ public class Graph {
 
                 //TODO: should be broken down into smaller method(s)
                 if(!adjacencyList.containsKey(n)){
-                    List<Graph.Node> nodes = new ArrayList<Graph.Node>();
+                    List<Network.Node> nodes = new ArrayList<Network.Node>();
                     if(i!=0)
                         nodes.add(r.getNodes().get(i-1));
                     if(i!=r.getNodes().size()-1)
@@ -60,7 +58,7 @@ public class Graph {
                     adjacencyList.put(n,nodes);
                 }
                 else{
-                    List<Graph.Node> list = adjacencyList.get(n);
+                    List<Network.Node> list = adjacencyList.get(n);
 
                     if(i!=0 && !list.contains(r.getNodes().get(i-1)))
                         list.add(r.getNodes().get(i-1));
@@ -135,7 +133,7 @@ public class Graph {
     *
     * @param station name of the Node to create as well as the Graph.Node.station attribute 
     *
-    * @see Graph.Node
+    * @see Network.Node
     */
     public void addNode(String station)
     {
@@ -147,7 +145,7 @@ public class Graph {
     *
     * @param station name of the Node to remove from the Graph
     *
-    * @see Graph.Node
+    * @see Network.Node
     */
     public void removeNode(String station)
     {
@@ -164,7 +162,7 @@ public class Graph {
     * @param source name of the node to map from
     * @param destination name of the node to map to 
     *
-    * @see Graph.Node
+    * @see Network.Node
     */
     public void addEdge(String source, String destination)
     {
@@ -180,7 +178,7 @@ public class Graph {
     * @param source name of Node to remove mapping from
     * @param destination name of Node to remove mapping to
     *
-    * @see Graph.Node
+    * @see Network.Node
     */
     public void removeEdge(String source, String destination)
     {
@@ -196,7 +194,7 @@ public class Graph {
     *
     * @param station name of the Node whos adjacent Nodes we are looking for
     *
-    * @see Graph.Node
+    * @see Network.Node
     *
     * @return List containing all adjacent nodes to @param station
     *
@@ -268,8 +266,8 @@ public class Graph {
         }
 
 
-        private Graph getOuterType() {
-            return Graph.this;
+        private Network getOuterType() {
+            return Network.this;
         }
 
         public String getName() {
@@ -321,7 +319,7 @@ public class Graph {
      * @param r Route of interest
      * @return An ordered list of all nodes in that Route
      */
-    public List<Graph.Node> getRouteNodes(Route r){
+    public List<Network.Node> getRouteNodes(Route r){
         return r.getNodes();
     }
 
@@ -339,7 +337,7 @@ public class Graph {
      * @param s Station of interest
      * @return An ordered list of all nodes at that Station
      */
-    public List<Graph.Node> getStationRoutes(Station s){
+    public List<Network.Node> getStationRoutes(Station s){
         return s.getNodes();
     }
 
@@ -348,7 +346,12 @@ public class Graph {
         // TODO:
     }
 
-    public void getAdjacentStations(Station s){
+    public List<Station> getAdjacentStations(Station s){
+        return getAdjacentStations(s,1);
+    }
+
+    public List<Station> getAdjacentStations(Station s, int i){
         // TODO: Maybe use getAdjacentNodes() or vice versa?
+        return null;
     }
 }

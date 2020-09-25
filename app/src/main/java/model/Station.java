@@ -1,20 +1,19 @@
 package model;
 
-import java.io.*;
 import java.util.*;
 
 
 public class Station {
 
     private String name;
-    private ArrayList<Graph.Node> nodeList;
+    private ArrayList<Network.Node> nodeList;
 
     public Station(String name) {
         this.name = name;
-        this.nodeList = new ArrayList<Graph.Node>();
+        this.nodeList = new ArrayList<Network.Node>();
     }
 
-    public void addNode(Graph.Node n){
+    public void addNode(Network.Node n){
         if(!nodeList.contains(n)) {
             nodeList.add(n);
         }
@@ -24,13 +23,13 @@ public class Station {
         return this.name;
     }
 
-    public ArrayList<Graph.Node> getNodes() {
+    public ArrayList<Network.Node> getNodes() {
         return this.nodeList;
     }
 
 
 
-
+    // TODO: .equals() !?
 
 
 }

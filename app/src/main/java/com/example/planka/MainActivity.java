@@ -2,7 +2,7 @@ package com.example.planka;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import model.Graph;
+import model.Network;
 
 
 
@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Create Graph-object
-        Graph g = new Graph(this.getAssets());
+        Network g = new Network(this.getAssets());
 
 
 

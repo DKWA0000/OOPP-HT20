@@ -1,17 +1,13 @@
 package model;
 
-import android.os.Build;
-import androidx.annotation.RequiresApi;
-
-import java.io.*;
 import java.util.*;
 
 public class Route {
 
     private String line;
-    private List<Graph.Node> stops = new ArrayList<Graph.Node>();
+    private List<Network.Node> stops = new ArrayList<Network.Node>();
 
-    public Route(String name, List<Graph.Node> stops){
+    public Route(String name, List<Network.Node> stops){
         this.line = name;
         this.stops = stops;
     }
@@ -20,7 +16,7 @@ public class Route {
         return this.line;
     }
 
-    public List<Graph.Node> getNodes(){
+    public List<Network.Node> getNodes(){
         return this.stops;
     }
 
