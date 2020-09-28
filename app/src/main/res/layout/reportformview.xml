@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+       xmlns:app="http://schemas.android.com/apk/res-auto"
+       xmlns:tools="http://schemas.android.com/tools"
+       android:id="@+id/reportFormView"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       tools:visibility="visible">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <Button
+                android:text="Rapportera"
+                android:layout_width="166dp"
+                android:layout_height="83dp" android:id="@+id/button2"
+                app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
+        <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/radioGroup1"
+                app:layout_constraintTop_toBottomOf="@+id/textView4" app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+            <RadioButton
+                    android:text="På en spårvagn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:id="@+id/radioButton"
+                    android:textSize="18sp" android:onClick="hideLineDropdown"/>
+            <RadioButton
+                    android:text="På en hållplats"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:id="@+id/radioButton2"
+                    android:textSize="18sp" android:onClick="showLineDropdown"/>
+        </RadioGroup>
+        <TextView
+                android:text="1. Var såg du kontrollanterna?*"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:id="@+id/textView4"
+                app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" android:textSize="24sp"/>
+        <ImageView
+                android:layout_width="200dp"
+                android:layout_height="wrap_content" app:srcCompat="@drawable/horizontal_line"
+                android:id="@+id/lineDivider"
+                app:layout_constraintTop_toBottomOf="@+id/radioGroup1" app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+        <Spinner
+                android:id="@+id/lineSpinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:drawable/btn_dropdown"
+                android:spinnerMode="dropdown"
+                app:layout_constraintTop_toBottomOf="@+id/lineDivider"
+                app:layout_constraintStart_toEndOf="@+id/lineDropdownText"
+        />
+        <TextView
+                android:text="Vilken linje?*"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/lineDropdownText"
+                app:layout_constraintTop_toBottomOf="@+id/lineDivider"
+                app:layout_constraintStart_toStartOf="parent"
+                android:textSize="18sp" android:layout_marginTop="12dp" app:layout_constraintEnd_toEndOf="parent"/>
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" app:srcCompat="@drawable/horizontal_line"
+                android:id="@+id/imageView3"
+                app:layout_constraintTop_toBottomOf="@+id/lineSpinner" app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+        <TextView
+                android:text="2. När såg du kontrollanterna?*"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:id="@+id/textView7"
+                app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView3" android:textSize="24sp"/>
+        <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/textView7" app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" android:id="@+id/radioGroup">
+            <RadioButton
+                    android:text="Nu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:id="@+id/radioButton3"
+                    android:textSize="18sp" android:onClick="hideWhenDropdown"/>
+            <RadioButton
+                    android:text="För ett tag sedan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:id="@+id/radioButton4"
+                    android:textSize="18sp" android:onClick="showWhenDropdown"/>
+        </RadioGroup>
+        <ImageView
+                android:layout_width="200dp"
+                android:layout_height="wrap_content" app:srcCompat="@drawable/horizontal_line"
+                android:id="@+id/whenDivider"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toBottomOf="@+id/radioGroup"/>
+
+
+        <TextView
+                android:text="För hur länge sedan?*"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/whenDropdownText"
+                app:layout_constraintTop_toBottomOf="@+id/whenDivider"
+                app:layout_constraintStart_toStartOf="parent"
+                android:textSize="18sp" android:layout_marginTop="12dp" app:layout_constraintEnd_toEndOf="parent"/>
+        <Spinner
+                android:id="@+id/whenSpinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:drawable/btn_dropdown"
+                android:spinnerMode="dropdown"
+                app:layout_constraintTop_toBottomOf="@+id/whenDivider"
+                app:layout_constraintStart_toEndOf="@+id/whenDropdownText"
+        />
+
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" app:srcCompat="@drawable/horizontal_line"
+                android:id="@+id/imageView6"
+                app:layout_constraintTop_toBottomOf="@+id/whenSpinner" app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</merge>
