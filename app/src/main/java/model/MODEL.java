@@ -23,7 +23,6 @@ public class MODEL {
             incident = new Incident(IncidentType.ROUTE);
         }
         incident.addReport(report);
-
     }
 
     private Incident matchIncident(AbstractReport report) {
@@ -36,9 +35,6 @@ public class MODEL {
             if(incident.getTime().compareTo(report.getTimeOfReport()) > 10){ // 10 minutes (IDK)
                 inActiveIncidents.add(incident);
                 activeIncidents.remove(incident);
-
-                //TODO: give users trustFactor
-
                 i--;
                 continue;
             }
@@ -52,6 +48,7 @@ public class MODEL {
                     return incident;
                 }
             }
+            incident.updateNominalTrustFactor(report); //where is this supposed to go?
         }
 
         return null;
