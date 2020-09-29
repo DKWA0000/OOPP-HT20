@@ -25,7 +25,7 @@ public class Incident {
      *
      * @param type IncidentType
      */
-    Incident(IncidentType type) {
+    public Incident(IncidentType type) {
         this.typeOfIncident = type;
         this.nominalTrustFactor = 0;
     }
@@ -33,7 +33,7 @@ public class Incident {
     /**
      * Returns the latest report added to the listReport arraylist
      */
-    private AbstractReport latestReport(){
+    public AbstractReport latestReport(){
      return listReports.get(listReports.size()-1);
     }
 

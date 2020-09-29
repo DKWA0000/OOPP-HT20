@@ -49,9 +49,12 @@ public abstract class AbstractReport {
         return station;
     }
 
+    public Reporter getReporter() {
+        return reporter;
+    }
+
     public void setNControllants(int n) {
         this.nControllants = n;
     }
-
 
 }
