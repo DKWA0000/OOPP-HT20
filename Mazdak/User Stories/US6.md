@@ -1,6 +1,6 @@
 # User story 
 
-Story Identifier: US1
+Story Identifier: US6
 
 Story Name: Modify report
 
