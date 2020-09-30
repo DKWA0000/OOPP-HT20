@@ -34,9 +34,17 @@ public class MainActivity extends AppCompatActivity {
         // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
 
+        spinner = (Spinner) findViewById(R.id.controllantsSpinner);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        adapter = ArrayAdapter.createFromResource(this, R.array.lines_array, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        spinner.setAdapter(adapter);
+
+
         hideLineDropdown(findViewById(0));
         hideWhenDropdown(findViewById(0));
-
     }
 
 
@@ -97,16 +105,34 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.myReportsView).setVisibility(View.INVISIBLE);
     }
 
+
+    public void showStationDropdown(View view) {
+        hideLineDropdown(view);
+        findViewById(R.id.stationTextBox).setVisibility(View.VISIBLE);
+        findViewById(R.id.stationText).setVisibility(View.VISIBLE);
+        findViewById(R.id.lineDivider).setVisibility(View.VISIBLE);
+    }
+
+    public void hideStationDropdown(View view) {
+        findViewById(R.id.stationTextBox).setVisibility(View.INVISIBLE);
+        findViewById(R.id.stationText).setVisibility(View.INVISIBLE);
+        findViewById(R.id.lineDivider).setVisibility(View.INVISIBLE);
+    }
+
+
     public void showLineDropdown(View view) {
+        hideStationDropdown(view);
         findViewById(R.id.lineDropdownText).setVisibility(View.VISIBLE);
         findViewById(R.id.lineDivider).setVisibility(View.VISIBLE);
         findViewById(R.id.lineSpinner).setVisibility(View.VISIBLE);
     }
 
+
+
     public void hideLineDropdown(View view) {
-        findViewById(R.id.lineDropdownText).setVisibility(View.GONE);
-        findViewById(R.id.lineDivider).setVisibility(View.GONE);
-        findViewById(R.id.lineSpinner).setVisibility(View.GONE);
+        findViewById(R.id.lineDropdownText).setVisibility(View.INVISIBLE);
+        findViewById(R.id.lineDivider).setVisibility(View.INVISIBLE);
+        findViewById(R.id.lineSpinner).setVisibility(View.INVISIBLE);
     }
 
     public void showWhenDropdown(View view) {
@@ -119,6 +145,12 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.whenDropdownText).setVisibility(View.GONE);
         findViewById(R.id.whenDivider).setVisibility(View.GONE);
         findViewById(R.id.whenSpinner).setVisibility(View.GONE);
+    }
+
+    public void makeReport(View view){
+
+
+
     }
 
 

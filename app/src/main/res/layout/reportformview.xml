@@ -17,7 +17,7 @@
                 android:layout_width="166dp"
                 android:layout_height="83dp" android:id="@+id/button2"
                 app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"/>
+                app:layout_constraintStart_toStartOf="parent" android:onClick="makeReport"/>
         <RadioGroup
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -26,12 +26,12 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView4" app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent">
             <RadioButton
-                    android:text="På en spårvagn"
+                    android:text="På en hållplats"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" android:id="@+id/radioButton"
-                    android:textSize="18sp" android:onClick="hideLineDropdown"/>
+                    android:textSize="18sp" android:onClick="showStationDropdown"/>
             <RadioButton
-                    android:text="På en hållplats"
+                    android:text="På en spårvagn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" android:id="@+id/radioButton2"
                     android:textSize="18sp" android:onClick="showLineDropdown"/>
@@ -48,6 +48,30 @@
                 android:id="@+id/lineDivider"
                 app:layout_constraintTop_toBottomOf="@+id/radioGroup1" app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
+
+        <TextView
+                android:text="Vilken hållplats?*"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/stationText"
+                app:layout_constraintTop_toBottomOf="@+id/lineDivider"
+                app:layout_constraintStart_toStartOf="parent"
+                android:textSize="18sp" android:layout_marginTop="12dp"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+
+        <AutoCompleteTextView
+                android:text="Hållplats"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/stationTextBox"
+                app:layout_constraintTop_toBottomOf="@+id/lineDivider"
+                app:layout_constraintStart_toEndOf="@+id/stationText"
+        />
+
+
+
+
         <Spinner
                 android:id="@+id/lineSpinner"
                 android:layout_width="wrap_content"
@@ -68,7 +92,7 @@
         <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" app:srcCompat="@drawable/horizontal_line"
-                android:id="@+id/imageView3"
+                android:id="@+id/line1"
                 app:layout_constraintTop_toBottomOf="@+id/lineSpinner" app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
         <TextView
@@ -76,7 +100,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" android:id="@+id/textView7"
                 app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView3" android:textSize="24sp"/>
+                app:layout_constraintTop_toBottomOf="@+id/line1" android:textSize="24sp"/>
         <RadioGroup
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -122,10 +146,45 @@
         <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" app:srcCompat="@drawable/horizontal_line"
-                android:id="@+id/imageView6"
+                android:id="@+id/line2"
                 app:layout_constraintTop_toBottomOf="@+id/whenSpinner" app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+                android:text="3. Extra information"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:id="@+id/textView12"
+                app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/line2" android:textSize="24sp"/>
+
+
+        <TextView
+                android:text="Hur många kontrollanter?"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/numberOfControllantsText"
+                app:layout_constraintTop_toBottomOf="@+id/textView12"
+                app:layout_constraintStart_toStartOf="parent"
+                android:textSize="18sp" android:layout_marginTop="12dp" app:layout_constraintEnd_toEndOf="parent"/>
+        <Spinner
+                android:id="@+id/controllantsSpinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:drawable/btn_dropdown"
+                android:spinnerMode="dropdown"
+                app:layout_constraintTop_toBottomOf="@+id/textView12"
+                app:layout_constraintStart_toEndOf="@+id/numberOfControllantsText"
+        />
+
+        <Button
+                android:text="Bifoga bild"
+                android:id="@+id/imageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:spinnerMode="dropdown"
+                app:layout_constraintTop_toBottomOf="@+id/controllantsSpinner"
+                app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"/>
+           </androidx.constraintlayout.widget.ConstraintLayout>
 
 </merge>
