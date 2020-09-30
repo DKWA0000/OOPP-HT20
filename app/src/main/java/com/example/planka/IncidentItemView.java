@@ -8,7 +8,9 @@ import android.widget.TextView;
 
 public class IncidentItemView extends ConstraintLayout {
     //Class which displays information regarding a given incident.
-    TextView mPositionLabel;
+    private TextView mLocationText;
+    private TextView mTimeText;
+    private TextView mCountText;
 
     public IncidentItemView(Context context) {
         super(context);
@@ -30,6 +32,14 @@ public class IncidentItemView extends ConstraintLayout {
     }
 
     private void Init(){
-        mPositionLabel = this.findViewById(R.id.positionLabel);
+        mLocationText = findViewById(R.id.locationText);
+        mTimeText = findViewById(R.id.timeText);
+        mCountText = findViewById(R.id.countText);
+    }
+
+    public void SetText(String position, String time, String count){
+        mLocationText.setText(position);
+        mTimeText.setText(time);
+        mCountText.setText(count);
     }
 }
