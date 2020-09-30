@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="IncidentViewItem">
+    <declare-styleable name="IncidentItemView">
         <attr name="incidentPosition" format="string" />
         <attr name="incidentTime" format="integer" />
         <attr name="incidentImage" format="reference" />
