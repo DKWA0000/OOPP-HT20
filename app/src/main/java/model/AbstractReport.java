@@ -49,6 +49,12 @@ public abstract class AbstractReport {
         return station;
     }
 
+
+    /**
+     * Added method to retrieve image.
+     */
+    public Image getImage() { return imageView; }
+
     public void setNControllants(int n) {
         this.nControllants = n;
     }

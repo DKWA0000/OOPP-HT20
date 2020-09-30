@@ -36,4 +36,10 @@ public class Reporter {
         return  this.mail;
     }
 
+    /**
+     * Added method to fetch trustfactor.
+     */
+
+    public double getTrustFactor() { return this.trustFactor; }
+
 }

@@ -36,8 +36,6 @@ public class Network {
         mapAllNodes();
 
     }
-
-
     /**
      * Maps all the Nodes from every existing Route.
      * Loads the Nodes into the adjecencyList and also creates Stations and adds each Node to corresponding Station.
