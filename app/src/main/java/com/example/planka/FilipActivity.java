@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 
 
-public class MapActivity extends AppCompatActivity {
+public class FilipActivity extends AppCompatActivity {
 
 
     @Override
@@ -18,7 +18,7 @@ public class MapActivity extends AppCompatActivity {
     }
 
     public void ToMain(View view) {
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, JaokActivity.class);
         startActivity(intent);
     }
 }

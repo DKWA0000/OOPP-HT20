@@ -8,14 +8,14 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 
-public class MainActivity extends AppCompatActivity {
+public class JaokActivity extends AppCompatActivity {
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.report_activity);
-        ToLocation(findViewById(0));
+        toLocation();
 
 
         Spinner spinner = (Spinner) findViewById(R.id.lineSpinner);
@@ -48,46 +48,79 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    public void onClick(View view){
 
-    public void ToLocation(View view) {
+        if (view == findViewById(R.id.locationsButton)) {
+            toLocation();
+        }
+        if (view == findViewById(R.id.reportsButton)) {
+            toReport();
+        }
+        if (view == findViewById(R.id.profileButton)) {
+            toProfile();
+        }
+        if (view == findViewById(R.id.makeReportText)) {
+            toMakeReport();
+        }
+        if (view == findViewById(R.id.myReportsText)) {
+            toMyReports();
+        }
+
+    }
+
+    public void activateLocationButton(){
         findViewById(R.id.locationsButton).setForeground(getDrawable(R.drawable.location_icon_active));
         findViewById(R.id.mainLocationView).setVisibility(View.VISIBLE);
-
-        findViewById(R.id.reportsButton).setForeground(getDrawable(R.drawable.report_icon));
-        findViewById(R.id.mainReportView).setVisibility(View.INVISIBLE);
-
-        findViewById(R.id.profileButton).setForeground(getDrawable(R.drawable.profile_icon));
-        findViewById(R.id.mainProfileView).setVisibility(View.INVISIBLE);
-
     }
 
-    public void ToReport(View view) {
+    public void inactivateLocationButton(){
         findViewById(R.id.locationsButton).setForeground(getDrawable(R.drawable.location_icon));
         findViewById(R.id.mainLocationView).setVisibility(View.INVISIBLE);
+    }
 
+    public void activateReportButton(){
         findViewById(R.id.reportsButton).setForeground(getDrawable(R.drawable.report_icon_active));
         findViewById(R.id.mainReportView).setVisibility(View.VISIBLE);
-
-        findViewById(R.id.profileButton).setForeground(getDrawable(R.drawable.profile_icon));
-        findViewById(R.id.mainProfileView).setVisibility(View.INVISIBLE);
-
-        ToMakeReport(view);
-
     }
 
-    public void ToProfile(View view) {
-        findViewById(R.id.locationsButton).setForeground(getDrawable(R.drawable.location_icon));
-        findViewById(R.id.mainLocationView).setVisibility(View.INVISIBLE);
-
+    public void inactivateReportButton(){
         findViewById(R.id.reportsButton).setForeground(getDrawable(R.drawable.report_icon));
         findViewById(R.id.mainReportView).setVisibility(View.INVISIBLE);
+    }
 
+    public void activateProfileButton(){
         findViewById(R.id.profileButton).setForeground(getDrawable(R.drawable.profile_icon_active));
         findViewById(R.id.mainProfileView).setVisibility(View.VISIBLE);
+    }
+
+    public void inactivateProfileButton(){
+        findViewById(R.id.profileButton).setForeground(getDrawable(R.drawable.profile_icon));
+        findViewById(R.id.mainProfileView).setVisibility(View.INVISIBLE);
+    }
+
+
+    public void toLocation() {
+        activateLocationButton();
+        inactivateReportButton();
+        inactivateProfileButton();
+    }
+
+    public void toReport() {
+        inactivateLocationButton();
+        activateReportButton();
+        inactivateProfileButton();
+
+        toMakeReport();
 
     }
 
-    public void ToMyReports(View view) {
+    public void toProfile() {
+        inactivateLocationButton();
+        inactivateReportButton();
+        activateProfileButton();
+    }
+
+    public void toMyReports() {
         ((TextView)findViewById(R.id.myReportsText)).setTextColor(getColor(R.color.smurf));
         ((TextView)findViewById(R.id.makeReportText)).setTextColor(getColor(R.color.text_gray));
 
@@ -96,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void ToMakeReport(View view) {
+    public void toMakeReport() {
         ((TextView)findViewById(R.id.myReportsText)).setTextColor(getColor(R.color.text_gray));
         ((TextView)findViewById(R.id.makeReportText)).setTextColor(getColor(R.color.smurf));
 
@@ -148,6 +181,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void makeReport(View view){
+
 
 
 

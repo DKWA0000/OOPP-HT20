@@ -38,7 +38,7 @@
                     android:id="@+id/makeReportText"
                     android:textSize="24sp"
                     android:clickable="true"
-                    android:onClick="ToMakeReport"
+                    android:onClick="onClick"
                     android:textColor="@color/smurf"/>
         </LinearLayout>
 
@@ -54,9 +54,9 @@
                     android:id="@+id/myReportsText"
                     android:textSize="24sp"
                     android:clickable="true"
-                    android:onClick="ToMyReports"
+                    android:onClick="onClick"
                     android:textColor="@color/text_gray"
-                    />
+            />
         </LinearLayout>
 
 </LinearLayout>
