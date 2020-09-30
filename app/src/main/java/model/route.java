@@ -1,37 +1,25 @@
-import java.io.*;
+package model;
+
 import java.util.*;
 
-public class route {
+public class Route {
 
-    private int lineNumber;
-    private Set<Node> stops;
+    private String line;
+    private List<Network.Node> stops = new ArrayList<Network.Node>();
 
-    public route(int lineNumber, Set<Node> stops){
-        this.lineNumber = lineNumber;
+    public Route(String name, List<Network.Node> stops){
+        this.line = name;
         this.stops = stops;
     }
 
-    public int getlineNumber(){
-        return this.lineNumber;
+    public String getLine(){
+        return this.line;
     }
 
-    public Set<Node> getNodes(){
+    public List<Network.Node> getNodes(){
         return this.stops;
     }
 
-    public route createRoute(String filePath, int lineNr) throws IOException {
-
-        BufferedReader br = new BufferedReader(new FileReader(filePath));
-        String line;
-        route r = new route(lineNr, new HashSet<Node>());
-
-        while ((br.readLine()) != null) {
-            line = br.readLine();
-            r.stops.add(new Node(line));
-        }
-
-        return r;
-    }
 
 
 }
