@@ -1,28 +1,35 @@
 package model;
 
-import java.io.*;
 import java.util.*;
 
 
 public class Station {
 
     private String name;
-    private ArrayList<Node> nodeList;
+    private ArrayList<Network.Node> nodeList;
 
-    public Station(String name, ArrayList nodeList){
+    public Station(String name) {
         this.name = name;
-        this.nodeList = nodeList;
+        this.nodeList = new ArrayList<Network.Node>();
     }
 
-    public String getName(){
+    public void addNode(Network.Node n){
+        if(!nodeList.contains(n)) {
+            nodeList.add(n);
+        }
+    }
+
+    public String getName() {
         return this.name;
     }
 
-    public ArrayList getnodes(){
+    public ArrayList<Network.Node> getNodes() {
         return this.nodeList;
     }
 
 
+
+    // TODO: .equals() !?
 
 
 }

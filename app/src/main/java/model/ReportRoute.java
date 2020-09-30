@@ -2,11 +2,23 @@ package model;
 
 import android.media.Image;
 
-import java.sql.Time;
+import java.util.Date;
+
+/**
+ * Class representing report holding route and station.
+ *
+ * @see AbstractReport
+ *
+ * @author: Lucas Karlsson.
+ */
 
 public class ReportRoute extends AbstractReport{
-    // TODO Add variable for route & station
-    ReportRoute(int noContr, Time time, Image image) {
-        super(noContr, time, image);
+
+
+    private final Route route;
+
+    public ReportRoute(int noContr, Date time, Image image, Station station, Route route, Reporter reporter) {
+        super(noContr, time, image, station, reporter);
+        this.route = route;
     }
 }

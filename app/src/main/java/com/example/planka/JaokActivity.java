@@ -2,21 +2,22 @@ package com.example.planka;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
-import android.widget.TextView;
+import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
+import model.MODEL;
 
 
 public class JaokActivity extends AppCompatActivity {
 
+    MODEL model;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.report_activity);
         toLocation();
-
+        hmm();
+        model = new MODEL(getAssets());
 
         Spinner spinner = (Spinner) findViewById(R.id.lineSpinner);
         // Create an ArrayAdapter using the string array and a default spinner layout
@@ -45,6 +46,12 @@ public class JaokActivity extends AppCompatActivity {
 
         hideLineDropdown(findViewById(0));
         hideWhenDropdown(findViewById(0));
+
+        String[] list = model.getAllStations();
+
+        ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, list);
+
+        ((AutoCompleteTextView)findViewById(R.id.stationTextBox)).setAdapter(adapter2);
     }
 
 
@@ -111,7 +118,6 @@ public class JaokActivity extends AppCompatActivity {
         inactivateProfileButton();
 
         toMakeReport();
-
     }
 
     public void toProfile() {
@@ -180,10 +186,62 @@ public class JaokActivity extends AppCompatActivity {
         findViewById(R.id.whenSpinner).setVisibility(View.GONE);
     }
 
+    String noContr;
+    String time;
+    String image;
+    String station;
+
+    public void hmm(){
+        ((Spinner)findViewById(R.id.controllantsSpinner)).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                noContr = (String) adapterView.getItemAtPosition(i);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                noContr = null;
+            }
+        });
+
+        ((Spinner)findViewById(R.id.whenSpinner)).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                time = (String) adapterView.getItemAtPosition(i);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                time = null;
+            }
+        });
+
+        ((AutoCompleteTextView)findViewById(R.id.stationTextBox)).setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+
+
+
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                station = adapterView.getItemAtPosition(i).toString();
+            }
+
+
+        });
+
+
+    }
+
+
     public void makeReport(View view){
 
 
 
+        String image = null;
+
+
+
+        model.makeStationReport(noContr,time,image,station);
 
     }
 
