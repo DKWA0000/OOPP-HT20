@@ -4,51 +4,51 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import model.MODEL;
 
-public class MyReportsView extends ConstraintLayout {
-    LinearLayout mReportList;
+public class IncidentListView extends ConstraintLayout {
+    LinearLayout mIncidentList;
     MODEL model;
     /* Placeholder: MODEL bör implementeras via Observer-pattern eller dylikt */
 
-    public MyReportsView(Context context) {
+    public IncidentListView(Context context) {
         super(context);
-        inflate(context,R.layout.myreportview,this);
+        inflate(context,R.layout.incidentlistview,this);
         Init();
     }
 
-    public MyReportsView(Context context, AttributeSet attrs) {
+    public IncidentListView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        inflate(context,R.layout.myreportview,this);
+        inflate(context,R.layout.incidentlistview,this);
         Init();
     }
 
-    public MyReportsView(Context context, AttributeSet attrs, int defStyle) {
+    public IncidentListView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        inflate(context,R.layout.myreportview,this);
+        inflate(context,R.layout.incidentlistview,this);
         Init();
     }
 
     private void Init(){
-        mReportList = findViewById(R.id.Reportlist);
+        mIncidentList = findViewById(R.id.Incidentlist);
         model = new MODEL(getContext().getAssets());
         //PLACEHOLDER
         for (int x = 0 ; x < model.getIncidentCount() ; x++){
-            UserReportView test = new UserReportView(this.getContext());
+            IncidentView test = new IncidentView(this.getContext());
             /* This is where I'd use the info received from model.getIncident(x)
-            * to give explicit information regarding an Incident */
+             * to give explicit information regarding an Incident */
             test.SetText("ingenstans", "Aldrig", String.valueOf(x));
-            /* If I had any
-            * ( OBS: För stunden använder den här sidan Incidents istället för Reports)*/
-            mReportList.addView(test);
+            /* If I had any */
+            mIncidentList.addView(test);
         }
-        if(mReportList.getChildCount() == 0)
+        if(mIncidentList.getChildCount() == 0)
         {
             TextView emptyListNote = new TextView(this.getContext());
-            emptyListNote.setText("No Reports Found");
-            mReportList.addView(emptyListNote);
+            emptyListNote.setText("No Incidents Found");
+            mIncidentList.addView(emptyListNote);
         }
         //PLACEHOLDER_END
     }

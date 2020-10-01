@@ -15,7 +15,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolBar">
 
-        <com.example.planka.IncidentItemView
+        <com.example.planka.UserReportView
             android:id="@+id/testItem"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -24,7 +24,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.example.planka.IncidentItemView
+        <com.example.planka.UserReportView
             android:id="@+id/testItem2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
