@@ -35,7 +35,7 @@ public class Incident {
      * Returns the latest report added to the listReport arraylist
      */
     public AbstractReport latestReport(){
-     return listReports.get(listReports.size()-1);
+        return listReports.get(listReports.size()-1);
     }
 
     /**
@@ -59,6 +59,10 @@ public class Incident {
     public void updateNominalTrustFactor(AbstractReport report) {
         totalTrustFactor += report.getReporter().getTrustFactor();
         nominalTrustFactor = totalTrustFactor/listReports.size();
+    }
+
+    public int getNominalTrustFactor() {
+        return nominalTrustFactor;
     }
 
     public Station getLastActiveStation(){

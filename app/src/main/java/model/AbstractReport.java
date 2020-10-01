@@ -14,11 +14,11 @@ import java.sql.Time;
 
 public abstract class AbstractReport {
 
-    private int nControllants;
-    private Time timeOfReport;
     private Image imageView;
-    private Station station;
-    private Reporter reporter;
+    private int nControllants;
+    private final Time timeOfReport;
+    private final Station station;
+    private final Reporter reporter;
 
     /**
      * Constructor for ReportRoute-object and ReportStation-object takes the parameters and passes it.
@@ -53,8 +53,18 @@ public abstract class AbstractReport {
         return reporter;
     }
 
+    public Image getImage() {
+        return imageView;
+    }
+
     public void setNControllants(int n) {
         this.nControllants = n;
     }
+
+    public void setImageView(Image image) {
+        this.imageView = image;
+    }
+
+
 
 }
