@@ -12,7 +12,7 @@ Vi har knappt gjot några tester och ligger efter med det, prioritering kommer a
 RAD och SDD är rätt så bra i fas.
 
 ### Nästa möte:
-```Handledningsmöte, 2020-09-25 14:00 (1 dagar)``` [länk](#)
+```Handledningsmöte, 2020-09-25 14:00 (1 dagar)``` [länk](https://github.com/DKWA0000/OOPP-HT20/blob/master/Mazdak/Notes%20From%20Project%20Meetings/2020-09-30%20-%20Projektmöte%201%20LV5.md)
 
 ### Att göra till nästa möte:
 - Joakim börjar skriva funktionallitet för att göra en Report och koppla den till en Incident.

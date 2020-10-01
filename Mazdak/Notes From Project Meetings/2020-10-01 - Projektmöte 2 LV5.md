@@ -1,6 +1,4 @@
-Filnamn: 2020-10-01 - Projektmöte 2 LV5.md
-
-# Projektmöte X LVX - 2020-10-01
+# Projektmöte 2 LV5 - 2020-10-01
 Sekreterare: Seif Bourogaa
 
 ### Agenda:
@@ -17,7 +15,7 @@ bör läggas till under Quality i SDD och non-functional requirements behövs l�
 
 
 ### Nästa möte:
-```Projektmöte, 2020-XX-XX 00:00 (X dagar)``` [länk](#)
+```Projektmöte, 2020-10-02 13:45 (1 dagar)``` [länk](#)
 
 ### Att göra till nästa möte:
 - Joakim T skriver klart alla tester som ska in, nu när det funkar.

@@ -10,7 +10,7 @@ Kort möte där vi diskuterade hur vi ska arbeta för att komma ikapp schemat oc
 filerna, detta delegerades till Seif som ska sätta sig in i hur vi skulle kunna lösa det och så diskuterar vi det till nästa möte. 
 
 ### Nästa möte:
-```Projektmöte, 2020-09-23 09:45 (2 dagar)``` [länk](#)
+```Projektmöte, 2020-09-23 09:45 (2 dagar)``` [länk](https://github.com/DKWA0000/OOPP-HT20/blob/master/Mazdak/Notes%20From%20Project%20Meetings/2020-09-23%20-%20Projektmöte%202%20LV4.md)
 
 ### Att göra till nästa möte:
 - Lucas ska skriva på RAD och SDD samt koppla ihop report funktionen med station och route
