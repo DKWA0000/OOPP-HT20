@@ -4,11 +4,13 @@ import android.content.res.AssetManager;
 import android.media.Image;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class MODEL {
 
     Network network;
+    private ArrayList<Incident> IncidentList;
 
     public MODEL(AssetManager am){
         System.out.println("WTF0");
@@ -16,6 +18,8 @@ public class MODEL {
         network = new Network(am);
         System.out.println("WTF2");
         network.getStation("Korsvägen");
+
+        IncidentList = new ArrayList<>();
     }
 
     public void makeStationReport(String noContr, String time, String image, String station){
@@ -44,4 +48,15 @@ public class MODEL {
     public String[] getAllStations() {
         return network.getAllStations();
     }
+
+    public int getIncidentCount(){ return IncidentList.size(); }
+
+    public Incident getIncident(int index){
+        if(index < IncidentList.size())
+            return IncidentList.get(index);
+        else
+            return null;
+    }
+
+
 }

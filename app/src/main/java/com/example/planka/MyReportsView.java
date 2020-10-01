@@ -6,8 +6,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import model.MODEL;
+
 public class MyReportsView extends ConstraintLayout {
     LinearLayout mReportList;
+    MODEL model;
+    /* Placeholder: MODEL bör implementeras via Observer-pattern eller dylikt */
 
     public MyReportsView(Context context) {
         super(context);
@@ -29,11 +33,21 @@ public class MyReportsView extends ConstraintLayout {
 
     private void Init(){
         mReportList = findViewById(R.id.Reportlist);
+        model = new MODEL(getContext().getAssets());
         //PLACEHOLDER
-        for (int x = 0 ; x < 5 ; x++){
+        for (int x = 0 ; x < model.getIncidentCount() ; x++){
             IncidentItemView test = new IncidentItemView(this.getContext());
+            /* This is where I'd use the info received from model.getIncident(x)
+            * to give explicit information regarding an Incident */
             test.SetText("ingenstans", "Aldrig", String.valueOf(x));
+            /* If I had any */
             mReportList.addView(test);
+        }
+        if(mReportList.getChildCount() == 0)
+        {
+            TextView emptyListNote = new TextView(this.getContext());
+            emptyListNote.setText("No Reports Found");
+            mReportList.addView(emptyListNote);
         }
         //PLACEHOLDER_END
     }
