@@ -16,7 +16,8 @@ public class Incident {
 
     private ArrayList<AbstractReport> listReports = new ArrayList<>();
     private final IncidentType typeOfIncident;
-    private int nominalTrustFactor;
+    private int totalTrustFactor = 0;
+    private int nominalTrustFactor = 0;
     private int upVotes = 0;
     private int downVotes = 0;
 
@@ -33,8 +34,8 @@ public class Incident {
     /**
      * Returns the latest report added to the listReport arraylist
      */
-    private AbstractReport latestReport(){
-     return listReports.get(listReports.size()-1);
+    public AbstractReport latestReport(){
+        return listReports.get(listReports.size()-1);
     }
 
     /**
@@ -55,8 +56,14 @@ public class Incident {
      *
      * @see AbstractReport
      */
-    //TODO Add user trustfactor and calculate nominal.
-    public void updateNominalTrustFactor(AbstractReport report) { }
+    public void updateNominalTrustFactor(AbstractReport report) {
+        totalTrustFactor += report.getReporter().getTrustFactor();
+        nominalTrustFactor = totalTrustFactor/listReports.size();
+    }
+
+    public int getNominalTrustFactor() {
+        return nominalTrustFactor;
+    }
 
     public Station getLastActiveStation(){
         return latestReport().getStation();
