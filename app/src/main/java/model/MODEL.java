@@ -59,7 +59,7 @@ public class MODEL extends Observable{
         System.out.println(report.getInfo());
 
         //TODO:
-        Incident inc = new Incident("Station");
+        Incident inc = new Incident(IncidentType.STATION);
         IncidentList.add(inc);
 
         notifyObservers(UpdateType.NEW_INCIDENT);

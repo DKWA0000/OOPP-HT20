@@ -1,8 +1,8 @@
 
 package model;
 
-import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Class representing multiple reports on the same route and or station.
@@ -69,7 +69,7 @@ public class Incident {
         return latestReport().getStation();
     }
 
-    public Time getTime() {
+    public Date getTime() {
         return latestReport().getTimeOfReport();
     }
 

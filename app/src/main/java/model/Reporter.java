@@ -10,7 +10,7 @@ package model;
 
 public class Reporter {
 
-    private int trustFactor;
+    private double trustFactor;
     private String mail;
 
     /**
@@ -32,9 +32,7 @@ public class Reporter {
         this.trustFactor += amount;
     }
 
-    public int getTrustFactor() {
-        return this.trustFactor;
-    }
+
 
     public String getMail() {
         return  this.mail;
