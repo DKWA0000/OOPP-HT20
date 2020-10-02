@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import model.AbstractReport;
 import model.Incident;
 import model.MODEL;
+import model.UpdateType;
 
 
 public class JaokActivity extends AppCompatActivity {
@@ -20,7 +21,7 @@ public class JaokActivity extends AppCompatActivity {
 
         model = new MODEL(getAssets());
 
-        // main tab
+        // to main tab
         toLocation();
 
         initSpinners();
@@ -35,17 +36,23 @@ public class JaokActivity extends AppCompatActivity {
         loadReports();
         loadIncidents();
 
-        model.addObserver(() -> {
+        model.addObserver((UpdateType type) -> {
 
-            AbstractReport report = model.getLatestReport();
+            if(type == UpdateType.NEW_INCIDENT){
+                Incident i = model.getLatestIncident();
 
-            UserReportView urw = new UserReportView(getBaseContext(),report.getStation().getName(),report.getTimeOfReport().toString(),report.getnControllants());
-            ((LinearLayout)findViewById(R.id.Reportlist)).addView(urw);
+                IncidentView iw = new IncidentView(getBaseContext(), i);
+                ((LinearLayout)findViewById(R.id.Incidentlist)).addView(iw);
 
-            Incident i = model.getLatestIncident();
+            }
 
-            IncidentView iw = new IncidentView(getBaseContext(), i);
-            ((LinearLayout)findViewById(R.id.Incidentlist)).addView(iw);
+            if(type == UpdateType.NEW_REPORT){
+                AbstractReport report = model.getLatestReport();
+
+                UserReportView urw = new UserReportView(getBaseContext(),report.getStation().getName(),report.getTimeOfReport().toString(),report.getnControllants());
+                ((LinearLayout)findViewById(R.id.Reportlist)).addView(urw);
+            }
+
 
 
         });
@@ -53,7 +60,7 @@ public class JaokActivity extends AppCompatActivity {
     }
 
     private void loadIncidents() {
-        //TODO:
+        //TODO: implement and call at startup
     }
 
     private void initAutoFill() {

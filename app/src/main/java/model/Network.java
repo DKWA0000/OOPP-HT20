@@ -19,7 +19,6 @@ public class Network {
     private List<Route> routes = new ArrayList<>();
     private Map<Node, List<Node>> adjacencyList;
     Map<String, Station> stations;
-    private String[] allStaions = new String[100];
 
 
 
@@ -31,9 +30,7 @@ public class Network {
     public Network(AssetManager am)
     {
 
-        for (int i = 0; i < allStaions.length; i++) {
-            allStaions[i] = "";
-        }
+
 
         stations = new HashMap<>();
         adjacencyList = new HashMap<>();
@@ -78,12 +75,6 @@ public class Network {
 
                 if(!stations.containsKey(n.getStationName())){
                     Station s = new Station(n.getStationName());
-                    for (int j = 0; j < allStaions.length; j++) {
-                        if(allStaions[j].equals("")) {
-                            allStaions[j] = s.getName();
-                            break;
-                        }
-                    }
                     s.addNode(n);
                     stations.put(n.getStationName(),s);
                 }
@@ -235,7 +226,7 @@ public class Network {
         }
 
         public String[] getAllStations() {
-            return allStaions;
+            return stations.keySet().toArray(new String[0]);
 
         }
 

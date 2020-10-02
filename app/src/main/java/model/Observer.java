@@ -2,8 +2,6 @@ package model;
 
 public interface Observer {
 
-    void update();
-
-
+    void update(UpdateType type);
 
 }

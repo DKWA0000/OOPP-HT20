@@ -49,13 +49,16 @@ public class MODEL extends Observable{
         Station s = network.getStation(station);
         AbstractReport report = new ReportStation(n,t,i,s,r);
 
+        notifyObservers(UpdateType.NEW_REPORT);
+
 
         System.out.println(report.getInfo());
         reportsList.add(report);
 
         Incident inc = new Incident("Station");
         IncidentList.add(inc);
-        notifyObservers();
+        notifyObservers(UpdateType.NEW_INCIDENT);
+
     }
 
 
