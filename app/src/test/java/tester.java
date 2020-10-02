@@ -1,22 +1,19 @@
-import android.app.Instrumentation;
-import android.content.Context;
-import android.content.res.AssetManager;
-import android.graphics.ImageDecoder;
-import android.media.Image;
-
-import com.example.planka.MainActivity;
-
 import org.junit.*;
-
+import java.io.BufferedReader;
 import java.io.File;
-import java.io.InputStream;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Time;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import model.Incident;
 import model.IncidentType;
-import model.Network;
+import model.MODEL;
 import model.ReportRoute;
 import model.ReportStation;
 import model.Reporter;
@@ -28,13 +25,23 @@ import static org.junit.Assert.*;
 public class tester{
 
     /**
+     * testNetwork for running tests.
+     */
+    testNetwork net = new testNetwork("C:/Cygwin/OOPP-HT20/app/src/main/assets/routes");
+    Map<String, testStation> testStations = net.getStations();
+    MODEL testModel1 = new MODEL();
+    Incident testIncident = new Incident(IncidentType.ROUTE);
+    /**
      * Testing correct name for Station and size on nodelist.
      */
     @Test
     public void testStation(){
-        Station testStation = new Station("Angered");
-        assertEquals("Angered", testStation.getName());
-        assertEquals(0,testStation.getNodes().size());
+        testStation test = new testStation("testStation");
+        assertEquals("testStation", test.getName());
+        assertEquals(0,test.getNodes().size());
+        test.getNodes().add(net.createNode("testLage"));
+        assertEquals(1, test.getNodes().size());
+        assertEquals("testLage", test.getNodes().get(0).getName());
     }
 
     /**
@@ -42,9 +49,12 @@ public class tester{
      */
     @Test
     public void testRoute(){
-        Route testRoute = new Route("3", new LinkedList<>());
-        assertEquals(testRoute.getLine(), "3");
-        assertEquals(0,testRoute.getNodes().size());
+        testRoute test = new testRoute("testRoute", new LinkedList<>());
+        assertEquals(test.getLine(), "testRoute");
+        assertEquals(0,test.getNodes().size());
+        test.getNodes().add(net.createNode("testnod"));
+        assertEquals(1, test.getNodes().size());
+        assertEquals("testnod", test.getNodes().get(0).getName());
     }
 
     /**
@@ -75,6 +85,7 @@ public class tester{
         assertEquals(0, testIncident1.getVotes());
         testIncident2.upVote();
         assertEquals(0, testIncident2.getVotes());
+
     }
 
     /**
@@ -85,11 +96,11 @@ public class tester{
         ReportRoute testReportRoute = new ReportRoute(2, new Time(1,2,3),null,
                 new Station("testStation"), new Route("testRoute", new LinkedList<>()),
                 new Reporter("testmail"));
-
         assertEquals(2, testReportRoute.getnControllants());
         assertEquals(new Time(1,2,3), testReportRoute.getTimeOfReport());
         assertNull(testReportRoute.getImage());
-
+        testReportRoute.setNControllants(4);
+        assertEquals(4, testReportRoute.getnControllants());
 
     }
 
@@ -101,18 +112,71 @@ public class tester{
         ReportStation testReportStation = new ReportStation(2, new Time(1,2,3),null,
                 new Station("testStation"),
                 new Reporter("testmail"));
-
         assertEquals(2, testReportStation.getnControllants());
         assertEquals(new Time(1,2,3), testReportStation.getTimeOfReport());
         assertNull(testReportStation.getImage());
     }
 
+    /**
+     * Testing Network class methods.
+     *
+     */
     @Test
-    public void testNetwork(){
+    public void testNetwork() throws IOException {
+    net.addNode("testStation");
+    Map<testNetwork.Node, List<testNetwork.Node>> testAdj = net.getAdjacencylist();
+    assertTrue(testAdj.containsKey(net.createNode("testStation")));
+    net.removeNode("testStation");
+    assertFalse(testAdj.containsKey(net.createNode("testStation")));
+    assertTrue(testAdj.containsKey(net.createNode("Mariaplan A")));
 
+    File f[] = new File("C:/Cygwin/OOPP-HT20/app/src/main/assets/routes").listFiles();
+    Set<String> filer = new HashSet<>();
+
+
+    for(int i = 0; i < f.length; i++){
+        BufferedReader br = new BufferedReader(new FileReader(f[i].toString()));
+        String line;
+        while((line = br.readLine()) != null){
+            filer.add(line);
+        }
+    }
+    assertEquals(filer.size(), testAdj.size());
+    assertEquals(filer.size(), testAdj.values().size());
+
+    BufferedReader br1 = new BufferedReader(new FileReader("C:/Cygwin/OOPP-HT20/app/src/main/assets/routes/3_Kålltorp.txt"));
+    String lineR;
+    testRoute ts = new testRoute("Kålltorp", new ArrayList<>());
+    ArrayList<String> routeData = new ArrayList<>();
+
+    while((lineR = br1.readLine()) != null){
+        ts.getNodes().add(net.createNode(lineR));
+        routeData.add(lineR);
+    }
+
+    assertEquals(net.getNextNode(ts.getNodes().get(0), ts).toString(), routeData.get(1));
+    assertEquals(net.getPrevNode(ts.getNodes().get(1), ts).toString(), routeData.get(0));
+    assertEquals(net.getRouteNodes(ts).size(), routeData.size());
+    assertEquals("Musikvägen" ,net.getNodeStation(net.createNode("Musikvägen A")).getName());
 
     }
 
+    @Test
+    public void testMODEL(){
+
+    testModel1.createRouteReport(2,new Time(1,2,3), null,
+        new Station("testStation"), new Route("testRoute",
+            new ArrayList<>()), new Reporter("testmail"));
+
+    }
 
 }
+
+/**
+ * TODO Kolla dessa metoder efter testerna är klara.
+ * Network.addEdge
+ *
+ * Metoder getPrevNode och getNextNode har ingen if-sats som hanterar
+ * fallen när man hamnar utanför listan.
+ */
 
