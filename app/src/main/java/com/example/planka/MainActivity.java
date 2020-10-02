@@ -13,7 +13,7 @@ import java.time.Instant;
 import java.util.Date;
 
 
-public class JaokActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
 
     private MODEL model;
 
