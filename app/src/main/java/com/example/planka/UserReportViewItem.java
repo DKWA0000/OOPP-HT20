@@ -6,30 +6,30 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
-public class UserReportView extends ConstraintLayout {
+public class UserReportViewItem extends ConstraintLayout {
     //Class which displays information regarding a given report.
     private TextView mLocationText;
     private TextView mTimeText;
     private TextView mCountText;
 
-    public UserReportView(Context context,String position, String time, String count) {
+    public UserReportViewItem(Context context, String position, String time, String count) {
         super(context);
-        inflate(context,R.layout.userreportview,this);
+        inflate(context,R.layout.userreportviewitem,this);
         Init();
 
         SetText(position,time,count);
 
     }
 
-    public UserReportView(Context context, AttributeSet attrs) {
+    public UserReportViewItem(Context context, AttributeSet attrs) {
         super(context, attrs);
-        inflate(context,R.layout.userreportview,this);
+        inflate(context,R.layout.userreportviewitem,this);
         Init();
     }
 
-    public UserReportView(Context context, AttributeSet attrs, int defStyle) {
+    public UserReportViewItem(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        inflate(context,R.layout.userreportview,this);
+        inflate(context,R.layout.userreportviewitem,this);
         Init();
     }
 

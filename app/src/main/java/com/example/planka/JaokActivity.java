@@ -9,13 +9,16 @@ import model.Incident;
 import model.MODEL;
 import model.UpdateType;
 
+import java.time.Instant;
+import java.util.Date;
+
 
 public class JaokActivity extends AppCompatActivity {
 
     private MODEL model;
 
     private String noContr;
-    private String time;
+    private Date time;
     private String image;
     private String station;
 
@@ -30,6 +33,9 @@ public class JaokActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Methods to be called at startup
+     */
     private void startup() {
 
         // to main tab
@@ -62,9 +68,7 @@ public class JaokActivity extends AppCompatActivity {
 
             if(type == UpdateType.NEW_REPORT){
                 AbstractReport report = model.getLatestReport();
-
-                UserReportView urw = new UserReportView(getBaseContext(),report.getStation().getName(),report.getTimeOfReport().toString(),report.getnControllants());
-                ((LinearLayout)findViewById(R.id.Reportlist)).addView(urw);
+               createReportViewItem(report);
             }
 
 
@@ -72,10 +76,15 @@ public class JaokActivity extends AppCompatActivity {
         });
     }
 
+
     private void loadIncidents() {
         //TODO: implement and call at startup
     }
 
+
+    /**
+     * Passes a String[] with all station names to the AutoCompleteTextView box.
+     */
     private void initAutoFill() {
         String[] list = model.getAllStations();
 
@@ -84,6 +93,9 @@ public class JaokActivity extends AppCompatActivity {
         ((AutoCompleteTextView)findViewById(R.id.stationTextBox)).setAdapter(adapter2);
     }
 
+    /**
+     * Populates the drop down lists with correct content
+     */
     private void initSpinners() {
 
         Spinner spinner = (Spinner) findViewById(R.id.lineSpinner);
@@ -106,7 +118,6 @@ public class JaokActivity extends AppCompatActivity {
 
         spinnerListeners();
 
-
     }
 
     /**
@@ -117,13 +128,21 @@ public class JaokActivity extends AppCompatActivity {
         for (AbstractReport report: model.getAllReports()
              ) {
 
-            String station = report.getStation().getName();
-            String time = report.getTimeOfReport().toString();
-            String nbrControllants = Integer.toString(report.getnControllants());
-
-            UserReportView urw = new UserReportView(getBaseContext(),station,time,nbrControllants);
-            ((LinearLayout)findViewById(R.id.Reportlist)).addView(urw);
+            createReportViewItem(report);
         }
+    }
+
+    /**
+     * Creates a UserReportViewItem and adds it to the UserReportList
+     * @param report data to be presented
+     */
+    private void createReportViewItem(AbstractReport report) {
+        String station = report.getStation().getName();
+        String time = report.getTimeOfReport().toString();
+        String controllants = Integer.toString(report.getnControllants());
+
+        UserReportViewItem urw = new UserReportViewItem(getBaseContext(),station,time,controllants);
+        ((LinearLayout)findViewById(R.id.Reportlist)).addView(urw);
     }
 
 
@@ -299,18 +318,6 @@ public class JaokActivity extends AppCompatActivity {
             }
         });
 
-        ((Spinner)findViewById(R.id.whenSpinner)).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                time = (String) adapterView.getItemAtPosition(i);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-                time = null;
-            }
-        });
-
         ((AutoCompleteTextView)findViewById(R.id.stationTextBox)).setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
@@ -328,9 +335,23 @@ public class JaokActivity extends AppCompatActivity {
      * Creates a report in the model if there are values fetched by the listeners
      */
     private void makeReport(){
+
         String image = null; // Will maybe be implemented at a later stage
-        if(noContr != null && time != null && station != null)
-            model.makeStationReport(noContr,time,image,station);
+
+        if(((RadioButton)findViewById(R.id.nowRadio)).isChecked()){
+            time = Date.from(Instant.now());
+        }
+        else{
+            time = null; // not implemented
+        }
+
+        if(noContr != null && time != null && station != null) {
+            model.makeStationReport(noContr, time, image, station);
+
+            System.out.println("REPORT MADE");
+        }
+        System.out.println("REPORT MADE???????????");
+
     }
 
 

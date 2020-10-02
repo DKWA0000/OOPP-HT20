@@ -221,14 +221,22 @@ public class Network {
             return nodes;
         }
 
-        public Station getStation(String station) {
-            return stations.get(station);
-        }
+    /**
+     * Returns a specific Station
+     * @param station name of the Station
+     * @return Station object with given name
+     */
+    public Station getStation(String station) {
+        return stations.get(station);
+    }
 
-        public String[] getAllStations() {
-            return stations.keySet().toArray(new String[0]);
-
-        }
+    /**
+     * Returns all station names
+     * @return String[] of all station names
+     */
+    public String[] getAllStationNames() {
+        return stations.keySet().toArray(new String[0]);
+    }
 
         /**
          * Temporary Node class until I can fix it. Need Graph specific information to get keys to work

@@ -16,54 +16,59 @@ public class MODEL extends Observable{
     public MODEL(AssetManager am){
 
         network = new Network(am);
-        network.getStation("Korsvägen");
 
         IncidentList = new ArrayList<>();
 
 
         //for testing
-        for (int i = 0; i < ((int)(Math.random()*3)+1); i++) {
+        for (int i = 0; i < ((int)(Math.random()*1)+1); i++) {
             makeTemplateReport();
         }
 
     }
 
 
-    // For testing
+    /**
+     * Makes a template report (ONLY FOR TESTING)
+     */
     private void makeTemplateReport() {
         makeStationReport("3", null, null,  "Korsvägen");
     }
 
-    public void makeStationReport(String noContr, String time, String image, String station){
+    public void makeStationReport(String noContr, Date time, String image, String station){
 
 
         Reporter r = new Reporter("temp@google.com");
         int n = Integer.parseInt(noContr);
-        Date t;
-        if(time == null || time == "")
-           t = Date.from(Instant.now());
-        else
-            t = Date.from(Instant.parse(time));
+
 
         Image i = null;
+
         Station s = network.getStation(station);
-        AbstractReport report = new ReportStation(n,t,i,s,r);
+
+        if(time == null){
+            time = Date.from(Instant.now());
+        }
+
+        AbstractReport report = new ReportStation(n,time,i,s,r);
+        reportsList.add(report);
 
         notifyObservers(UpdateType.NEW_REPORT);
 
-
+        // testing
         System.out.println(report.getInfo());
-        reportsList.add(report);
 
+        //TODO: 
         Incident inc = new Incident("Station");
         IncidentList.add(inc);
+
         notifyObservers(UpdateType.NEW_INCIDENT);
 
     }
 
 
     public String[] getAllStations() {
-        return network.getAllStations();
+        return network.getAllStationNames();
     }
 
 

@@ -15,19 +15,19 @@ public class MyReportsView extends ConstraintLayout {
 
     public MyReportsView(Context context) {
         super(context);
-        inflate(context,R.layout.myreportview,this);
+        inflate(context,R.layout.myreportsview,this);
         Init();
     }
 
     public MyReportsView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        inflate(context,R.layout.myreportview,this);
+        inflate(context,R.layout.myreportsview,this);
         Init();
     }
 
     public MyReportsView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        inflate(context,R.layout.myreportview,this);
+        inflate(context,R.layout.myreportsview,this);
         Init();
     }
 
@@ -36,7 +36,7 @@ public class MyReportsView extends ConstraintLayout {
         model = new MODEL(getContext().getAssets());
         //PLACEHOLDER
         for (int x = 0 ; x < model.getIncidentCount() ; x++){
-            UserReportView test = new UserReportView(this.getContext(),"temp","temp",0);
+            UserReportViewItem test = new UserReportViewItem(this.getContext(),"temp","temp","0");
             /* This is where I'd use the info received from model.getIncident(x)
             * to give explicit information regarding an Incident */
             test.SetText("ingenstans", "Aldrig", String.valueOf(x));
