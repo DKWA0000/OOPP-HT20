@@ -36,7 +36,7 @@ public class MyReportsView extends ConstraintLayout {
         model = new MODEL(getContext().getAssets());
         //PLACEHOLDER
         for (int x = 0 ; x < model.getIncidentCount() ; x++){
-            UserReportView test = new UserReportView(this.getContext());
+            UserReportView test = new UserReportView(this.getContext(),"temp","temp",0);
             /* This is where I'd use the info received from model.getIncident(x)
             * to give explicit information regarding an Incident */
             test.SetText("ingenstans", "Aldrig", String.valueOf(x));

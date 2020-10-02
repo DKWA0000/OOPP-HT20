@@ -4,9 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import androidx.constraintlayout.widget.ConstraintLayout;
-
 import model.MODEL;
 
 public class IncidentListView extends ConstraintLayout {
@@ -18,6 +16,7 @@ public class IncidentListView extends ConstraintLayout {
         super(context);
         inflate(context,R.layout.incidentlistview,this);
         Init();
+
     }
 
     public IncidentListView(Context context, AttributeSet attrs) {
@@ -37,10 +36,10 @@ public class IncidentListView extends ConstraintLayout {
         model = new MODEL(getContext().getAssets());
         //PLACEHOLDER
         for (int x = 0 ; x < model.getIncidentCount() ; x++){
-            IncidentView test = new IncidentView(this.getContext());
+            IncidentView test = new IncidentView(this.getContext(), model.getIncident(x));
             /* This is where I'd use the info received from model.getIncident(x)
              * to give explicit information regarding an Incident */
-            test.SetText("ingenstans", "Aldrig", String.valueOf(x));
+            test.SetText("Placeholder", "Placeholder", String.valueOf(x));
             /* If I had any */
             mIncidentList.addView(test);
         }

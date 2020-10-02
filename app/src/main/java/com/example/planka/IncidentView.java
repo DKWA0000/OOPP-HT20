@@ -5,6 +5,7 @@ import android.util.AttributeSet;
 import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
+import model.Incident;
 
 public class IncidentView extends ConstraintLayout {
     //Class which displays information regarding a given Incident.
@@ -12,10 +13,11 @@ public class IncidentView extends ConstraintLayout {
     private TextView mTimeText;
     private TextView mCountText;
 
-    public IncidentView(Context context) {
+    public IncidentView(Context context, Incident i) {
         super(context);
         inflate(context,R.layout.incidentview,this);
         Init();
+
     }
 
     public IncidentView(Context context, AttributeSet attrs) {

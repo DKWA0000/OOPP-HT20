@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
+import model.AbstractReport;
+import model.Incident;
 import model.MODEL;
 
 
@@ -16,7 +18,7 @@ public class JaokActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.report_activity);
         toLocation();
-        hmm();
+        spinnerListeners();
         model = new MODEL(getAssets());
 
         Spinner spinner = (Spinner) findViewById(R.id.lineSpinner);
@@ -52,9 +54,43 @@ public class JaokActivity extends AppCompatActivity {
         ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, list);
 
         ((AutoCompleteTextView)findViewById(R.id.stationTextBox)).setAdapter(adapter2);
+
+
+        loadReports();
+
+        model.addObserver(() -> {
+
+               AbstractReport report = model.getLatestReport();
+
+            UserReportView urw = new UserReportView(getBaseContext(),report.getStation().getName(),report.getTimeOfReport().toString(),report.getnControllants());
+            ((LinearLayout)findViewById(R.id.Reportlist)).addView(urw);
+
+            Incident i = model.getLatestIncident();
+
+            IncidentView iw = new IncidentView(getBaseContext(), i);
+            ((LinearLayout)findViewById(R.id.Incidentlist)).addView(iw);
+
+
+        });
+
+    }
+
+    private void loadReports() {
+
+        for (AbstractReport report: model.getAllReports()
+             ) {
+            UserReportView urw = new UserReportView(getBaseContext(),report.getStation().getName(),report.getTimeOfReport().toString(),report.getnControllants());
+            ((LinearLayout)findViewById(R.id.Reportlist)).addView(urw);
+
+        }
     }
 
 
+    /**
+     * Method used in GUI to determine what element has been clicked
+     *
+     * @param view
+     */
     public void onClick(View view){
 
         if (view == findViewById(R.id.locationsButton)) {
@@ -74,6 +110,7 @@ public class JaokActivity extends AppCompatActivity {
         }
 
     }
+
 
     public void activateLocationButton(){
         findViewById(R.id.locationsButton).setForeground(getDrawable(R.drawable.location_icon_active));
@@ -132,7 +169,6 @@ public class JaokActivity extends AppCompatActivity {
 
         findViewById(R.id.reportFormView).setVisibility(View.INVISIBLE);
         findViewById(R.id.myReportsView).setVisibility(View.VISIBLE);
-
     }
 
     public void toMakeReport() {
@@ -191,7 +227,7 @@ public class JaokActivity extends AppCompatActivity {
     String image;
     String station;
 
-    public void hmm(){
+    public void spinnerListeners(){
         ((Spinner)findViewById(R.id.controllantsSpinner)).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -235,11 +271,7 @@ public class JaokActivity extends AppCompatActivity {
 
     public void makeReport(View view){
 
-
-
         String image = null;
-
-
 
         model.makeStationReport(noContr,time,image,station);
 

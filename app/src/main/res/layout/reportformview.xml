@@ -61,7 +61,7 @@
 
 
         <AutoCompleteTextView
-                android:text="Hållplats"
+                android:text="Korsvä"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/stationTextBox"
