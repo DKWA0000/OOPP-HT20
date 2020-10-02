@@ -58,7 +58,7 @@ public class MODEL extends Observable{
         // testing
         System.out.println(report.getInfo());
 
-        //TODO: 
+        //TODO:
         Incident inc = new Incident("Station");
         IncidentList.add(inc);
 
