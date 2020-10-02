@@ -15,7 +15,7 @@
         <Button
                 android:text="Rapportera"
                 android:layout_width="166dp"
-                android:layout_height="83dp" android:id="@+id/button2"
+                android:layout_height="83dp" android:id="@+id/makeReportButton"
                 app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" android:onClick="makeReport"/>
         <RadioGroup
@@ -28,13 +28,13 @@
             <RadioButton
                     android:text="På en hållplats"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" android:id="@+id/radioButton"
-                    android:textSize="18sp" android:onClick="showStationDropdown"/>
+                    android:layout_height="wrap_content" android:id="@+id/stationRadio"
+                    android:textSize="18sp" android:onClick="onClick"/>
             <RadioButton
                     android:text="På en spårvagn"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" android:id="@+id/radioButton2"
-                    android:textSize="18sp" android:onClick="showLineDropdown"/>
+                    android:layout_height="wrap_content" android:id="@+id/tramRadio"
+                    android:textSize="18sp" android:onClick="onClick"/>
         </RadioGroup>
         <TextView
                 android:text="1. Var såg du kontrollanterna?*"
@@ -109,13 +109,13 @@
             <RadioButton
                     android:text="Nu"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" android:id="@+id/radioButton3"
-                    android:textSize="18sp" android:onClick="hideWhenDropdown"/>
+                    android:layout_height="wrap_content" android:id="@+id/nowRadio"
+                    android:textSize="18sp" android:onClick="onClick"/>
             <RadioButton
                     android:text="För ett tag sedan"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" android:id="@+id/radioButton4"
-                    android:textSize="18sp" android:onClick="showWhenDropdown"/>
+                    android:layout_height="wrap_content" android:id="@+id/pastRadio"
+                    android:textSize="18sp" android:onClick="onClick"/>
         </RadioGroup>
         <ImageView
                 android:layout_width="200dp"
