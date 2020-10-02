@@ -3,6 +3,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -27,7 +29,9 @@ public class tester{
     /**
      * testNetwork for running tests.
      */
-    testNetwork net = new testNetwork("C:/Cygwin/OOPP-HT20/app/src/main/assets/routes");
+    Path path = FileSystems.getDefault().getPath("src/main/assets/routes");
+    String dataPath = path.toUri().toString().replace("file:///", "");
+    testNetwork net = new testNetwork(dataPath);
     Map<String, testStation> testStations = net.getStations();
     MODEL testModel1 = new MODEL();
     Incident testIncident = new Incident(IncidentType.ROUTE);
@@ -130,7 +134,7 @@ public class tester{
     assertFalse(testAdj.containsKey(net.createNode("testStation")));
     assertTrue(testAdj.containsKey(net.createNode("Mariaplan A")));
 
-    File f[] = new File("C:/Cygwin/OOPP-HT20/app/src/main/assets/routes").listFiles();
+    File f[] = new File(dataPath).listFiles();
     Set<String> filer = new HashSet<>();
 
 
@@ -141,10 +145,11 @@ public class tester{
             filer.add(line);
         }
     }
+
     assertEquals(filer.size(), testAdj.size());
     assertEquals(filer.size(), testAdj.values().size());
 
-    BufferedReader br1 = new BufferedReader(new FileReader("C:/Cygwin/OOPP-HT20/app/src/main/assets/routes/3_Kålltorp.txt"));
+    BufferedReader br1 = new BufferedReader(new FileReader(dataPath + "/3_Kålltorp.txt"));
     String lineR;
     testRoute ts = new testRoute("Kålltorp", new ArrayList<>());
     ArrayList<String> routeData = new ArrayList<>();
@@ -158,6 +163,9 @@ public class tester{
     assertEquals(net.getPrevNode(ts.getNodes().get(1), ts).toString(), routeData.get(0));
     assertEquals(net.getRouteNodes(ts).size(), routeData.size());
     assertEquals("Musikvägen" ,net.getNodeStation(net.createNode("Musikvägen A")).getName());
+
+    System.out.println(dataPath);
+
 
     }
 
