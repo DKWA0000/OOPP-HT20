@@ -35,6 +35,7 @@ public class tester{
     Map<String, testStation> testStations = net.getStations();
     MODEL testModel1 = new MODEL();
     Incident testIncident = new Incident(IncidentType.ROUTE);
+
     /**
      * Testing correct name for Station and size on nodelist.
      */
@@ -122,7 +123,10 @@ public class tester{
     }
 
     /**
-     * Testing Network class methods.
+     * Testing Network class methods for creating network,
+     * adding nodes, correct number of items read from files
+     * and when creating network. Also testing access and search
+     * methods.
      *
      */
     @Test
