@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+       xmlns:app="http://schemas.android.com/apk/res-auto"
+       xmlns:tools="http://schemas.android.com/tools"
+       android:id="@+id/reportView"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       tools:visibility="visible">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:theme="?attr/actionBarTheme"
+            android:minHeight="?attr/actionBarSize"
+            android:id="@+id/toolbar"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0">
+
+
+        <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center">
+            <TextView
+                    android:text="Rapportera"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/makeReportText"
+                    android:textSize="24sp"
+                    android:clickable="true"
+                    android:onClick="onClick"
+                    android:textColor="@color/smurf"/>
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center">
+            <TextView
+                    android:text="Mina rapporter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/myReportsText"
+                    android:textSize="24sp"
+                    android:clickable="true"
+                    android:onClick="onClick"
+                    android:textColor="@color/text_gray"
+            />
+        </LinearLayout>
+
+</LinearLayout>
+
+        <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                app:srcCompat="@drawable/line"
+                android:id="@+id/line1"
+                android:layout_alignParentTop="true" android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentEnd="true" android:layout_alignParentRight="true"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+
+        <view android:layout_width="0dp"
+              android:layout_height="0dp"
+              class="com.example.planka.ReportFormView"
+              android:id="@+id/reportFormView"
+              app:layout_constraintTop_toBottomOf="@+id/line1" app:layout_constraintBottom_toBottomOf="parent"
+              app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"/>
+
+        <view android:layout_width="0dp"
+              android:layout_height="0dp"
+              class="com.example.planka.MyReportsView"
+              android:id="@+id/myReportsView"
+              app:layout_constraintTop_toBottomOf="@+id/line1" app:layout_constraintBottom_toBottomOf="parent"
+              app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</merge>

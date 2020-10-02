@@ -2,7 +2,7 @@ package model;
 
 import android.media.Image;
 
-import java.sql.Time;
+import java.util.Date;
 
 /**
  * Abstracted information from ReportRoute and ReportStation.
@@ -14,11 +14,11 @@ import java.sql.Time;
 
 public abstract class AbstractReport {
 
-    private Image imageView;
     private int nControllants;
-    private final Time timeOfReport;
-    private final Station station;
-    private final Reporter reporter;
+    private Date timeOfReport;
+    private Image imageView;
+    private Station station;
+    private Reporter reporter;
 
     /**
      * Constructor for ReportRoute-object and ReportStation-object takes the parameters and passes it.
@@ -29,7 +29,7 @@ public abstract class AbstractReport {
      * @param station Station
      * @param reporter Reporter
      */
-    AbstractReport (int noContr, Time time, Image image, Station station, Reporter reporter) {
+    AbstractReport (int noContr, Date time, Image image, Station station, Reporter reporter) {
         this.nControllants = noContr;
         this.timeOfReport = time;
         this.imageView = image;
@@ -41,7 +41,7 @@ public abstract class AbstractReport {
         return nControllants;
     }
 
-    public Time getTimeOfReport() {
+    public Date getTimeOfReport() {
         return timeOfReport;
     }
 
@@ -53,18 +53,17 @@ public abstract class AbstractReport {
         return reporter;
     }
 
-    public Image getImage() {
-        return imageView;
-    }
-
     public void setNControllants(int n) {
         this.nControllants = n;
     }
 
-    public void setImageView(Image image) {
-        this.imageView = image;
+    public String getInfo(){
+        return "{nmbr: "+getnControllants() +
+                ",time: " + getTimeOfReport() +
+                ",station: " + getStation().getName() +
+                "}";
+
+
     }
-
-
 
 }

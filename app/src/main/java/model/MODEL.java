@@ -1,69 +1,97 @@
 package model;
 
+import android.content.res.AssetManager;
 import android.media.Image;
 
-import java.sql.Time;
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
-public class MODEL {
+public class MODEL extends Observable{
 
-    private List<Incident> activeIncidents = new ArrayList<Incident>();
-    private List<Incident> inActiveIncidents = new ArrayList<Incident>();
-    private Network network;
+    Network network;
+    private ArrayList<Incident> IncidentList;
+    private ArrayList<AbstractReport> reportsList = new ArrayList<AbstractReport>();
 
-    public void MODEL(Network n){
-        this.network = n;
-    }
+    public MODEL(AssetManager am){
 
-    public void createRouteReport(int noContr, Time time, Image image, Station station, Route route, Reporter reporter) {
-        AbstractReport report = new ReportRoute(noContr, time, image, station, route, reporter);
-        Incident incident = matchIncident(report);
-        if(incident == null){
-            incident = new Incident(IncidentType.ROUTE);
-        }
-        incident.addReport(report);
-    }
+        network = new Network(am);
 
-    private Incident matchIncident(AbstractReport report) {
-        for (int i = 0; i < activeIncidents.size(); i++) {
-            Incident incident = activeIncidents.get(i);
-            Station incidentLastActiveStation = incident.getLastActiveStation();
-            Station reportStation = report.getStation();
+        IncidentList = new ArrayList<>();
 
-            // Incident is too old
-            if(incident.getTime().compareTo(report.getTimeOfReport()) > 10){ // 10 minutes (IDK)
-                inActiveIncidents.add(incident);
-                activeIncidents.remove(incident);
-                i--;
-                continue;
-            }
 
-            if(incidentLastActiveStation == reportStation){
-                return incident;
-            }
-            // Check 2 stations in both directions
-            for(Station s : network.getAdjacentStations(reportStation,2)){
-                if(incidentLastActiveStation == reportStation){ // TODO: .equals() !?
-                    return incident;
-                }
-            }
-            incident.updateNominalTrustFactor(report); //where is this supposed to go?
+        //for testing
+        for (int i = 0; i < ((int)(Math.random()*1)+1); i++) {
+            makeTemplateReport();
         }
 
-        return null;
     }
 
-    public void createStationReport(int noContr, Time time, Image image, Station station, Reporter reporter) {
-        AbstractReport report = new ReportStation(noContr, time, image, station, reporter);
-        Incident incident = matchIncident(report);
-        if(incident == null){
-            incident = new Incident(IncidentType.STATION);
+
+    /**
+     * Makes a template report (ONLY FOR TESTING)
+     */
+    private void makeTemplateReport() {
+        makeStationReport("3", null, null,  "Korsvägen");
+    }
+
+    public void makeStationReport(String noContr, Date time, String image, String station){
+
+
+        Reporter r = new Reporter("temp@google.com");
+        int n = Integer.parseInt(noContr);
+
+
+        Image i = null;
+
+        Station s = network.getStation(station);
+
+        if(time == null){
+            time = Date.from(Instant.now());
         }
-        incident.addReport(report);
+
+        AbstractReport report = new ReportStation(n,time,i,s,r);
+        reportsList.add(report);
+
+        notifyObservers(UpdateType.NEW_REPORT);
+
+        // testing
+        System.out.println(report.getInfo());
+
+        //TODO:
+        Incident inc = new Incident("Station");
+        IncidentList.add(inc);
+
+        notifyObservers(UpdateType.NEW_INCIDENT);
 
     }
 
 
+    public String[] getAllStations() {
+        return network.getAllStationNames();
+    }
 
+
+    public AbstractReport getLatestReport(){
+        return reportsList.get(reportsList.size()-1);
+    }
+
+    public ArrayList<AbstractReport> getAllReports(){
+        return reportsList;
+    }
+
+    public int getIncidentCount(){ return IncidentList.size(); }
+
+    public Incident getIncident(int index){
+        if(index >= 0 && index < IncidentList.size())
+            return IncidentList.get(index);
+        else
+            return null;
+    }
+
+
+    public Incident getLatestIncident() {
+
+       return getIncident(getIncidentCount()-1);
+    }
 }
