@@ -12,20 +12,30 @@ import model.UpdateType;
 
 public class JaokActivity extends AppCompatActivity {
 
-    MODEL model;
+    private MODEL model;
+
+    private String noContr;
+    private String time;
+    private String image;
+    private String station;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.report_activity);
 
-        model = new MODEL(getAssets());
+        model = new MODEL(getAssets()); //TODO: Do not rely on an AssetManager
+
+        startup();
+
+    }
+
+    private void startup() {
 
         // to main tab
         toLocation();
 
         initSpinners();
-        spinnerListeners();
 
         setLineDropdown(View.INVISIBLE);
         setWhenDropdown(View.GONE);
@@ -36,6 +46,10 @@ public class JaokActivity extends AppCompatActivity {
         loadReports();
         loadIncidents();
 
+        addModelObserver();
+    }
+
+    private void addModelObserver() {
         model.addObserver((UpdateType type) -> {
 
             if(type == UpdateType.NEW_INCIDENT){
@@ -56,7 +70,6 @@ public class JaokActivity extends AppCompatActivity {
 
 
         });
-
     }
 
     private void loadIncidents() {
@@ -82,30 +95,34 @@ public class JaokActivity extends AppCompatActivity {
         spinner.setAdapter(adapter);
 
         spinner = (Spinner) findViewById(R.id.whenSpinner);
-        // Create an ArrayAdapter using the string array and a default spinner layout
         adapter = ArrayAdapter.createFromResource(this, R.array.when_array, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
 
         spinner = (Spinner) findViewById(R.id.controllantsSpinner);
-        // Create an ArrayAdapter using the string array and a default spinner layout
         adapter = ArrayAdapter.createFromResource(this, R.array.lines_array, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
+
+        spinnerListeners();
+
 
     }
 
+    /**
+     * Loads all reports from the model into the GUI
+     */
     private void loadReports() {
 
         for (AbstractReport report: model.getAllReports()
              ) {
-            UserReportView urw = new UserReportView(getBaseContext(),report.getStation().getName(),report.getTimeOfReport().toString(),report.getnControllants());
-            ((LinearLayout)findViewById(R.id.Reportlist)).addView(urw);
 
+            String station = report.getStation().getName();
+            String time = report.getTimeOfReport().toString();
+            String nbrControllants = Integer.toString(report.getnControllants());
+
+            UserReportView urw = new UserReportView(getBaseContext(),station,time,nbrControllants);
+            ((LinearLayout)findViewById(R.id.Reportlist)).addView(urw);
         }
     }
 
@@ -113,7 +130,7 @@ public class JaokActivity extends AppCompatActivity {
     /**
      * Method used in GUI to determine what element has been clicked
      *
-     * @param view
+     * @param view element that is clicked
      */
     public void onClick(View view){
 
@@ -152,6 +169,7 @@ public class JaokActivity extends AppCompatActivity {
     }
 
 
+
     private void activateLocationButton(){
         findViewById(R.id.locationsButton).setForeground(getDrawable(R.drawable.location_icon_active));
         findViewById(R.id.mainLocationView).setVisibility(View.VISIBLE);
@@ -183,12 +201,18 @@ public class JaokActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Updates the color of the buttons in the top menu
+     */
     private void toLocation() {
         activateLocationButton();
         inactivateReportButton();
         inactivateProfileButton();
     }
 
+    /**
+     * Updates the color of the buttons in the top menu and shows the ReportFormView
+     */
     private void toReport() {
         inactivateLocationButton();
         activateReportButton();
@@ -197,12 +221,18 @@ public class JaokActivity extends AppCompatActivity {
         toMakeReport();
     }
 
+    /**
+     * Updates the color of the buttons in the top menu
+     */
     private void toProfile() {
         inactivateLocationButton();
         inactivateReportButton();
         activateProfileButton();
     }
 
+    /**
+     * Updates the color of the submenu-text and shows ReportFormView
+     */
     private void toMyReports() {
         ((TextView)findViewById(R.id.myReportsText)).setTextColor(getColor(R.color.smurf));
         ((TextView)findViewById(R.id.makeReportText)).setTextColor(getColor(R.color.text_gray));
@@ -211,6 +241,9 @@ public class JaokActivity extends AppCompatActivity {
         findViewById(R.id.myReportsView).setVisibility(View.VISIBLE);
     }
 
+    /**
+     * Updates the color of the submenu-text and shows MyReportsView
+     */
     private void toMakeReport() {
         ((TextView)findViewById(R.id.myReportsText)).setTextColor(getColor(R.color.text_gray));
         ((TextView)findViewById(R.id.makeReportText)).setTextColor(getColor(R.color.smurf));
@@ -220,6 +253,11 @@ public class JaokActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Sets the visibility of the chose station text field and the line drop down list
+     *
+     * @param visible
+     */
     private void setStationDropDown(int visible) {
 
         if(visible == View.VISIBLE)
@@ -244,11 +282,10 @@ public class JaokActivity extends AppCompatActivity {
         findViewById(R.id.whenSpinner).setVisibility(visible);
     }
 
-    String noContr;
-    String time;
-    String image;
-    String station;
 
+    /**
+     * Creates listeners to the drop down lists and the autocomplete text box
+     */
     private void spinnerListeners(){
         ((Spinner)findViewById(R.id.controllantsSpinner)).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -276,14 +313,10 @@ public class JaokActivity extends AppCompatActivity {
 
         ((AutoCompleteTextView)findViewById(R.id.stationTextBox)).setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-
-
-
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 station = adapterView.getItemAtPosition(i).toString();
             }
-
 
         });
 
@@ -291,9 +324,13 @@ public class JaokActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Creates a report in the model if there are values fetched by the listeners
+     */
     private void makeReport(){
-        String image = null;
-        model.makeStationReport(noContr,time,image,station);
+        String image = null; // Will maybe be implemented at a later stage
+        if(noContr != null && time != null && station != null)
+            model.makeStationReport(noContr,time,image,station);
     }
 
 

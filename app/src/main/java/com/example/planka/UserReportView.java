@@ -12,12 +12,12 @@ public class UserReportView extends ConstraintLayout {
     private TextView mTimeText;
     private TextView mCountText;
 
-    public UserReportView(Context context,String position, String time, int count) {
+    public UserReportView(Context context,String position, String time, String count) {
         super(context);
         inflate(context,R.layout.userreportview,this);
         Init();
 
-        SetText(position,time,Integer.toString(count));
+        SetText(position,time,count);
 
     }
 
