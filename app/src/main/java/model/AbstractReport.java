@@ -19,6 +19,7 @@ public abstract class AbstractReport {
     private Image imageView;
     private Station station;
     private Reporter reporter;
+    private IncidentType type;
 
     /**
      * Constructor for ReportRoute-object and ReportStation-object takes the parameters and passes it.
@@ -52,6 +53,8 @@ public abstract class AbstractReport {
     public Reporter getReporter() {
         return reporter;
     }
+
+    public IncidentType getType() {return type;}
 
     public void setNControllants(int n) {
         this.nControllants = n;
