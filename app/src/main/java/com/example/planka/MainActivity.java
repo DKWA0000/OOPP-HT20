@@ -15,6 +15,10 @@ import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
+    /* Created a method for idenitfying which report can go in which incident, and if there is none you create a new incident,
+     Usefull when creating the incidentlist.
+     */
+
     private MODEL model;
 
     private String noContr;
@@ -335,7 +339,7 @@ public class MainActivity extends AppCompatActivity {
      * Creates a report in the model if there are values fetched by the listeners
      */
     private void makeReport(){
-
+        System.out.println("a");
         String image = null; // Will maybe be implemented at a later stage
 
         if(((RadioButton)findViewById(R.id.nowRadio)).isChecked()){
@@ -346,13 +350,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if(noContr != null && time != null && station != null) {
-            model.makeStationReport(noContr, time, image, station);
-
-            System.out.println("REPORT MADE");
+            AbstractReport r = model.makeStationReport(noContr, time, image, station);
         }
-        System.out.println("REPORT MADE???????????");
-
     }
-
-
 }

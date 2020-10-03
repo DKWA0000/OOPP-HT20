@@ -28,6 +28,7 @@ public class MODEL extends Observable{
     }
 
 
+
     /**
      * Makes a template report (ONLY FOR TESTING)
      */
@@ -35,7 +36,7 @@ public class MODEL extends Observable{
         makeStationReport("3", null, null,  "Korsvägen");
     }
 
-    public void makeStationReport(String noContr, Date time, String image, String station){
+    public AbstractReport makeStationReport(String noContr, Date time, String image, String station){
 
 
         Reporter r = new Reporter("temp@google.com");
@@ -58,12 +59,11 @@ public class MODEL extends Observable{
         // testing
         System.out.println(report.getInfo());
 
-        //TODO:
-        Incident inc = new Incident(IncidentType.STATION);
-        IncidentList.add(inc);
+        getCorrespondingIncident(report).addReport(report);
 
         notifyObservers(UpdateType.NEW_INCIDENT);
 
+        return report;
     }
 
 
@@ -93,5 +93,15 @@ public class MODEL extends Observable{
     public Incident getLatestIncident() {
 
        return getIncident(getIncidentCount()-1);
+    }
+
+    public Incident getCorrespondingIncident(AbstractReport report) {
+        for (Incident i : IncidentList) {
+            if (i.getTypeOfIncident() == report.getType() && i.getLastActiveStation().equals(report.getStation())) {
+                return i;
+            }
+        }
+        Incident incident = new Incident(report.getType());
+        return incident;
     }
 }
