@@ -15,7 +15,7 @@ bör läggas till under Quality i SDD och non-functional requirements behövs l�
 
 
 ### Nästa möte:
-```Projektmöte, 2020-10-02 13:45 (1 dagar)``` [länk](#)
+```Projektmöte, 2020-10-02 13:45 (1 dagar)``` [länk](https://github.com/DKWA0000/OOPP-HT20/blob/master/Dokumentation/Notes%20From%20Project%20Meetings/2020-10-05%20-%20Projektmöte%201%20LV6.md)
 
 ### Att göra till nästa möte:
 - Joakim T skriver klart alla tester som ska in, nu när det funkar.
