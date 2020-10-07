@@ -19,26 +19,10 @@ public class MODEL extends Observable{
 
         IncidentList = new ArrayList<>();
 
-
-        //for testing
-        for (int i = 0; i < ((int)(Math.random()*1)+1); i++) {
-            makeTemplateReport();
-        }
-
     }
 
-
-
-    /**
-     * Makes a template report (ONLY FOR TESTING)
-     */
-    private void makeTemplateReport() {
-        makeStationReport("3", null, null,  "Korsvägen");
-    }
 
     public AbstractReport makeStationReport(String noContr, Date time, String image, String station){
-
-
         Reporter r = new Reporter("temp@google.com");
         int n = Integer.parseInt(noContr);
 
@@ -53,16 +37,14 @@ public class MODEL extends Observable{
 
         AbstractReport report = new ReportStation(n,time,i,s,r);
         reportsList.add(report);
-
         notifyObservers(UpdateType.NEW_REPORT);
 
-        // testing
-        System.out.println(report.getInfo());
-
+        if (correspondingIncidentExists(report)) {
+            getCorrespondingIncident(report).addReport(report);
+            return report;
+        }
         getCorrespondingIncident(report).addReport(report);
-
         notifyObservers(UpdateType.NEW_INCIDENT);
-
         return report;
     }
 
@@ -95,6 +77,15 @@ public class MODEL extends Observable{
        return getIncident(getIncidentCount()-1);
     }
 
+    public boolean correspondingIncidentExists(AbstractReport report) {
+        for (Incident i : IncidentList) {
+            if (i.getTypeOfIncident() == report.getType() && i.getLastActiveStation().equals(report.getStation())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public Incident getCorrespondingIncident(AbstractReport report) {
         for (Incident i : IncidentList) {
             if (i.getTypeOfIncident() == report.getType() && i.getLastActiveStation().equals(report.getStation())) {
@@ -102,6 +93,7 @@ public class MODEL extends Observable{
             }
         }
         Incident incident = new Incident(report.getType());
+        IncidentList.add(incident);
         return incident;
     }
 }

@@ -35,14 +35,13 @@ public class IncidentListView extends ConstraintLayout {
         mIncidentList = findViewById(R.id.Incidentlist);
         model = new MODEL(getContext().getAssets());
         //PLACEHOLDER
+        /*
         for (int x = 0 ; x < model.getIncidentCount() ; x++){
             IncidentView test = new IncidentView(this.getContext(), model.getIncident(x));
             /* This is where I'd use the info received from model.getIncident(x)
              * to give explicit information regarding an Incident */
-            test.SetText("Placeholder", "Placeholder", String.valueOf(x));
             /* If I had any */
-            mIncidentList.addView(test);
-        }
+
         if(mIncidentList.getChildCount() == 0)
         {
             TextView emptyListNote = new TextView(this.getContext());
