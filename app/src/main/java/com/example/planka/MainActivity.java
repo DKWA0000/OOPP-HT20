@@ -9,6 +9,8 @@ import model.Incident;
 import model.MODEL;
 import model.UpdateType;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.Date;
 
@@ -64,15 +66,20 @@ public class MainActivity extends AppCompatActivity {
 
             if(type == UpdateType.NEW_INCIDENT){
                 Incident i = model.getLatestIncident();
+                String station = i.getLastActiveStation().getName();
+                String nCont = String.valueOf(i.getListReports().get(0).getnControllants());
 
-                IncidentView iw = new IncidentView(getBaseContext(), i);
+                DateFormat outputformat = new SimpleDateFormat("HH:mm:ss - dd/MM/yy");
+                String timee = outputformat.format(i.getListReports().get(0).getTimeOfReport());
+
+                IncidentView iw = new IncidentView(getBaseContext(), station, nCont, timee);
                 ((LinearLayout)findViewById(R.id.Incidentlist)).addView(iw);
 
             }
 
             if(type == UpdateType.NEW_REPORT){
                 AbstractReport report = model.getLatestReport();
-               createReportViewItem(report);
+                createReportViewItem(report);
             }
 
 
@@ -339,7 +346,6 @@ public class MainActivity extends AppCompatActivity {
      * Creates a report in the model if there are values fetched by the listeners
      */
     private void makeReport(){
-        System.out.println("a");
         String image = null; // Will maybe be implemented at a later stage
 
         if(((RadioButton)findViewById(R.id.nowRadio)).isChecked()){
