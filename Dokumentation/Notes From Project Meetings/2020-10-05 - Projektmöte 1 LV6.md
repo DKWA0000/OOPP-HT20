@@ -15,7 +15,7 @@ gjort i tid. RAD och SDD ligger ungefär i fas och vi har det mesta i dem som vi
 Denna veckan ska vi fortsätta arbeta med projektet samt peer reviewn, finns en del programmering som behövs göra vilket nämns nedanför.
 
 ### Nästa möte:
-```Projektmöte, 2020-10-07 17:00 (2 dagar)``` [länk](#)
+```Projektmöte, 2020-10-07 17:00 (2 dagar)``` [länk](https://github.com/DKWA0000/OOPP-HT20/blob/master/Dokumentation/Notes%20From%20Project%20Meetings/2020-10-07%20-%20Projektmöte%202%20LV6.md)
 
 ### Att göra till nästa möte:
 - Seif ska fixa med inläsning av csv filer, Göra node till egen klass och en metod för att hitta närliggande noder.
