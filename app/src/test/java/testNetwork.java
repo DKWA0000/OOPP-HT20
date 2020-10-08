@@ -117,7 +117,7 @@ public class testNetwork {
         try {
             for (int i = 0; i < f.length; i++) {
 
-                BufferedReader reader = new BufferedReader(new FileReader(f[i].toString()));
+                BufferedReader reader = new BufferedReader(new java.io.FileReader(f[i].toString()));
                 String name = f[i].toString();
                 ArrayList<testNetwork.Node> stops = new ArrayList<Node>();
                 String line;
