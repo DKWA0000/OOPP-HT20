@@ -4,13 +4,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
-import model.AbstractReport;
-import model.Incident;
-import model.MODEL;
-import model.UpdateType;
+import model.*;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -20,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
      */
 
     private MODEL model;
-
+    private FileReader fileReader;
     private String noContr;
     private String editContr;
     private Date time;
@@ -32,7 +31,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.report_activity);
 
-        model = new MODEL(getAssets()); //TODO: Do not rely on an AssetManager
+        HashMap<String, ArrayList> allRoutes = fileReader.getAllRoutes();
+
+
+        model = new MODEL(allRoutes);
 
         startup();
 
