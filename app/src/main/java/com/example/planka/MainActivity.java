@@ -63,14 +63,25 @@ public class MainActivity extends AppCompatActivity {
 
             if(type == UpdateType.NEW_INCIDENT){
                 Incident i = model.getLatestIncident();
-                String station = i.getLastActiveStation().getName();
-                String nCont = String.valueOf(i.getListReports().get(0).getnControllants());
+                if (i.getTypeOfIncident().equals(IncidentType.STATION)) {
+                    String station = i.getLastActiveStation().getName();
+                    String nCont = String.valueOf(i.getListReports().get(0).getnControllants());
 
-                DateFormat outputformat = new SimpleDateFormat("HH:mm:ss - dd/MM/yy");
-                String timee = outputformat.format(i.getListReports().get(0).getTimeOfReport());
+                    DateFormat outputformat = new SimpleDateFormat("HH:mm:ss - dd/MM/yy");
+                    String timee = outputformat.format(i.getListReports().get(0).getTimeOfReport());
 
-                IncidentView iw = new IncidentView(getBaseContext(), station, nCont, timee);
-                ((LinearLayout)findViewById(R.id.Incidentlist)).addView(iw);
+                    IncidentView iw = new IncidentView(getBaseContext(), station, nCont, timee);
+                    ((LinearLayout)findViewById(R.id.Incidentlist)).addView(iw);
+                } else if(i.getTypeOfIncident().equals(IncidentType.ROUTE)) {
+                    String route = i.getLastActiveRoute().getLine();
+                    String nCont = String.valueOf(i.getListReports().get(0).getnControllants());
+
+                    DateFormat outputformat = new SimpleDateFormat("HH:mm:ss - dd/MM/yy");
+                    String timee = outputformat.format(i.getListReports().get(0).getTimeOfReport());
+
+                    IncidentView iw = new IncidentView(getBaseContext(), route, nCont, timee);
+                    ((LinearLayout)findViewById(R.id.Incidentlist)).addView(iw);
+                }
 
             }
 
@@ -355,11 +366,9 @@ public class MainActivity extends AppCompatActivity {
         if (((RadioButton) findViewById(R.id.stationRadio)).isChecked() && noContr != null && time != null && station != null) {
             it = IncidentType.STATION;
             AbstractReport r = model.makeStationReport(noContr, time, image, station, it);
-            System.out.println("A");
         } else if (((RadioButton) findViewById(R.id.tramRadio)).isChecked() && noContr != null && time != null && station != null) {
             it = IncidentType.ROUTE;
             AbstractReport r = model.makeRouteReport(noContr, time, image, station, it);
-            System.out.println("B");
         }
     }
 
