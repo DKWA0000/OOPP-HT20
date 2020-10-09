@@ -1,10 +1,8 @@
 package model;
 
-import android.content.res.AssetManager;
 import android.os.Build;
 import androidx.annotation.RequiresApi;
 
-import java.io.*;
 import java.util.*;
 
 /**
@@ -15,7 +13,6 @@ import java.util.*;
 * @see Route class
 *
 * @author Seif Eddine Bourogaa
-* @author Joakim something?
 */
 public class Network {
 
@@ -27,14 +24,17 @@ public class Network {
     private List<Route> routes = new ArrayList<>();
 
     /**
-     * Constructor of Graph-object takes the AssetManager and passes it
+     * Constructor of Network, takes a HashMap and passes it to createRoutes.
      *
-     * @param am AssetManager
+     * @param routesFromFile HashMap containing information about every Route.
+     *
+     * @see #createRoutes(HashMap)
+     * @see FileReader
      */
     public Network(HashMap<String, ArrayList> routesFromFile) {
 
-        stations = new HashMap<>();
-        adjacencyList = new HashMap<>();
+        stations = new HashMap<String, Station>();
+        adjacencyList = new HashMap<Node, List<Node>>();
 
         createRoutes(routesFromFile);
         mapAllNodes(routes);
@@ -54,7 +54,7 @@ public class Network {
         {
             String route = entry.getKey();
             ArrayList<String> values = entry.getValue();
-            ArrayList<Network.Node> stops = new ArrayList<>();
+            ArrayList<Node> stops = new ArrayList<>();
 
             for(String value : values) {
                 stops.add(new Node(value));
@@ -77,7 +77,7 @@ public class Network {
 
                 //TODO: should be broken down into smaller method(s)
                 if(!adjacencyList.containsKey(n)){
-                    List<Network.Node> nodes = new ArrayList<Network.Node>();
+                    List<Node> nodes = new ArrayList<>();
                     if(i!=0)
                         nodes.add(r.getNodes().get(i-1));
                     if(i!=r.getNodes().size()-1)
@@ -86,7 +86,7 @@ public class Network {
                     adjacencyList.put(n,nodes);
                 }
                 else{
-                    List<Network.Node> list = adjacencyList.get(n);
+                    List<Node> list = adjacencyList.get(n);
 
                     if(i!=0 && !list.contains(r.getNodes().get(i-1)))
                         list.add(r.getNodes().get(i-1));
@@ -96,29 +96,30 @@ public class Network {
                 }
 
 
-                if(!stations.containsKey(n.getStationName())){
-                    Station s = new Station(n.getStationName());
+                if(!stations.containsKey(getStationName(n))){
+                    Station s = new Station(getStationName(n));
                     s.addNode(n);
-                    stations.put(n.getStationName(),s);
+                    stations.put(getStationName(n),s);
                 }
                 else{
-                    stations.get(n.getStationName()).addNode(n);
+                    stations.get(getStationName(n)).addNode(n);
                 }
             }
         }
     }
 
     /**
-    * Insert a new Node to the Graph, if it doesn not already exist. Every Node is given its own ArrayList
+    * Insert a new Node to the Graph, if it does not not already exist. Every Node is given its own ArrayList
     * holding all the Nodes it is connecting to. 
     *
     * @param station name of the Node to create as well as the Graph.Node.station attribute 
     *
     * @see Network.Node
     */
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void addNode(String station)
     {
-       //adjacencyList.putIfAbsent(new Node(station), new ArrayList<>());
+       adjacencyList.putIfAbsent(new Node(station), new ArrayList<>());
     }
 
     /**
@@ -179,28 +180,22 @@ public class Network {
     *
     * @return List containing all adjacent nodes to @param station
     */
-    public List<Node> getAdjacentNodes(String station, int range)
-    {
-       List<Node> adjacentNodes = new ArrayList<Node>(); 
-       List<Node> temp = new ArrayList<Node>();
-       temp.addAll(getNodesAhead(station));
-       temp.addAll(getNodesBehind(station));
+    public Set<Node> getAdjacentNodes(String station, int range) {
+       Set<Node> adjacentNodes = new HashSet<>();
+       adjacentNodes.addAll(getNodesAhead(station));
+       adjacentNodes.addAll(getNodesBehind(station));
        
-       for(int i = 1; i < range; i++)
-       {
-       		for(Network.Node node : adjacentNodes){
+       for(int i = 1; i < range; i++) {
+           Set<Node> temp = new HashSet<>();
+
+           for(Node node : adjacentNodes){
 
      				temp.addAll(getNodesAhead(node.name));
      				temp.addAll(getNodesBehind(node.name));
-
      		}
-    	}
 
-    	for(Node node : temp){
-    		if(!adjacentNodes.contains(node))
-    		{
-    			adjacentNodes.add(node); 
-    		}
+       		adjacentNodes.addAll(temp);
+
     	}
 
        return adjacentNodes;
@@ -215,7 +210,7 @@ public class Network {
     *
     * @return List containing all nodes ahead of @param station
     */
-    public List<Node> getNodesAhead(String station)
+    private List<Node> getNodesAhead(String station)
     {
 
 		List<Node> nodesAhead = adjacencyList.get(new Node(station));
@@ -232,12 +227,12 @@ public class Network {
     *
     * @return List containing all nodes behind of @param station
     */
-    public List<Node> getNodesBehind(String station){
+    private List<Node> getNodesBehind(String station){
 
-    	List<Node> nodesBehind = new ArrayList<Node>(); 
+    	List<Node> nodesBehind = new ArrayList<>();
 
 
-    	for(Network.Node key: adjacencyList.keySet())
+    	for(Node key: adjacencyList.keySet())
         {
            	if(adjacencyList.get(key).contains(new Node(station)))
            	{
@@ -296,7 +291,7 @@ public class Network {
      *
      * @return An ordered list of all nodes in that Route
      */
-    public List<Network.Node> getRouteNodes(Route r){
+    public List<Node> getRouteNodes(Route r){
         return r.getNodes();
     }
 
@@ -317,7 +312,7 @@ public class Network {
      * @return The Nodes Station
      */
     public Station getNodeStation(Node n){
-        return stations.get(n.getStationName());
+        return stations.get(getStationName(n));
     }
 
     /**
@@ -327,7 +322,7 @@ public class Network {
      *
      * @return An ordered list of all nodes at that Station
      */
-    public List<Network.Node> getStationRoutes(Station s){
+    public List<Node> getStationRoutes(Station s){
         return s.getNodes();
     }
 
@@ -340,13 +335,32 @@ public class Network {
     }
 
     /**
+     * Get the name of which station a node belongs to.
+     *
+     * @return the name of the station it belongs to.
+     */
+    public String getStationName(Node node){
+        return node.name.substring(0,node.name.lastIndexOf(' '));
+    }
+
+
+    /**
     * Temporary Node class until I can fix it. Need Graph specific information to get keys to work
     * smoothly in order to find and adress Nodes.
     */
     public class Node {
+        /**
+         * Name of the Node as well as the state of the node.
+         *
+         * @see #name
+         * @see #state
+         */
         private String name;
+        private boolean state;
+
         public Node(String name) {
             this.name = name;
+            this.state = false;
         }
 
         @Override
@@ -386,29 +400,33 @@ public class Network {
         }
 
         /**
+         * Get the name of the Node.
+         *
+         * @return Name of the Node.
+         */
+        public String getName() {
+            return this.name;
+        }
+
+        /**
+         * Get the current state of the Node.
+         *
+         * @return current state of the Node.
+         */
+        public boolean getState(){return state; }
+
+        /**
+         * Set the current state of the Node.
+         *
+         * @param desiredState state to change into.
+         */
+        public void setState(boolean desiredState){ state = desiredState;}
+
+        /**
         * Used by our hash.
         */
         private Network getOuterType() {
             return Network.this;
-        }
-
-        /**
-        * Get the name of which station a node belongs to. 
-		*
-        * @return the name of the station it belongs to. 
-        */
-        public String getStationName(){
-            return name.substring(0,name.lastIndexOf(' '));
-        }
-
-
-        /**
-        * Get the name of the Node.
-        *
-        * @return Name of the node. 
-        */
-        public String getName() {
-            return this.name;
         }
     }
 }

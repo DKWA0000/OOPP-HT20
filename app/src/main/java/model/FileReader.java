@@ -22,9 +22,11 @@ public class FileReader {
     HashMap<String, ArrayList> fileContent = new HashMap<String, ArrayList>();
 
     /**
-     * Constructor of Graph-object takes the AssetManager and passes it
+     * Constructor of FileReader, takes the AssetManager and passes it to loadAllRoutes.
      *
      * @param am AssetManager
+     *
+     * @see loadAllRoutes();
      */
     public FileReader(AssetManager am) {
         loadAllRoutes(am);
@@ -42,15 +44,14 @@ public class FileReader {
                 while ((line = reader.readLine()) != null) {
                     stops.add(line.trim());
                 }
-
                 fileContent.put(name, stops);
-
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
 
     }
+
 
     public HashMap<String, ArrayList> getAllRoutes(){
         return fileContent;
