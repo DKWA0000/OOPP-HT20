@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.report_activity);
 
+        fileReader = new FileReader(this.getAssets());
         HashMap<String, ArrayList> allRoutes = fileReader.getAllRoutes();
 
 
