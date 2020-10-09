@@ -18,7 +18,7 @@ Denna veckan ska vi fortsätta arbeta med projektet samt peer reviewn, finns en 
 ```Projektmöte, 2020-10-07 17:00 (2 dagar)``` [länk](https://github.com/DKWA0000/OOPP-HT20/blob/master/Dokumentation/Notes%20From%20Project%20Meetings/2020-10-07%20-%20Projektmöte%202%20LV6.md)
 
 ### Att göra till nästa möte:
-- Seif ska fixa med inläsning av csv filer, Göra node till egen klass och en metod för att hitta närliggande noder.
+- Seif ska fixa med inläsning av txt filer och en metod för att hitta närliggande noder.
 - Lucas ska fixa incident i viewen samt logiken bakom den.
 - Joakim O fixa med det grafiska komponenterna
 - Joakim T ska jobba med en egen uppgift
