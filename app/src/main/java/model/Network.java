@@ -31,14 +31,13 @@ public class Network {
      * @see #createRoutes(HashMap)
      * @see FileReader
      */
-    public Network(HashMap<String, ArrayList> routesFromFile) {
-
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public Network(HashMap<String, ArrayList> routesFromFile){
         stations = new HashMap<String, Station>();
         adjacencyList = new HashMap<Node, List<Node>>();
 
         createRoutes(routesFromFile);
         mapAllNodes(routes);
-
     }
 
     /**
@@ -48,65 +47,96 @@ public class Network {
      *
      * @see FileReader
      */
-    private void createRoutes(HashMap<String, ArrayList> routesFromFile) {
+    private void createRoutes(HashMap<String, ArrayList> routesFromFile){
 
-        for (Map.Entry<String, ArrayList> entry : routesFromFile.entrySet())
-        {
+        for (Map.Entry<String, ArrayList> entry : routesFromFile.entrySet()){
             String route = entry.getKey();
             ArrayList<String> values = entry.getValue();
             ArrayList<Node> stops = new ArrayList<>();
 
-            for(String value : values) {
+            for(String value : values){
                 stops.add(new Node(value));
             }
             routes.add(new Route(route, stops));
         }
-
     }
 
     /**
-     * Maps all the Nodes from every existing Route.
-     * Loads the Nodes into the adjacencyList and also creates Stations and adds each Node to corresponding Station.
+     * Maps all the Nodes from every existing Route. Loads the Nodes into the adjacencyList and also creates Stations
+     * and adds each Node to corresponding Station.
      *
-     * TODO: Should be broken down into smaller methods and use the currently implemented methods addEdge and addNode.
      */
-    private void mapAllNodes(List<Route> routes) {
-        for(Route r : routes){
-            for(int i = 0 ; i < r.getNodes().size() ; i++){
-                Node n = r.getNodes().get(i);
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void mapAllNodes(List<Route> routes){
 
-                //TODO: should be broken down into smaller method(s)
-                if(!adjacencyList.containsKey(n)){
-                    List<Node> nodes = new ArrayList<>();
-                    if(i!=0)
-                        nodes.add(r.getNodes().get(i-1));
-                    if(i!=r.getNodes().size()-1)
-                        nodes.add(r.getNodes().get(i+1));
+    	for(Route route : routes){
 
-                    adjacencyList.put(n,nodes);
+    		for(int i = 0; i < route.getNodes().size(); i++){
+
+                Node node = route.getNodes().get(i);
+
+    		    if(nodeExist(node)){
+                    existingNode(node, route, i);
                 }
-                else{
-                    List<Node> list = adjacencyList.get(n);
-
-                    if(i!=0 && !list.contains(r.getNodes().get(i-1)))
-                        list.add(r.getNodes().get(i-1));
-
-                    if(i!=r.getNodes().size()-1 && !list.contains(r.getNodes().get(i+1)))
-                        list.add(r.getNodes().get(i+1));
+    		    else{
+                    newNode(node, route, i);
                 }
+    		    createStations(node);
+    		}
+    	}
+    }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void newNode(Node node, Route route, int position){
+        addNode(node.name);
 
-                if(!stations.containsKey(getStationName(n))){
-                    Station s = new Station(getStationName(n));
-                    s.addNode(n);
-                    stations.put(getStationName(n),s);
-                }
-                else{
-                    stations.get(getStationName(n)).addNode(n);
-                }
-            }
+        if (position != 0){
+            addEdge(node.name, route.getNodes().get(position - 1).name);
+        }
+        if (position != route.getNodes().size() - 1){
+            addEdge(node.name, route.getNodes().get(position + 1).name);
         }
     }
+
+    private void existingNode(Node node, Route route, int position){
+        List<Node> listOfDestinations = adjacencyList.get(node);
+
+        if(position != 0 && !listOfDestinations.contains(route.getNodes().get(position - 1))){
+            addEdge(node.name, route.getNodes().get(position - 1).name);
+        }
+
+        if(position != route.getNodes().size() - 1 && !listOfDestinations.contains(route.getNodes().get(position + 1))){
+            addEdge(node.name, route.getNodes().get(position + 1).name);
+        }
+    }
+
+    private boolean nodeExist(Node node){
+        return adjacencyList.containsKey(node);
+    }
+
+    private void createStations(Node node){
+        if(stationExist(node)){
+            existingStation(node);
+        }
+        else{
+            newStation(node);
+        }
+    }
+
+    private void newStation(Node node){
+        Station station = new Station(getStationName(node));
+        station.addNode(node);
+        stations.put(getStationName(node), station);
+    }
+
+    private void existingStation(Node node){
+        stations.get(getStationName(node)).addNode(node);
+    }
+
+    private boolean stationExist(Node node){
+        return stations.containsKey(node);
+    }
+
 
     /**
     * Insert a new Node to the Graph, if it does not not already exist. Every Node is given its own ArrayList
@@ -117,8 +147,7 @@ public class Network {
     * @see Network.Node
     */
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void addNode(String station)
-    {
+    private void addNode(String station){
        adjacencyList.putIfAbsent(new Node(station), new ArrayList<>());
     }
 
@@ -130,8 +159,7 @@ public class Network {
     * @see Network.Node
     */
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void removeNode(String station)
-    {
+    private void removeNode(String station){
         adjacencyList.values().stream().forEach(e -> e.remove(new Node(station)));
         adjacencyList.remove(new Node(station));
     }
@@ -146,8 +174,7 @@ public class Network {
     *
     * @see Network.Node
     */
-    public void addEdge(String source, String destination)
-    {
+    private void addEdge(String source, String destination){
         adjacencyList.get(new Node(source)).add(new Node(destination));
         List<Node> abc = adjacencyList.get(new Node(source));
     }
@@ -161,11 +188,9 @@ public class Network {
     *
     * @see Network.Node
     */
-    public void removeEdge(String source, String destination)
-    {
+    private void removeEdge(String source, String destination){
         List<Node> sourceEdges = adjacencyList.get(new Node(source));
-        if (sourceEdges != null)
-        {
+        if (sourceEdges != null){
             sourceEdges.remove(new Node(destination));
         }
     }
@@ -180,24 +205,20 @@ public class Network {
     *
     * @return List containing all adjacent nodes to @param station
     */
-    public Set<Node> getAdjacentNodes(String station, int range) {
+    public Set<Node> getAdjacentNodes(String station, int range){
        Set<Node> adjacentNodes = new HashSet<>();
        adjacentNodes.addAll(getNodesAhead(station));
        adjacentNodes.addAll(getNodesBehind(station));
        
-       for(int i = 1; i < range; i++) {
+       for(int i = 1; i < range; i++){
            Set<Node> temp = new HashSet<>();
 
            for(Node node : adjacentNodes){
-
-     				temp.addAll(getNodesAhead(node.name));
-     				temp.addAll(getNodesBehind(node.name));
+               temp.addAll(getNodesAhead(node.name));
+               temp.addAll(getNodesBehind(node.name));
      		}
-
        		adjacentNodes.addAll(temp);
-
     	}
-
        return adjacentNodes;
     }
 
@@ -210,12 +231,9 @@ public class Network {
     *
     * @return List containing all nodes ahead of @param station
     */
-    private List<Node> getNodesAhead(String station)
-    {
-
+    private List<Node> getNodesAhead(String station){
 		List<Node> nodesAhead = adjacencyList.get(new Node(station));
 		return nodesAhead;
-
     }
 
     /**
@@ -231,17 +249,12 @@ public class Network {
 
     	List<Node> nodesBehind = new ArrayList<>();
 
-
-    	for(Node key: adjacencyList.keySet())
-        {
-           	if(adjacencyList.get(key).contains(new Node(station)))
-           	{
+    	for(Node key: adjacencyList.keySet()){
+           	if(adjacencyList.get(key).contains(new Node(station))){
            	    nodesBehind.add(key);
            	}
         }
-        
         return nodesBehind;
-
     }
 
     /**
@@ -273,9 +286,9 @@ public class Network {
      *
      * @return The Node after n
      */
-    public Node getNextNode(Node n ,Route r) {
+    public Node getNextNode(Node n ,Route r){
 
-        for (int i = 0; i < r.getNodes().size()-1; i++) {
+        for (int i = 0; i < r.getNodes().size()-1; i++){
             Node current = r.getNodes().get(i);
             if(current == n){
                 return r.getNodes().get(i+1);
@@ -300,7 +313,7 @@ public class Network {
      * @param station name of the Station
      * @return Station object with given name
      */
-    public Station getStation(String station) {
+    public Station getStation(String station){
         return stations.get(station);
     }
 
@@ -330,7 +343,7 @@ public class Network {
      * Returns all station names
      * @return String[] of all station names
      */
-    public String[] getAllStationNames() {
+    public String[] getAllStationNames(){
         return stations.keySet().toArray(new String[0]);
     }
 
@@ -348,7 +361,7 @@ public class Network {
     * Temporary Node class until I can fix it. Need Graph specific information to get keys to work
     * smoothly in order to find and adress Nodes.
     */
-    public class Node {
+    public class Node{
         /**
          * Name of the Node as well as the state of the node.
          *
@@ -367,7 +380,7 @@ public class Network {
         /*
             To make it easier to find our nodes.
         */
-        public int hashCode() {
+        public int hashCode(){
             final int prime = 31;
             int result = 1;
             result = prime * result + getOuterType().hashCode();
@@ -376,7 +389,7 @@ public class Network {
         }
 
         @Override
-        public boolean equals(Object obj) {
+        public boolean equals(Object obj){
             if (this == obj)
                 return true;
             if (obj == null)
@@ -425,7 +438,7 @@ public class Network {
         /**
         * Used by our hash.
         */
-        private Network getOuterType() {
+        private Network getOuterType(){
             return Network.this;
         }
     }
