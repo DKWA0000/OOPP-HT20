@@ -65,14 +65,18 @@ public class Network {
      * Maps all the Nodes from every existing Route. Loads the Nodes into the adjacencyList and also creates Stations
      * and adds each Node to corresponding Station.
      *
+     * @param routes List of all routes to map into Network
+     *
+     * @see #nodeExist(Node)
+     * @see #newNode(Node, Route, int)
+     * @see #existingNode(Node, Route, int)
+     * @see #createStations(Node)
      */
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void mapAllNodes(List<Route> routes){
 
     	for(Route route : routes){
-
     		for(int i = 0; i < route.getNodes().size(); i++){
-
                 Node node = route.getNodes().get(i);
 
     		    if(nodeExist(node)){
@@ -86,6 +90,16 @@ public class Network {
     	}
     }
 
+    /**
+     * Adds a new Node to the Network and Maps its connections.
+     *
+     * @param node node to add to the network
+     * @param route route the node belongs to
+     * @param position the node's position in the route
+     *
+     * @see #addNode(String)
+     * @see #addEdge(String, String)
+     */
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void newNode(Node node, Route route, int position){
         addNode(node.name);
@@ -98,6 +112,15 @@ public class Network {
         }
     }
 
+    /**
+     * Maps new connections for an existing Node.
+     *
+     * @param node node to add to the network
+     * @param route route the node belongs to
+     * @param position the node's position in the route
+     *
+     * @see #addEdge(String, String)
+     */
     private void existingNode(Node node, Route route, int position){
         List<Node> listOfDestinations = adjacencyList.get(node);
 
@@ -109,11 +132,23 @@ public class Network {
             addEdge(node.name, route.getNodes().get(position + 1).name);
         }
     }
-
+    
+    /**
+     * Check if a Node exists in the Network. 
+     */
     private boolean nodeExist(Node node){
         return adjacencyList.containsKey(node);
     }
-
+    
+    /**
+     * Method for mapping which Station a Node belongs to. 
+     *
+     * @param node Node to map to a station 
+     *             
+     * @see #stationExist(Node) 
+     * @see #existingStation(Node) 
+     * @see #newStation(Node)
+     */
     private void createStations(Node node){
         if(stationExist(node)){
             existingStation(node);
@@ -122,17 +157,40 @@ public class Network {
             newStation(node);
         }
     }
-
+    /**
+     * Creates a new Station for the Node and adds the Node to it.
+     *
+     * @param node Node to create a new Station for 
+     *
+     * @see #getStationName(Node) 
+     * @see Station
+     * @see Station#addNode(Node) 
+     */
     private void newStation(Node node){
         Station station = new Station(getStationName(node));
         station.addNode(node);
         stations.put(getStationName(node), station);
     }
-
+   
+    /**
+     * Adds Node to an existing Station.
+     *
+     * @param node Node to add into a station 
+     *
+     * @see #getStationName(Node) 
+     * @see Station
+     * @see Station#addNode(Node)
+     */
     private void existingStation(Node node){
         stations.get(getStationName(node)).addNode(node);
     }
 
+
+    /**
+     * Check if a Station for a Node exists.
+     *
+     * @param node Node to check if has a station already.
+     */
     private boolean stationExist(Node node){
         return stations.containsKey(node);
     }
