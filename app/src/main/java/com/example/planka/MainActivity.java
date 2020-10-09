@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private MODEL model;
 
     private String noContr;
+    private String editContr;
     private Date time;
     private String image;
     private String station;
@@ -187,6 +188,9 @@ public class MainActivity extends AppCompatActivity {
         if(view == findViewById(R.id.makeReportButton)){
             makeReport();
         }
+        if(view == findViewById(R.id.updateButton)){
+            toEditReport();
+        }
 
 
     }
@@ -262,6 +266,7 @@ public class MainActivity extends AppCompatActivity {
 
         findViewById(R.id.reportFormView).setVisibility(View.INVISIBLE);
         findViewById(R.id.myReportsView).setVisibility(View.VISIBLE);
+        findViewById(R.id.editReportView).setVisibility(View.INVISIBLE);
     }
 
     /**
@@ -273,6 +278,19 @@ public class MainActivity extends AppCompatActivity {
 
         findViewById(R.id.reportFormView).setVisibility(View.VISIBLE);
         findViewById(R.id.myReportsView).setVisibility(View.INVISIBLE);
+        findViewById(R.id.editReportView).setVisibility(View.INVISIBLE);
+    }
+
+    /**
+     * Shows EditReportView
+     */
+    private void toEditReport(){
+        ((TextView)findViewById(R.id.myReportsText)).setTextColor(getColor(R.color.text_gray));
+        ((TextView)findViewById(R.id.makeReportText)).setTextColor(getColor(R.color.smurf));
+
+        findViewById(R.id.reportFormView).setVisibility(View.INVISIBLE);
+        findViewById(R.id.myReportsView).setVisibility(View.INVISIBLE);
+        findViewById(R.id.editReportView).setVisibility(View.VISIBLE);
     }
 
 
@@ -322,6 +340,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        ((Spinner)findViewById(R.id.controllantsEditSpinner)).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                editContr = (String) adapterView.getItemAtPosition(i);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                editContr = null;
+            }
+        });
+
         ((AutoCompleteTextView)findViewById(R.id.stationTextBox)).setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
@@ -351,6 +381,16 @@ public class MainActivity extends AppCompatActivity {
 
         if(noContr != null && time != null && station != null) {
             AbstractReport r = model.makeStationReport(noContr, time, image, station);
+        }
+    }
+
+    /**
+     * Edits a report if editContr is not null
+     * TODO: identify which report should be edited
+     */
+    private void editReport(){
+        if(editContr != null){
+            //[Report].setNControllants(noContr);
         }
     }
 }
