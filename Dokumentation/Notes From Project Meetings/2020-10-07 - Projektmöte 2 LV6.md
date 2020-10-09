@@ -15,6 +15,6 @@ flyttar de till nästa möte.
 
 ### Att göra till nästa möte:
 - Lucas ska börja fixa implementation för routes i incidentView samt snygga till hur incident displayas
-- Seif ska fixa inläsningen samt försöka abstrahera nodes, om de går.
+- Seif ska försöka abstrahera nodes.
 - Peer-review ska försöka bli klar innan eller tills imorgon.
 - Joakim O, Filip ska fixa lite med viewen
