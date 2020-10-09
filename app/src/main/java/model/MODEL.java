@@ -6,16 +6,20 @@ import android.media.Image;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 public class MODEL extends Observable{
 
     Network network;
+    FileReader fileReader;
     private ArrayList<Incident> IncidentList;
     private ArrayList<AbstractReport> reportsList = new ArrayList<AbstractReport>();
 
     public MODEL(AssetManager am){
 
-        network = new Network(am);
+        fileReader = new FileReader(am);
+        HashMap<String, ArrayList> allRoutes = fileReader.getAllRoutes();
+        network = new Network(allRoutes);
 
         IncidentList = new ArrayList<>();
 

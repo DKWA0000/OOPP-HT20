@@ -1,388 +1,503 @@
 package model;
 
-import android.content.res.AssetManager;
-import java.io.*;
+import android.os.Build;
+import androidx.annotation.RequiresApi;
+
 import java.util.*;
 
 /**
-
- * A graph structure representing the public transportation network.
- *
- * @see Network.Node
- *
- * @author: Seif Eddine Bourogaa.
- */
+* A graph structure representing the public transportation network. 
+*
+* @see Network.Node class
+* @see Station class 
+* @see Route class
+*
+* @author Seif Eddine Bourogaa
+*/
 public class Network {
 
     /*
-        Make an adjacency list to store the nodes and their connections.
+        Make an adjacency list to store the nodes and their connections. 
     */
-    private List<Route> routes = new ArrayList<>();
     private Map<Node, List<Node>> adjacencyList;
-    Map<String, Station> stations;
-
-
+    private Map<String, Station> stations;
+    private List<Route> routes = new ArrayList<>();
 
     /**
-     * Constructor of Graph-object takes the AssetManager and passes it
+     * Constructor of Network, takes a HashMap and passes it to createRoutes.
      *
-     * @param am AssetManager
+     * @param routesFromFile HashMap containing information about every Route.
+     *
+     * @see #createRoutes(HashMap)
+     * @see FileReader
      */
-    public Network(AssetManager am)
-    {
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public Network(HashMap<String, ArrayList> routesFromFile){
+        stations = new HashMap<String, Station>();
+        adjacencyList = new HashMap<Node, List<Node>>();
 
+        createRoutes(routesFromFile);
+        mapAllNodes(routes);
+    }
 
+    /**
+     * Creates all the routes.
+     *
+     * @param routesFromFile contains a List of lists, with information about each route's stops.
+     *
+     * @see FileReader
+     */
+    private void createRoutes(HashMap<String, ArrayList> routesFromFile){
 
+        for (Map.Entry<String, ArrayList> entry : routesFromFile.entrySet()){
+            String route = entry.getKey();
+            ArrayList<String> values = entry.getValue();
+            ArrayList<Node> stops = new ArrayList<>();
 
-        stations = new HashMap<>();
-        adjacencyList = new HashMap<>();
+            for(String value : values){
+                stops.add(new Node(value));
+            }
+            routes.add(new Route(route, stops));
+        }
+    }
 
-        loadAllRoutes(am);
-        mapAllNodes();
+    /**
+     * Maps all the Nodes from every existing Route. Loads the Nodes into the adjacencyList and also creates Stations
+     * and adds each Node to corresponding Station.
+     *
+     * @param routes List of all routes to map into Network
+     *
+     * @see #nodeExist(Node)
+     * @see #newNode(Node, Route, int)
+     * @see #existingNode(Node, Route, int)
+     * @see #createStations(Node)
+     */
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void mapAllNodes(List<Route> routes){
 
+    	for(Route route : routes){
+    		for(int i = 0; i < route.getNodes().size(); i++){
+                Node node = route.getNodes().get(i);
 
+    		    if(nodeExist(node)){
+                    existingNode(node, route, i);
+                }
+    		    else{
+                    newNode(node, route, i);
+                }
+    		    createStations(node);
+    		}
+    	}
+    }
 
+    /**
+     * Adds a new Node to the Network and Maps its connections.
+     *
+     * @param node node to add to the network
+     * @param route route the node belongs to
+     * @param position the node's position in the route
+     *
+     * @see #addNode(String)
+     * @see #addEdge(String, String)
+     */
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void newNode(Node node, Route route, int position){
+        addNode(node.name);
+
+        if (position != 0){
+            addEdge(node.name, route.getNodes().get(position - 1).name);
+        }
+        if (position != route.getNodes().size() - 1){
+            addEdge(node.name, route.getNodes().get(position + 1).name);
+        }
+    }
+
+    /**
+     * Maps new connections for an existing Node.
+     *
+     * @param node node to add to the network
+     * @param route route the node belongs to
+     * @param position the node's position in the route
+     *
+     * @see #addEdge(String, String)
+     */
+    private void existingNode(Node node, Route route, int position){
+        List<Node> listOfDestinations = adjacencyList.get(node);
+
+        if(position != 0 && !listOfDestinations.contains(route.getNodes().get(position - 1))){
+            addEdge(node.name, route.getNodes().get(position - 1).name);
+        }
+
+        if(position != route.getNodes().size() - 1 && !listOfDestinations.contains(route.getNodes().get(position + 1))){
+            addEdge(node.name, route.getNodes().get(position + 1).name);
+        }
+    }
+    
+    /**
+     * Check if a Node exists in the Network. 
+     */
+    private boolean nodeExist(Node node){
+        return adjacencyList.containsKey(node);
+    }
+    
+    /**
+     * Method for mapping which Station a Node belongs to. 
+     *
+     * @param node Node to map to a station 
+     *             
+     * @see #stationExist(Node) 
+     * @see #existingStation(Node) 
+     * @see #newStation(Node)
+     */
+    private void createStations(Node node){
+        if(stationExist(node)){
+            existingStation(node);
+        }
+        else{
+            newStation(node);
+        }
+    }
+    /**
+     * Creates a new Station for the Node and adds the Node to it.
+     *
+     * @param node Node to create a new Station for 
+     *
+     * @see #getStationName(Node) 
+     * @see Station
+     * @see Station#addNode(Node) 
+     */
+    private void newStation(Node node){
+        Station station = new Station(getStationName(node));
+        station.addNode(node);
+        stations.put(getStationName(node), station);
+    }
+   
+    /**
+     * Adds Node to an existing Station.
+     *
+     * @param node Node to add into a station 
+     *
+     * @see #getStationName(Node) 
+     * @see Station
+     * @see Station#addNode(Node)
+     */
+    private void existingStation(Node node){
+        stations.get(getStationName(node)).addNode(node);
     }
 
 
     /**
-     * Maps all the Nodes from every existing Route.
-     * Loads the Nodes into the adjecencyList and also creates Stations and adds each Node to corresponding Station.
+     * Check if a Station for a Node exists.
+     *
+     * @param node Node to check if has a station already.
      */
-    private void mapAllNodes() {
-        for(Route r : routes){
-            for(int i = 0 ; i < r.getNodes().size() ; i++){
-                Node n = r.getNodes().get(i);
-
-                //TODO: should be broken down into smaller method(s)
-                if(!adjacencyList.containsKey(n)){
-                    List<Network.Node> nodes = new ArrayList<Network.Node>();
-                    if(i!=0)
-                        nodes.add(r.getNodes().get(i-1));
-                    if(i!=r.getNodes().size()-1)
-                        nodes.add(r.getNodes().get(i+1));
-
-                    adjacencyList.put(n,nodes);
-                }
-                else{
-                    List<Network.Node> list = adjacencyList.get(n);
-
-                    if(i!=0 && !list.contains(r.getNodes().get(i-1)))
-                        list.add(r.getNodes().get(i-1));
-
-                    if(i!=r.getNodes().size()-1 && !list.contains(r.getNodes().get(i+1)))
-                        list.add(r.getNodes().get(i+1));
-                }
-
-
-                if(!stations.containsKey(n.getStationName())){
-                    Station s = new Station(n.getStationName());
-                    s.addNode(n);
-                    stations.put(n.getStationName(),s);
-                }
-                else{
-                    stations.get(n.getStationName()).addNode(n);
-                }
-            }
-        }
-
-
-        /*      TESTING x)
-
-        System.out.println("ALL STATIONS:");
-        for (Iterator<String> it = stations.keySet().iterator(); it.hasNext(); ) {
-            String s = it.next();
-            System.out.print(s + " --> ");
-            System.out.println(stations.get(s).getNodes());
-        }
-
-
-        System.out.println("ALL NODES:");
-        for (Iterator<Node> it = adjacencyList.keySet().iterator(); it.hasNext(); ) {
-            Node l = it.next();
-            System.out.print(l + " --> ");
-            System.out.println(adjacencyList.get(l));
-        }
-        */
+    private boolean stationExist(Node node){
+        return stations.containsKey(node);
     }
 
 
+    /**
+    * Insert a new Node to the Graph, if it does not not already exist. Every Node is given its own ArrayList
+    * holding all the Nodes it is connecting to. 
+    *
+    * @param station name of the Node to create as well as the Graph.Node.station attribute 
+    *
+    * @see Network.Node
+    */
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void addNode(String station){
+       adjacencyList.putIfAbsent(new Node(station), new ArrayList<>());
+    }
 
-        /**
-         * Creates new Routes from all .txt files in the /routes/ folder.
-         *
-         * @param am AssetManager to access /routes/
-         */
-        private void loadAllRoutes(AssetManager am){
+    /**
+    * Remove a Node and its ArrayList from the Graph.
+    *
+    * @param station name of the Node to remove from the Graph
+    *
+    * @see Network.Node
+    */
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void removeNode(String station){
+        adjacencyList.values().stream().forEach(e -> e.remove(new Node(station)));
+        adjacencyList.remove(new Node(station));
+    }
 
-            try {
-                for (String s : am.list("routes/")) {
+    /**
+    * Create an edge between any two Nodes in the Graph by adding the @param destination Node
+    * into the Arraylist of @param source Node. Such that source Node maps to the destination Node, but
+    * destination Node does not map to the source Node. 
+    *
+    * @param source name of the node to map from
+    * @param destination name of the node to map to 
+    *
+    * @see Network.Node
+    */
+    private void addEdge(String source, String destination){
+        adjacencyList.get(new Node(source)).add(new Node(destination));
+        List<Node> abc = adjacencyList.get(new Node(source));
+    }
 
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(am.open("routes/" + s)));
-                    String name = s.replace(".txt" , "");
-                    ArrayList<Node> stops = new ArrayList<Node>();
-                    String line;
-                    while ((line = reader.readLine()) != null) {
-                        stops.add(new Node(line.trim()));
-                    }
+    /**
+    * Remove an an edge between any two Nodes in the Graph by removing @param destination Node from
+    * ArrayList of @param souce Node. Such that @param source no longer maps to @param destination. 
+    *
+    * @param source name of Node to remove mapping from
+    * @param destination name of Node to remove mapping to
+    *
+    * @see Network.Node
+    */
+    private void removeEdge(String source, String destination){
+        List<Node> sourceEdges = adjacencyList.get(new Node(source));
+        if (sourceEdges != null){
+            sourceEdges.remove(new Node(destination));
+        }
+    }
 
-                    routes.add(new Route(name,stops));
+    /**
+    * Get Nodes adjacent to Node @param station
+    *
+    * @param station name of the Node whose adjacent Nodes we are looking for
+    * @param range how many stations away we want to find adjacent stations. 
+    *
+    * @see Network.Node
+    *
+    * @return List containing all adjacent nodes to @param station
+    */
+    public Set<Node> getAdjacentNodes(String station, int range){
+       Set<Node> adjacentNodes = new HashSet<>();
+       adjacentNodes.addAll(getNodesAhead(station));
+       adjacentNodes.addAll(getNodesBehind(station));
+       
+       for(int i = 1; i < range; i++){
+           Set<Node> temp = new HashSet<>();
 
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
+           for(Node node : adjacentNodes){
+               temp.addAll(getNodesAhead(node.name));
+               temp.addAll(getNodesBehind(node.name));
+     		}
+       		adjacentNodes.addAll(temp);
+    	}
+       return adjacentNodes;
+    }
+
+	/**
+    * Get Nodes ahead of the @param station Node. 
+    *
+    * @param station name of the Node whose forward Nodes we are looking for
+    *
+    * @see Network.Node
+    *
+    * @return List containing all nodes ahead of @param station
+    */
+    private List<Node> getNodesAhead(String station){
+		List<Node> nodesAhead = adjacencyList.get(new Node(station));
+		return nodesAhead;
+    }
+
+    /**
+    * Get Nodes ahead of the @param station Node. 
+    *
+    * @param station name of the Node whose backward Nodes we are looking for
+    *
+    * @see Network.Node
+    *
+    * @return List containing all nodes behind of @param station
+    */
+    private List<Node> getNodesBehind(String station){
+
+    	List<Node> nodesBehind = new ArrayList<>();
+
+    	for(Node key: adjacencyList.keySet()){
+           	if(adjacencyList.get(key).contains(new Node(station))){
+           	    nodesBehind.add(key);
+           	}
+        }
+        return nodesBehind;
+    }
+
+    /**
+     * Returns the Node before the given Node in given Route.
+     * Returns null if there is no Node before given Node.
+     *
+     * @param n Node of interest
+     * @param r Route of interest
+     *
+     * @return The Node before n
+     */
+    public Node getPrevNode(Node n ,Route r){
+
+        for (int i = 1; i < r.getNodes().size(); i++) {
+            Node current = r.getNodes().get(i);
+            if(current == n){
+                return r.getNodes().get(i-1);
             }
         }
+        return null;
+    }
 
+    /**
+     * Returns the Node after the given Node in given a given Route.
+     * Returns null if there is no Node after given Node.
+     *
+     * @param n Node of interest
+     * @param r Route of interest
+     *
+     * @return The Node after n
+     */
+    public Node getNextNode(Node n ,Route r){
 
-
-
-        /**
-         * Insert a new Node to the Graph, if it doesn not already exist. Every Node is given its own ArrayList
-         * holding all the Nodes it is connecting to.
-         *
-         * @param station name of the Node to create as well as the Graph.Node.station attribute
-         *
-         * @see Network.Node
-         */
-        public void addNode(String station)
-        {
-            adjacencyList.putIfAbsent(new Node(station), new ArrayList<>());
-        }
-
-        /**
-         * Remove a Node and its ArrayList from the Graph.
-         *
-         * @param station name of the Node to remove from the Graph
-         *
-         * @see Network.Node
-         */
-        public void removeNode(String station)
-        {
-            adjacencyList.values().stream().forEach(e -> e.remove(new Node(station)));
-            adjacencyList.remove(new Node(station));
-        }
-
-
-        /**
-         * Create an edge between any two Nodes in the Graph by adding the @param destination Node
-         * into the Arraylist of @param source Node. Such that source Node maps to the destination Node, but
-         * destination Node does not map to the source Node.
-         *
-         * @param source name of the node to map from
-         * @param destination name of the node to map to
-         *
-         * @see Network.Node
-         */
-        public void addEdge(String source, String destination)
-        {
-            adjacencyList.get(new Node(source)).add(new Node(destination));
-            List<Node> abc = adjacencyList.get(new Node(source));
-        }
-
-
-        /**
-         * Remove an an edge between any two Nodes in the Graph by removing @param destination Node from
-         * ArrayList of @param souce Node. Such that @param source no longer maps to @param destination.
-         *
-         * @param source name of Node to remove mapping from
-         * @param destination name of Node to remove mapping to
-         *
-         * @see Network.Node
-         */
-        public void removeEdge(String source, String destination)
-        {
-            List<Node> sourceEdges = adjacencyList.get(new Node(source));
-            if (sourceEdges != null)
-            {
-                sourceEdges.remove(new Node(destination));
+        for (int i = 0; i < r.getNodes().size()-1; i++){
+            Node current = r.getNodes().get(i);
+            if(current == n){
+                return r.getNodes().get(i+1);
             }
         }
+        return null;
+    }
 
-        /**
-         * Get Nodes adjacent to Node @param station
-         *
-         * @param station name of the Node whos adjacent Nodes we are looking for
-         *
-         * @see Network.Node
-         *
-         * @return List containing all adjacent nodes to @param station
-         *
-         * To do: This needs to be fixed. It currently only finds Nodes @param station is mapping to, not Nodes
-         * that are mapping to @param station too.
-         */
-        public List<Node> getAdjacentNodes(String station)
-        {
-            //TODO: Maybe use this code for the other method?
-            ArrayList<Node> nodes = new ArrayList<Node>();
-
-
-            for (Node n :adjacencyList.get(new Node(station))
-            ) {
-                nodes.add(n);
-            }
-
-            return nodes;
-        }
+    /**
+     * Returns all Nodes in the given Route.
+     * 
+     * @param r Route of interest
+     *
+     * @return An ordered list of all nodes in that Route
+     */
+    public List<Node> getRouteNodes(Route r){
+        return r.getNodes();
+    }
 
     /**
      * Returns a specific Station
      * @param station name of the Station
      * @return Station object with given name
      */
-    public Station getStation(String station) {
+    public Station getStation(String station){
         return stations.get(station);
+    }
+
+    /**
+     * Returns the Station of a given Node.
+     *
+     * @param n Node of interest
+     *
+     * @return The Nodes Station
+     */
+    public Station getNodeStation(Node n){
+        return stations.get(getStationName(n));
+    }
+
+    /**
+     * Returns all Nodes at the given Station.
+     *
+     * @param s Station of interest
+     *
+     * @return An ordered list of all nodes at that Station
+     */
+    public List<Node> getStationRoutes(Station s){
+        return s.getNodes();
     }
 
     /**
      * Returns all station names
      * @return String[] of all station names
      */
-    public String[] getAllStationNames() {
+    public String[] getAllStationNames(){
         return stations.keySet().toArray(new String[0]);
     }
 
-        /**
-         * Temporary Node class until I can fix it. Need Graph specific information to get keys to work
-         * smoothly in order to find and adress Nodes.
-         */
-        public class Node {
-            private String name;
-            public Node(String name) {
-                this.name = name;
-            }
+    /**
+     * Get the name of which station a node belongs to.
+     *
+     * @return the name of the station it belongs to.
+     */
+    public String getStationName(Node node){
+        return node.name.substring(0,node.name.lastIndexOf(' '));
+    }
 
-            @Override
+
+    /**
+    * Temporary Node class until I can fix it. Need Graph specific information to get keys to work
+    * smoothly in order to find and adress Nodes.
+    */
+    public class Node{
+        /**
+         * Name of the Node as well as the state of the node.
+         *
+         * @see #name
+         * @see #state
+         */
+        private String name;
+        private boolean state;
+
+        public Node(String name) {
+            this.name = name;
+            this.state = false;
+        }
+
+        @Override
         /*
             To make it easier to find our nodes.
         */
-            public int hashCode() {
-                final int prime = 31;
-                int result = 1;
-                result = prime * result + getOuterType().hashCode();
-                result = prime * result + ((name == null) ? 0 : name.hashCode());
-                return result;
-            }
+        public int hashCode(){
+            final int prime = 31;
+            int result = 1;
+            result = prime * result + getOuterType().hashCode();
+            result = prime * result + ((name == null) ? 0 : name.hashCode());
+            return result;
+        }
 
-            @Override
-            public boolean equals(Object obj) {
-                if (this == obj)
-                    return true;
-                if (obj == null)
-                    return false;
-                if (getClass() != obj.getClass())
-                    return false;
-                Node other = (Node) obj;
-                if (!getOuterType().equals(other.getOuterType()))
-                    return false;
-                if (name == null) {
-                    if (other.name != null)
-                        return false;
-                } else if (!name.equals(other.name))
-                    return false;
+        @Override
+        public boolean equals(Object obj){
+            if (this == obj)
                 return true;
-            }
+            if (obj == null)
+                return false;
+            if (getClass() != obj.getClass())
+                return false;
+            Node other = (Node) obj;
+            if (!getOuterType().equals(other.getOuterType()))
+                return false;
+            if (name == null) {
+                if (other.name != null)
+                    return false;
+            } else if (!name.equals(other.name))
+                return false;
+            return true;
+        }
 
-            @Override
-            public String toString() {
-                return name;
-            }
-
-            public String getStationName(){
-                int index = name.lastIndexOf(' ');
-                if(index != -1)
-                    return name.substring(0,index);
-
-                return name;
-            }
-
-
-            private Network getOuterType() {
-                return Network.this;
-            }
-
-            public String getName() {
-                return this.name;
-            }
+        @Override
+        public String toString() {
+            return name;
         }
 
         /**
-         * Returns the Node before the given Node in given Route.
-         * Returns null if there is no Node before given Node.
+         * Get the name of the Node.
          *
-         * @param n Node of interest
-         * @param r Route of interest
-         * @return The Node before n
+         * @return Name of the Node.
          */
-        public Node getPrevNode(Node n ,Route r){
-
-            for (int i = 1; i < r.getNodes().size(); i++) {
-                Node current = r.getNodes().get(i);
-                if(current == n){
-                    return r.getNodes().get(i-1);
-                }
-            }
-            return null;
+        public String getName() {
+            return this.name;
         }
 
-
         /**
-         * Returns the Node after the given Node in given Route.
-         * Returns null if there is no Node after given Node.
+         * Get the current state of the Node.
          *
-         * @param n Node of interest
-         * @param r Route of interest
-         * @return The Node after n
+         * @return current state of the Node.
          */
-        public Node getNextNode(Node n ,Route r) {
-
-            for (int i = 0; i < r.getNodes().size()-1; i++) {
-                Node current = r.getNodes().get(i);
-                if(current == n){
-                    return r.getNodes().get(i+1);
-                }
-            }
-            return null;
-        }
+        public boolean getState(){return state; }
 
         /**
-         * Returns all Nodes in the given Route.
-         * @param r Route of interest
-         * @return An ordered list of all nodes in that Route
+         * Set the current state of the Node.
+         *
+         * @param desiredState state to change into.
          */
-        public List<Network.Node> getRouteNodes(Route r){
-            return r.getNodes();
-        }
+        public void setState(boolean desiredState){ state = desiredState;}
 
         /**
-         * Returns the Sation of the given Node.
-         * @param n Node of interest
-         * @return The Nodes Station
-         */
-        public Station getNodeStation(Node n){
-            return stations.get(n.getStationName());
-        }
-
-        /**
-         * Returns all Nodes at the given Station.
-         * @param s Station of interest
-         * @return An ordered list of all nodes at that Station
-         */
-        public List<Network.Node> getStationRoutes(Station s){
-            return s.getNodes();
-        }
-
-
-        public void getAdjacentNodes(Node n){
-            // TODO:
-        }
-
-        public List<Station> getAdjacentStations(Station s){
-            return getAdjacentStations(s,1);
-        }
-
-        public List<Station> getAdjacentStations(Station s, int i){
-            // TODO: Maybe use getAdjacentNodes() or vice versa?
-            return null;
+        * Used by our hash.
+        */
+        private Network getOuterType(){
+            return Network.this;
         }
     }
+}
