@@ -20,7 +20,6 @@ public class IncidentView extends ConstraintLayout {
         super(context);
         inflate(context,R.layout.incidentview,this);
         Init();
-
         SetText(station, time, String.valueOf(nCont));
     }
 

@@ -20,6 +20,7 @@ public abstract class AbstractReport {
     private Station station;
     private Reporter reporter;
     private IncidentType type;
+    private final Route route;
 
     /**
      * Constructor for ReportRoute-object and ReportStation-object takes the parameters and passes it.
@@ -30,12 +31,13 @@ public abstract class AbstractReport {
      * @param station Station
      * @param reporter Reporter
      */
-    AbstractReport (int noContr, Date time, Image image, Station station, Reporter reporter) {
+    AbstractReport (int noContr, Date time, Image image, Station station, Reporter reporter, Route route) {
         this.nControllants = noContr;
         this.timeOfReport = time;
         this.imageView = image;
         this.station = station;
         this.reporter = reporter;
+        this.route = route;
     }
 
     public int getnControllants() {
@@ -49,6 +51,8 @@ public abstract class AbstractReport {
     public Station getStation() {
         return station;
     }
+
+    public Route getRoute() { return route; }
 
     public Reporter getReporter() {
         return reporter;

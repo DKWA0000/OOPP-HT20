@@ -65,9 +65,9 @@ public class Incident {
         return nominalTrustFactor;
     }
 
-    public Station getLastActiveStation(){
-        return latestReport().getStation();
-    }
+    public Station getLastActiveStation(){ return latestReport().getStation(); }
+
+    public Route getLastActiveRoute() { return latestReport().getRoute(); }
 
     public Date getTime() {
         return latestReport().getTimeOfReport();

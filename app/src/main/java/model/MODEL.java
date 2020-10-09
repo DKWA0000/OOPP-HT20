@@ -6,11 +6,13 @@ import android.media.Image;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class MODEL extends Observable{
 
     Network network;
     private ArrayList<Incident> IncidentList;
+    private ArrayList<Incident> IncidentListRoute;
     private ArrayList<AbstractReport> reportsList = new ArrayList<AbstractReport>();
 
     public MODEL(AssetManager am){
@@ -22,7 +24,7 @@ public class MODEL extends Observable{
     }
 
 
-    public AbstractReport makeStationReport(String noContr, Date time, String image, String station){
+    public AbstractReport makeStationReport(String noContr, Date time, String image, String station, IncidentType it){
         Reporter r = new Reporter("temp@google.com");
         int n = Integer.parseInt(noContr);
 
@@ -47,6 +49,32 @@ public class MODEL extends Observable{
         notifyObservers(UpdateType.NEW_INCIDENT);
         return report;
     }
+
+    public AbstractReport makeRouteReport(String noContr, Date time, String image, String station, IncidentType it){
+        Reporter r = new Reporter("temp@google.com");
+        int n = Integer.parseInt(noContr);
+        Image i = null;
+        Station s = network.getStation(station);
+        Route ro = new Route("5", network.getStationRoutes(s));
+
+        if(time == null){
+            time = Date.from(Instant.now());
+        }
+
+        AbstractReport report = new ReportRoute(n,time,i,s,ro,r);
+        reportsList.add(report);
+        notifyObservers(UpdateType.NEW_REPORT);
+
+        if (correspondingIncidentExistsRoute(report)) {
+            getCorrespondingIncidentRoute(report).addReport(report);
+            return report;
+        }
+        getCorrespondingIncidentRoute(report).addReport(report);
+        notifyObservers(UpdateType.NEW_INCIDENT);
+        return report;
+    }
+
+
 
 
     public String[] getAllStations() {
@@ -79,7 +107,7 @@ public class MODEL extends Observable{
 
     public boolean correspondingIncidentExists(AbstractReport report) {
         for (Incident i : IncidentList) {
-            if (i.getTypeOfIncident() == report.getType() && i.getLastActiveStation().equals(report.getStation())) {
+            if (i.getTypeOfIncident() == report.getType() && (i.getLastActiveStation().equals(report.getStation()))) {
                 return true;
             }
         }
@@ -88,12 +116,32 @@ public class MODEL extends Observable{
 
     public Incident getCorrespondingIncident(AbstractReport report) {
         for (Incident i : IncidentList) {
-            if (i.getTypeOfIncident() == report.getType() && i.getLastActiveStation().equals(report.getStation())) {
+            if (i.getTypeOfIncident() == report.getType() && (i.getLastActiveStation().equals(report.getStation()))) {
                 return i;
             }
         }
         Incident incident = new Incident(report.getType());
         IncidentList.add(incident);
+        return incident;
+    }
+
+    public boolean correspondingIncidentExistsRoute(AbstractReport report) {
+        for (Incident i : IncidentListRoute) {
+            if (i.getTypeOfIncident() == report.getType() && i.getLastActiveRoute().getLine().equals(report.getRoute().getLine())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Incident getCorrespondingIncidentRoute(AbstractReport report) {
+        for (Incident i : IncidentListRoute) {
+            if (i.getTypeOfIncident() == report.getType() && i.getLastActiveRoute().getLine().equals(report.getRoute().getLine())) {
+                return i;
+            }
+        }
+        Incident incident = new Incident(report.getType());
+        IncidentListRoute.add(incident);
         return incident;
     }
 }

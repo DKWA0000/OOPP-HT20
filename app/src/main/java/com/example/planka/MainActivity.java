@@ -4,10 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
-import model.AbstractReport;
-import model.Incident;
-import model.MODEL;
-import model.UpdateType;
+import model.*;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -345,18 +342,29 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Creates a report in the model if there are values fetched by the listeners
      */
-    private void makeReport(){
+    private void makeReport() {
         String image = null; // Will maybe be implemented at a later stage
+        IncidentType it;
 
-        if(((RadioButton)findViewById(R.id.nowRadio)).isChecked()){
+        if (((RadioButton) findViewById(R.id.nowRadio)).isChecked()) {
             time = Date.from(Instant.now());
-        }
-        else{
+        } else {
             time = null; // not implemented
         }
 
-        if(noContr != null && time != null && station != null) {
-            AbstractReport r = model.makeStationReport(noContr, time, image, station);
+        if (((RadioButton) findViewById(R.id.stationRadio)).isChecked() && noContr != null && time != null && station != null) {
+            it = IncidentType.STATION;
+            AbstractReport r = model.makeStationReport(noContr, time, image, station, it);
+            System.out.println("A");
+        } else if (((RadioButton) findViewById(R.id.tramRadio)).isChecked() && noContr != null && time != null && station != null) {
+            it = IncidentType.ROUTE;
+            AbstractReport r = model.makeRouteReport(noContr, time, image, station, it);
+            System.out.println("B");
         }
+    }
+
+    @Override
+    public void setFinishOnTouchOutside(boolean finish) {
+        super.setFinishOnTouchOutside(finish);
     }
 }

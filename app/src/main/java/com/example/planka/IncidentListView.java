@@ -16,7 +16,6 @@ public class IncidentListView extends ConstraintLayout {
         super(context);
         inflate(context,R.layout.incidentlistview,this);
         Init();
-
     }
 
     public IncidentListView(Context context, AttributeSet attrs) {
