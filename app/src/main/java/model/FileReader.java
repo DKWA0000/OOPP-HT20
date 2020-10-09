@@ -19,16 +19,17 @@ import java.util.HashMap;
 
 public class FileReader {
 
-    HashMap<String, ArrayList> fileContent = new HashMap<String, ArrayList>();
+    HashMap<String, ArrayList> fileContent;
 
     /**
      * Constructor of FileReader, takes the AssetManager and passes it to loadAllRoutes.
      *
      * @param am AssetManager
      *
-     * @see loadAllRoutes();
+     * @see #loadAllRoutes(AssetManager)
      */
     public FileReader(AssetManager am) {
+        fileContent  = new HashMap<>();
         loadAllRoutes(am);
     }
 
@@ -51,8 +52,9 @@ public class FileReader {
         }
 
     }
-
-
+    /**
+     * Get method for to get content read from file.
+     */
     public HashMap<String, ArrayList> getAllRoutes(){
         return fileContent;
     }

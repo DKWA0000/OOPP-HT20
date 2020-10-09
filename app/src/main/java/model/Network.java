@@ -33,8 +33,8 @@ public class Network {
      */
     @RequiresApi(api = Build.VERSION_CODES.N)
     public Network(HashMap<String, ArrayList> routesFromFile){
-        stations = new HashMap<String, Station>();
-        adjacencyList = new HashMap<Node, List<Node>>();
+        stations = new HashMap<>();
+        adjacencyList = new HashMap<>();
 
         createRoutes(routesFromFile);
         mapAllNodes(routes);
@@ -195,7 +195,6 @@ public class Network {
         return stations.containsKey(node);
     }
 
-
     /**
     * Insert a new Node to the Graph, if it does not not already exist. Every Node is given its own ArrayList
     * holding all the Nodes it is connecting to. 
@@ -239,7 +238,7 @@ public class Network {
 
     /**
     * Remove an an edge between any two Nodes in the Graph by removing @param destination Node from
-    * ArrayList of @param souce Node. Such that @param source no longer maps to @param destination. 
+    * ArrayList of @param source Node. Such that @param source no longer maps to @param destination.
     *
     * @param source name of Node to remove mapping from
     * @param destination name of Node to remove mapping to
@@ -417,7 +416,7 @@ public class Network {
 
     /**
     * Temporary Node class until I can fix it. Need Graph specific information to get keys to work
-    * smoothly in order to find and adress Nodes.
+    * smoothly in order to find and address Nodes.
     */
     public class Node{
         /**

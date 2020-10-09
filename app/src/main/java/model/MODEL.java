@@ -2,6 +2,8 @@ package model;
 
 import android.content.res.AssetManager;
 import android.media.Image;
+import android.os.Build;
+import androidx.annotation.RequiresApi;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -15,11 +17,10 @@ public class MODEL extends Observable{
     private ArrayList<Incident> IncidentList;
     private ArrayList<AbstractReport> reportsList = new ArrayList<AbstractReport>();
 
-    public MODEL(AssetManager am){
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public MODEL(HashMap<String, ArrayList> fileContent){
 
-        fileReader = new FileReader(am);
-        HashMap<String, ArrayList> allRoutes = fileReader.getAllRoutes();
-        network = new Network(allRoutes);
+        network = new Network(fileContent);
 
         IncidentList = new ArrayList<>();
 
