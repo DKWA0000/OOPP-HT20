@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private Date time;
     private String image;
     private String station;
+    private String route;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +64,8 @@ public class MainActivity extends AppCompatActivity {
 
             if(type == UpdateType.NEW_INCIDENT){
                 Incident i = model.getLatestIncident();
-                if (i.getTypeOfIncident().equals(IncidentType.STATION)) {
+                if (!model.latestReportIsRoute) {
+
                     String station = i.getLastActiveStation().getName();
                     String nCont = String.valueOf(i.getListReports().get(0).getnControllants());
 
@@ -72,7 +74,9 @@ public class MainActivity extends AppCompatActivity {
 
                     IncidentView iw = new IncidentView(getBaseContext(), station, nCont, timee);
                     ((LinearLayout)findViewById(R.id.Incidentlist)).addView(iw);
-                } else if(i.getTypeOfIncident().equals(IncidentType.ROUTE)) {
+
+                } else if(model.latestReportIsRoute) {
+
                     String route = i.getLastActiveRoute().getLine();
                     String nCont = String.valueOf(i.getListReports().get(0).getnControllants());
 
@@ -156,11 +160,18 @@ public class MainActivity extends AppCompatActivity {
      * @param report data to be presented
      */
     private void createReportViewItem(AbstractReport report) {
-        String station = report.getStation().getName();
-        String time = report.getTimeOfReport().toString();
-        String controllants = Integer.toString(report.getnControllants());
-
-        UserReportViewItem urw = new UserReportViewItem(getBaseContext(),station,time,controllants);
+        UserReportViewItem urw;
+        if (model.latestReportIsRoute) {
+            String route = report.getRoute().getLine();
+            String time = report.getTimeOfReport().toString();
+            String controllants = Integer.toString(report.getnControllants());
+            urw = new UserReportViewItem(getBaseContext(),route,time,controllants);
+        } else {
+            String station = report.getStation().getName();
+            String time = report.getTimeOfReport().toString();
+            String controllants = Integer.toString(report.getnControllants());
+            urw = new UserReportViewItem(getBaseContext(),station,time,controllants);
+        }
         ((LinearLayout)findViewById(R.id.Reportlist)).addView(urw);
     }
 
@@ -346,6 +357,17 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
+        ((Spinner)findViewById(R.id.lineSpinner)).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                route = (String) adapterView.getItemAtPosition(i);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                route = null;
+            }
+        });
 
     }
 
@@ -366,9 +388,9 @@ public class MainActivity extends AppCompatActivity {
         if (((RadioButton) findViewById(R.id.stationRadio)).isChecked() && noContr != null && time != null && station != null) {
             it = IncidentType.STATION;
             AbstractReport r = model.makeStationReport(noContr, time, image, station, it);
-        } else if (((RadioButton) findViewById(R.id.tramRadio)).isChecked() && noContr != null && time != null && station != null) {
+        } else if (((RadioButton) findViewById(R.id.tramRadio)).isChecked() && noContr != null && time != null && route != null) {
             it = IncidentType.ROUTE;
-            AbstractReport r = model.makeRouteReport(noContr, time, image, station, it);
+            AbstractReport r = model.makeRouteReport(noContr, time, image, route, it);
         }
     }
 
