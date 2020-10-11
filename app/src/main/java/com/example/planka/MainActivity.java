@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
             if(type == UpdateType.NEW_INCIDENT){
                 Incident i = model.getLatestIncident();
                 if (!model.latestReportIsRoute) {
+
                     String station = i.getLastActiveStation().getName();
                     String nCont = String.valueOf(i.getListReports().get(0).getnControllants());
 
@@ -73,7 +74,9 @@ public class MainActivity extends AppCompatActivity {
 
                     IncidentView iw = new IncidentView(getBaseContext(), station, nCont, timee);
                     ((LinearLayout)findViewById(R.id.Incidentlist)).addView(iw);
+
                 } else if(model.latestReportIsRoute) {
+
                     String route = i.getLastActiveRoute().getLine();
                     String nCont = String.valueOf(i.getListReports().get(0).getnControllants());
 

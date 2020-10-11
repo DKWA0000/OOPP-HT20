@@ -61,7 +61,7 @@ public class MODEL extends Observable{
         Image i = null;
         Station s = network.getStation("Korsvägen");
         Route ro = new Route(route, network.getStationRoutes(s));
-
+  
         if(time == null){
             time = Date.from(Instant.now());
         }
