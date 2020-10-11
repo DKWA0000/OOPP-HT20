@@ -15,7 +15,6 @@ public class IncidentListView extends ConstraintLayout {
         super(context);
         inflate(context,R.layout.incidentlistview,this);
         Init();
-
     }
 
     public IncidentListView(Context context, AttributeSet attrs) {
@@ -33,6 +32,19 @@ public class IncidentListView extends ConstraintLayout {
     private void Init(){
         mIncidentList = findViewById(R.id.Incidentlist);
         //PLACEHOLDER
+        /*
+        for (int x = 0 ; x < model.getIncidentCount() ; x++){
+            IncidentView test = new IncidentView(this.getContext(), model.getIncident(x));
+            /* This is where I'd use the info received from model.getIncident(x)
+             * to give explicit information regarding an Incident */
+            /* If I had any */
+
+        if(mIncidentList.getChildCount() == 0)
+        {
+            TextView emptyListNote = new TextView(this.getContext());
+            emptyListNote.setText("No Incidents Found");
+            mIncidentList.addView(emptyListNote);
+        }
         //PLACEHOLDER_END
     }
 }

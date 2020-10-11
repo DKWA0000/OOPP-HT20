@@ -7,17 +7,20 @@ import android.widget.TextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import model.Incident;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
 public class IncidentView extends ConstraintLayout {
     //Class which displays information regarding a given Incident.
     private TextView mLocationText;
     private TextView mTimeText;
     private TextView mCountText;
 
-    public IncidentView(Context context, Incident i) {
+    public IncidentView(Context context, String station, String nCont, String time) {
         super(context);
         inflate(context,R.layout.incidentview,this);
         Init();
-
+        SetText(station, time, String.valueOf(nCont));
     }
 
     public IncidentView(Context context, AttributeSet attrs) {

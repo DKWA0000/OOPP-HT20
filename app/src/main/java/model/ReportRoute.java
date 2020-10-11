@@ -15,11 +15,11 @@ import java.util.Date;
 public class ReportRoute extends AbstractReport{
 
     private IncidentType type;
-    private final Route route;
+
 
     public ReportRoute(int noContr, Date time, Image image, Station station, Route route, Reporter reporter) {
-        super(noContr, time, image, station, reporter);
-        this.route = route;
+        super(noContr, time, image, station, reporter, route);
         this.type = IncidentType.ROUTE;
     }
+
 }

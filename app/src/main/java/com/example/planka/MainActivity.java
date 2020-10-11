@@ -6,6 +6,8 @@ import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 import model.*;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
@@ -25,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private Date time;
     private String image;
     private String station;
+    private String route;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,15 +71,34 @@ public class MainActivity extends AppCompatActivity {
 
             if(type == UpdateType.NEW_INCIDENT){
                 Incident i = model.getLatestIncident();
+                if (!model.latestReportIsRoute) {
 
-                IncidentView iw = new IncidentView(getBaseContext(), i);
-                ((LinearLayout)findViewById(R.id.Incidentlist)).addView(iw);
+                    String station = i.getLastActiveStation().getName();
+                    String nCont = String.valueOf(i.getListReports().get(0).getnControllants());
+
+                    DateFormat outputformat = new SimpleDateFormat("HH:mm:ss - dd/MM/yy");
+                    String timee = outputformat.format(i.getListReports().get(0).getTimeOfReport());
+
+                    IncidentView iw = new IncidentView(getBaseContext(), station, nCont, timee);
+                    ((LinearLayout)findViewById(R.id.Incidentlist)).addView(iw);
+
+                } else if(model.latestReportIsRoute) {
+
+                    String route = i.getLastActiveRoute().getLine();
+                    String nCont = String.valueOf(i.getListReports().get(0).getnControllants());
+
+                    DateFormat outputformat = new SimpleDateFormat("HH:mm:ss - dd/MM/yy");
+                    String timee = outputformat.format(i.getListReports().get(0).getTimeOfReport());
+
+                    IncidentView iw = new IncidentView(getBaseContext(), route, nCont, timee);
+                    ((LinearLayout)findViewById(R.id.Incidentlist)).addView(iw);
+                }
 
             }
 
             if(type == UpdateType.NEW_REPORT){
                 AbstractReport report = model.getLatestReport();
-               createReportViewItem(report);
+                createReportViewItem(report);
             }
 
 
@@ -145,11 +167,18 @@ public class MainActivity extends AppCompatActivity {
      * @param report data to be presented
      */
     private void createReportViewItem(AbstractReport report) {
-        String station = report.getStation().getName();
-        String time = report.getTimeOfReport().toString();
-        String controllants = Integer.toString(report.getnControllants());
-
-        UserReportViewItem urw = new UserReportViewItem(getBaseContext(),station,time,controllants);
+        UserReportViewItem urw;
+        if (model.latestReportIsRoute) {
+            String route = report.getRoute().getLine();
+            String time = report.getTimeOfReport().toString();
+            String controllants = Integer.toString(report.getnControllants());
+            urw = new UserReportViewItem(getBaseContext(),route,time,controllants);
+        } else {
+            String station = report.getStation().getName();
+            String time = report.getTimeOfReport().toString();
+            String controllants = Integer.toString(report.getnControllants());
+            urw = new UserReportViewItem(getBaseContext(),station,time,controllants);
+        }
         ((LinearLayout)findViewById(R.id.Reportlist)).addView(urw);
     }
 
@@ -364,6 +393,17 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
+        ((Spinner)findViewById(R.id.lineSpinner)).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                route = (String) adapterView.getItemAtPosition(i);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                route = null;
+            }
+        });
 
     }
 
@@ -371,19 +411,22 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Creates a report in the model if there are values fetched by the listeners
      */
-    private void makeReport(){
-        System.out.println("a");
+    private void makeReport() {
         String image = null; // Will maybe be implemented at a later stage
+        IncidentType it;
 
-        if(((RadioButton)findViewById(R.id.nowRadio)).isChecked()){
+        if (((RadioButton) findViewById(R.id.nowRadio)).isChecked()) {
             time = Date.from(Instant.now());
-        }
-        else{
+        } else {
             time = null; // not implemented
         }
 
-        if(noContr != null && time != null && station != null) {
-            AbstractReport r = model.makeStationReport(noContr, time, image, station);
+        if (((RadioButton) findViewById(R.id.stationRadio)).isChecked() && noContr != null && time != null && station != null) {
+            it = IncidentType.STATION;
+            AbstractReport r = model.makeStationReport(noContr, time, image, station, it);
+        } else if (((RadioButton) findViewById(R.id.tramRadio)).isChecked() && noContr != null && time != null && route != null) {
+            it = IncidentType.ROUTE;
+            AbstractReport r = model.makeRouteReport(noContr, time, image, route, it);
         }
     }
 
@@ -395,5 +438,8 @@ public class MainActivity extends AppCompatActivity {
         if(editContr != null){
             //[Report].setNControllants(noContr);
         }
+    @Override
+    public void setFinishOnTouchOutside(boolean finish) {
+        super.setFinishOnTouchOutside(finish);
     }
 }
