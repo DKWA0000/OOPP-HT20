@@ -16,8 +16,7 @@ public class ReportStation extends AbstractReport {
     IncidentType type;
 
     public ReportStation(int noContr, Date time, Image image, Station station, Reporter reporter) {
-        super(noContr, time, image, station, reporter);
-        System.out.println("REPORT MADE");
+        super(noContr, time, image, station, reporter, null);
         this.type = IncidentType.STATION;
     }
 

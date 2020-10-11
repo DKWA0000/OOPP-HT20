@@ -29,7 +29,7 @@
                     android:text="På en hållplats"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" android:id="@+id/stationRadio"
-                    android:textSize="18sp" android:onClick="onClick"/>
+                    android:textSize="18sp" android:onClick="onClick" android:checked="true"/>
             <RadioButton
                     android:text="På en spårvagn"
                     android:layout_width="wrap_content"
@@ -61,7 +61,7 @@
 
 
         <AutoCompleteTextView
-                android:text="Korsvä"
+                android:text=""
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/stationTextBox"
@@ -110,7 +110,7 @@
                     android:text="Nu"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" android:id="@+id/nowRadio"
-                    android:textSize="18sp" android:onClick="onClick"/>
+                    android:textSize="18sp" android:onClick="onClick" android:checked="true"/>
             <RadioButton
                     android:text="För ett tag sedan"
                     android:layout_width="wrap_content"
