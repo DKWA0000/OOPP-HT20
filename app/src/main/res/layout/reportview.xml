@@ -82,19 +82,20 @@
         <view android:layout_width="0dp"
               android:layout_height="0dp"
               class="com.example.planka.MyReportsView"
-              android:id="@+id/myReportsView"
+              android:id="@+id/rw_myReportsView"
               app:layout_constraintTop_toBottomOf="@+id/line1" app:layout_constraintBottom_toBottomOf="parent"
               app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"/>
 
-        <View
-            android:id="@+id/editReportView"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            class="com.example.planka.EditReportView"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/line1" />
+        <view
+                android:id="@+id/rw_editReportView"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                class="com.example.planka.EditReportView"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/line1"
+                android:visibility="gone"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

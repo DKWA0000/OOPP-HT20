@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private String image;
     private String station;
     private String route;
+    private AbstractReport activeReport;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         model = new MODEL(allRoutes);
+
+
 
         startup();
 
@@ -66,41 +69,40 @@ public class MainActivity extends AppCompatActivity {
         addModelObserver();
     }
 
+
     private void addModelObserver() {
         model.addObserver((UpdateType type) -> {
 
-            if(type == UpdateType.NEW_INCIDENT){
+            if (type == UpdateType.NEW_INCIDENT) {
                 Incident i = model.getLatestIncident();
                 if (!model.latestReportIsRoute) {
-
                     String station = i.getLastActiveStation().getName();
                     String nCont = String.valueOf(i.getListReports().get(0).getnControllants());
 
-                    DateFormat outputformat = new SimpleDateFormat("HH:mm:ss - dd/MM/yy");
+                    DateFormat outputformat = new SimpleDateFormat("HH:mm:ss");
                     String timee = outputformat.format(i.getListReports().get(0).getTimeOfReport());
 
-                    IncidentView iw = new IncidentView(getBaseContext(), station, nCont, timee);
-                    ((LinearLayout)findViewById(R.id.Incidentlist)).addView(iw);
+                    IncidentView iw = new IncidentView(IncidentType.STATION,getBaseContext(), station, nCont, timee);
+                    ((LinearLayout) findViewById(R.id.Incidentlist)).addView(iw);
 
-                } else if(model.latestReportIsRoute) {
+                } else if (model.latestReportIsRoute) {
 
                     String route = i.getLastActiveRoute().getLine();
                     String nCont = String.valueOf(i.getListReports().get(0).getnControllants());
 
-                    DateFormat outputformat = new SimpleDateFormat("HH:mm:ss - dd/MM/yy");
+                    DateFormat outputformat = new SimpleDateFormat("HH:mm:ss");
                     String timee = outputformat.format(i.getListReports().get(0).getTimeOfReport());
 
-                    IncidentView iw = new IncidentView(getBaseContext(), route, nCont, timee);
-                    ((LinearLayout)findViewById(R.id.Incidentlist)).addView(iw);
+                    IncidentView iw = new IncidentView(IncidentType.ROUTE,getBaseContext(), route, nCont, timee);
+                    ((LinearLayout) findViewById(R.id.Incidentlist)).addView(iw);
                 }
 
             }
 
-            if(type == UpdateType.NEW_REPORT){
+            if (type == UpdateType.NEW_REPORT) {
                 AbstractReport report = model.getLatestReport();
                 createReportViewItem(report);
             }
-
 
 
         });
@@ -118,9 +120,9 @@ public class MainActivity extends AppCompatActivity {
     private void initAutoFill() {
         String[] list = model.getAllStations();
 
-        ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, list);
+        ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list);
 
-        ((AutoCompleteTextView)findViewById(R.id.stationTextBox)).setAdapter(adapter2);
+        ((AutoCompleteTextView) findViewById(R.id.stationTextBox)).setAdapter(adapter2);
     }
 
     /**
@@ -155,8 +157,8 @@ public class MainActivity extends AppCompatActivity {
      */
     private void loadReports() {
 
-        for (AbstractReport report: model.getAllReports()
-             ) {
+        for (AbstractReport report : model.getAllReports()
+        ) {
 
             createReportViewItem(report);
         }
@@ -164,22 +166,36 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Creates a UserReportViewItem and adds it to the UserReportList
+     *
      * @param report data to be presented
      */
     private void createReportViewItem(AbstractReport report) {
         UserReportViewItem urw;
         if (model.latestReportIsRoute) {
             String route = report.getRoute().getLine();
-            String time = report.getTimeOfReport().toString();
+
+            DateFormat outputformat = new SimpleDateFormat("HH:mm:ss - dd/MM/yy");
+            String  time = outputformat.format(report.getTimeOfReport());
+
+
+
             String controllants = Integer.toString(report.getnControllants());
-            urw = new UserReportViewItem(getBaseContext(),route,time,controllants);
+            urw = new UserReportViewItem(IncidentType.ROUTE,getBaseContext(), route, time, controllants,(view)->{
+                editReport(report);
+            });
         } else {
             String station = report.getStation().getName();
-            String time = report.getTimeOfReport().toString();
+
+            DateFormat outputformat = new SimpleDateFormat("HH:mm:ss - dd/MM/yy");
+            String time = outputformat.format(report.getTimeOfReport());
+
+
             String controllants = Integer.toString(report.getnControllants());
-            urw = new UserReportViewItem(getBaseContext(),station,time,controllants);
+            urw = new UserReportViewItem(IncidentType.STATION,getBaseContext(), station, time, controllants,(view)->{
+                editReport(report);
+            });
         }
-        ((LinearLayout)findViewById(R.id.Reportlist)).addView(urw);
+        ((LinearLayout) findViewById(R.id.mrw_reportList)).addView(urw);
     }
 
 
@@ -188,7 +204,7 @@ public class MainActivity extends AppCompatActivity {
      *
      * @param view element that is clicked
      */
-    public void onClick(View view){
+    public void onClick(View view) {
 
         if (view == findViewById(R.id.locationsButton)) {
             toLocation();
@@ -205,23 +221,28 @@ public class MainActivity extends AppCompatActivity {
         if (view == findViewById(R.id.myReportsText)) {
             toMyReports();
         }
-        if(view == findViewById(R.id.stationRadio)){
+        if (view == findViewById(R.id.stationRadio)) {
             setStationDropDown(View.VISIBLE);
         }
-        if(view == findViewById(R.id.tramRadio)){
+        if (view == findViewById(R.id.tramRadio)) {
             setStationDropDown(View.INVISIBLE);
         }
-        if(view == findViewById(R.id.nowRadio)){
+        if (view == findViewById(R.id.nowRadio)) {
             setWhenDropdown(View.GONE);
         }
-        if(view == findViewById(R.id.pastRadio)){
+        if (view == findViewById(R.id.pastRadio)) {
             setWhenDropdown(View.VISIBLE);
         }
-        if(view == findViewById(R.id.makeReportButton)){
+        if (view == findViewById(R.id.makeReportButton)) {
             makeReport();
         }
-        if(view == findViewById(R.id.updateButton)){
+        if (view == findViewById(R.id.urw_editButton)) {
             toEditReport();
+        }
+        if(view == findViewById(R.id.erw_submitButton)){
+            updateReport();
+        }if(view == findViewById(R.id.erw_closeButton)){
+            closeEditView();
         }
 
 
@@ -229,32 +250,32 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    private void activateLocationButton(){
+    private void activateLocationButton() {
         findViewById(R.id.locationsButton).setForeground(getDrawable(R.drawable.location_icon_active));
         findViewById(R.id.mainLocationView).setVisibility(View.VISIBLE);
     }
 
-    private void inactivateLocationButton(){
+    private void inactivateLocationButton() {
         findViewById(R.id.locationsButton).setForeground(getDrawable(R.drawable.location_icon));
         findViewById(R.id.mainLocationView).setVisibility(View.INVISIBLE);
     }
 
-    private void activateReportButton(){
+    private void activateReportButton() {
         findViewById(R.id.reportsButton).setForeground(getDrawable(R.drawable.report_icon_active));
         findViewById(R.id.mainReportView).setVisibility(View.VISIBLE);
     }
 
-    private void inactivateReportButton(){
+    private void inactivateReportButton() {
         findViewById(R.id.reportsButton).setForeground(getDrawable(R.drawable.report_icon));
         findViewById(R.id.mainReportView).setVisibility(View.INVISIBLE);
     }
 
-    private void activateProfileButton(){
+    private void activateProfileButton() {
         findViewById(R.id.profileButton).setForeground(getDrawable(R.drawable.profile_icon_active));
         findViewById(R.id.mainProfileView).setVisibility(View.VISIBLE);
     }
 
-    private void inactivateProfileButton(){
+    private void inactivateProfileButton() {
         findViewById(R.id.profileButton).setForeground(getDrawable(R.drawable.profile_icon));
         findViewById(R.id.mainProfileView).setVisibility(View.INVISIBLE);
     }
@@ -293,36 +314,36 @@ public class MainActivity extends AppCompatActivity {
      * Updates the color of the submenu-text and shows ReportFormView
      */
     private void toMyReports() {
-        ((TextView)findViewById(R.id.myReportsText)).setTextColor(getColor(R.color.smurf));
-        ((TextView)findViewById(R.id.makeReportText)).setTextColor(getColor(R.color.text_gray));
+        ((TextView) findViewById(R.id.myReportsText)).setTextColor(getColor(R.color.smurf));
+        ((TextView) findViewById(R.id.makeReportText)).setTextColor(getColor(R.color.text_gray));
 
         findViewById(R.id.reportFormView).setVisibility(View.INVISIBLE);
-        findViewById(R.id.myReportsView).setVisibility(View.VISIBLE);
-        findViewById(R.id.editReportView).setVisibility(View.INVISIBLE);
+        findViewById(R.id.rw_myReportsView).setVisibility(View.VISIBLE);
+        findViewById(R.id.rw_editReportView).setVisibility(View.INVISIBLE);
     }
 
     /**
      * Updates the color of the submenu-text and shows MyReportsView
      */
     private void toMakeReport() {
-        ((TextView)findViewById(R.id.myReportsText)).setTextColor(getColor(R.color.text_gray));
-        ((TextView)findViewById(R.id.makeReportText)).setTextColor(getColor(R.color.smurf));
+        ((TextView) findViewById(R.id.myReportsText)).setTextColor(getColor(R.color.text_gray));
+        ((TextView) findViewById(R.id.makeReportText)).setTextColor(getColor(R.color.smurf));
 
         findViewById(R.id.reportFormView).setVisibility(View.VISIBLE);
-        findViewById(R.id.myReportsView).setVisibility(View.INVISIBLE);
-        findViewById(R.id.editReportView).setVisibility(View.INVISIBLE);
+        findViewById(R.id.rw_myReportsView).setVisibility(View.INVISIBLE);
+        findViewById(R.id.rw_editReportView).setVisibility(View.INVISIBLE);
     }
 
     /**
      * Shows EditReportView
      */
-    private void toEditReport(){
-        ((TextView)findViewById(R.id.myReportsText)).setTextColor(getColor(R.color.text_gray));
-        ((TextView)findViewById(R.id.makeReportText)).setTextColor(getColor(R.color.smurf));
+    private void toEditReport() {
+        ((TextView) findViewById(R.id.myReportsText)).setTextColor(getColor(R.color.text_gray));
+        ((TextView) findViewById(R.id.makeReportText)).setTextColor(getColor(R.color.smurf));
 
         findViewById(R.id.reportFormView).setVisibility(View.INVISIBLE);
-        findViewById(R.id.myReportsView).setVisibility(View.INVISIBLE);
-        findViewById(R.id.editReportView).setVisibility(View.VISIBLE);
+        findViewById(R.id.rw_myReportsView).setVisibility(View.INVISIBLE);
+        findViewById(R.id.rw_editReportView).setVisibility(View.VISIBLE);
     }
 
 
@@ -333,8 +354,8 @@ public class MainActivity extends AppCompatActivity {
      */
     private void setStationDropDown(int visible) {
 
-        if(visible == View.VISIBLE)
-           setLineDropdown(View.INVISIBLE);
+        if (visible == View.VISIBLE)
+            setLineDropdown(View.INVISIBLE);
         else
             setLineDropdown(View.VISIBLE);
 
@@ -359,8 +380,8 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Creates listeners to the drop down lists and the autocomplete text box
      */
-    private void spinnerListeners(){
-        ((Spinner)findViewById(R.id.controllantsSpinner)).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+    private void spinnerListeners() {
+        ((Spinner) findViewById(R.id.controllantsSpinner)).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 noContr = (String) adapterView.getItemAtPosition(i);
@@ -372,7 +393,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        ((Spinner)findViewById(R.id.controllantsEditSpinner)).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+        ((Spinner) findViewById(R.id.erw_controllantsEditSpinner)).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 editContr = (String) adapterView.getItemAtPosition(i);
@@ -384,7 +406,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        ((AutoCompleteTextView)findViewById(R.id.stationTextBox)).setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        ((AutoCompleteTextView) findViewById(R.id.stationTextBox)).setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -393,7 +415,7 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
-        ((Spinner)findViewById(R.id.lineSpinner)).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        ((Spinner) findViewById(R.id.lineSpinner)).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 route = (String) adapterView.getItemAtPosition(i);
@@ -430,16 +452,26 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * Edits a report if editContr is not null
-     * TODO: identify which report should be edited
-     */
-    private void editReport(){
-        if(editContr != null){
-            //[Report].setNControllants(noContr);
-        }
-    @Override
-    public void setFinishOnTouchOutside(boolean finish) {
-        super.setFinishOnTouchOutside(finish);
+
+
+    private void editReport(AbstractReport r) {
+        activeReport = r;
+        findViewById(R.id.rw_editReportView).setVisibility(View.VISIBLE);
+        findViewById(R.id.rw_myReportsView).setVisibility(View.GONE);
+
     }
+
+    private void updateReport() {
+        System.out.println("UPDATE"); //TODO: update info for activeReport
+        closeEditView();
+    }
+
+
+    private void closeEditView(){
+        activeReport = null;
+        findViewById(R.id.rw_editReportView).setVisibility(View.GONE);
+        findViewById(R.id.rw_myReportsView).setVisibility(View.VISIBLE);
+    }
+
 }
+

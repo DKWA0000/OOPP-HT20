@@ -1,10 +1,11 @@
 package com.example.planka;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
-
 import android.content.Context;
 import android.util.AttributeSet;
+import android.widget.Button;
 import android.widget.TextView;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import model.IncidentType;
 
 public class UserReportViewItem extends ConstraintLayout {
     //Class which displays information regarding a given report.
@@ -12,12 +13,17 @@ public class UserReportViewItem extends ConstraintLayout {
     private TextView mTimeText;
     private TextView mCountText;
 
-    public UserReportViewItem(Context context, String position, String time, String count) {
+    public UserReportViewItem(IncidentType type, Context context, String position, String time, String count,OnClickListener listener) {
         super(context);
         inflate(context,R.layout.userreportviewitem,this);
         Init();
-
+        if(type == IncidentType.ROUTE) {
+            position = "Spårvagn " + position;
+        }
         SetText(position,time,count);
+
+        ((Button)findViewById(R.id.urw_editButton)).setOnClickListener(listener);
+        System.out.println("LISTENER");
 
     }
 
@@ -34,9 +40,9 @@ public class UserReportViewItem extends ConstraintLayout {
     }
 
     private void Init(){
-        mLocationText = findViewById(R.id.locationText);
-        mTimeText = findViewById(R.id.timeText);
-        mCountText = findViewById(R.id.countText);
+        mLocationText = findViewById(R.id.urw_locationText);
+        mTimeText = findViewById(R.id.urw_timeText);
+        mCountText = findViewById(R.id.urw_countText);
     }
 
     public void SetText(String position, String time, String count){
