@@ -316,7 +316,7 @@ public class MODEL extends Observable{
     }
 
     /**
-     * Method to check if there already exists a similar incident.
+     * Method to check if there already exists a similar incident to a RouteReport.
      *
      * @param report to see if incident exists for.
      *
@@ -336,7 +336,7 @@ public class MODEL extends Observable{
     }
 
     /**
-     * Get a corresponding incident.
+     * Get a corresponding incident for a RouteReport.
      * @param report to find corresponding incident to.
      *
      * @return the corresponding incident.

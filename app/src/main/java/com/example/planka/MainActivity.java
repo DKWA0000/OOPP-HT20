@@ -372,7 +372,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        ((Spinner)findViewById(R.id.controllantsEditSpinner)).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+       /* ((Spinner)findViewById(R.id.controllantsEditSpinner)).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 editContr = (String) adapterView.getItemAtPosition(i);
@@ -382,7 +382,7 @@ public class MainActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> adapterView) {
                 editContr = null;
             }
-        });
+        });*/
 
         ((AutoCompleteTextView)findViewById(R.id.stationTextBox)).setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
