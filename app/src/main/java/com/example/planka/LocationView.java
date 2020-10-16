@@ -5,6 +5,15 @@ import android.util.AttributeSet;
 import android.widget.TextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+/**
+ * Class responsible for the view that displays Incidents.
+ *
+ * @see model.Incident
+ * @see model.MODEL
+ *
+ * @author Lucas Karlsson
+ */
+
 public class LocationView extends ConstraintLayout {
     //Class which displays information regarding a given incident.
     TextView mPositionLabel;

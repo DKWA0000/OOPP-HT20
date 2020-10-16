@@ -6,6 +6,11 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
+/**
+ * //TODO
+ *
+ * @author TODO
+ */
 public class UserReportViewItem extends ConstraintLayout {
     //Class which displays information regarding a given report.
     private TextView mLocationText;

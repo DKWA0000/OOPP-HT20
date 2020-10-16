@@ -13,12 +13,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
+/**
+ * Class responsible for the view that displays Incidents.
+ *
+ * @see model.Incident
+ * @see model.MODEL
+ *
+ * @author Lucas Karlsson
+ */
 
 public class MainActivity extends AppCompatActivity {
-
-    /* Created a method for idenitfying which report can go in which incident, and if there is none you create a new incident,
-     Usefull when creating the incidentlist.
-     */
 
     private MODEL model;
     private FileReader fileReader;
@@ -29,6 +33,15 @@ public class MainActivity extends AppCompatActivity {
     private String station;
     private String route;
 
+    /**
+     * Method running when creating a MainActivity
+     *
+     * @param savedInstanceState Bundle
+     *
+     * @see MODEL
+     * @see Incident
+     * @see AbstractReport
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Methods to be called at startup
+     * Method that runs on startup.
      */
     private void startup() {
 
@@ -66,6 +79,12 @@ public class MainActivity extends AppCompatActivity {
         addModelObserver();
     }
 
+    /**
+     * Method that runs when a update is que:ed.
+     *
+     * @see UpdateType
+     * @see MODEL
+     */
     private void addModelObserver() {
         model.addObserver((UpdateType type) -> {
 

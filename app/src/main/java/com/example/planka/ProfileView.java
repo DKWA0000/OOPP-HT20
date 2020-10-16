@@ -5,6 +5,12 @@ import android.util.AttributeSet;
 import android.widget.TextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+/**
+ * View for the profile, and profile settings.
+ *
+ * @author Lucas Karlsson
+ */
+
 public class ProfileView extends ConstraintLayout {
     //Class which displays information regarding a given incident.
     TextView mPositionLabel;

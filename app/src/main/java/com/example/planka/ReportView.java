@@ -5,6 +5,12 @@ import android.util.AttributeSet;
 import android.widget.TextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+/**
+ * The view for individual reports.
+ *
+ * @author Lucas Karlsson
+ */
+
 public class ReportView extends ConstraintLayout {
     //Class which displays information regarding a given incident.
     TextView mPositionLabel;

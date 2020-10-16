@@ -2,7 +2,6 @@ package com.example.planka;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.TextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 public class EditReportView extends ConstraintLayout {

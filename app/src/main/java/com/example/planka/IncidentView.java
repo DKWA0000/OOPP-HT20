@@ -5,10 +5,15 @@ import android.util.AttributeSet;
 import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
-import model.Incident;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+/**
+ * Class responsible for the view that displays Incidents.
+ *
+ * @see model.Incident
+ * @see model.MODEL
+ *
+ * @author Lucas Karlsson
+ */
 
 public class IncidentView extends ConstraintLayout {
     //Class which displays information regarding a given Incident.
