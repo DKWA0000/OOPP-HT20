@@ -1,6 +1,5 @@
 package model;
 
-import android.content.res.AssetManager;
 import android.media.Image;
 import android.os.Build;
 import androidx.annotation.RequiresApi;
@@ -11,6 +10,15 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Class responsible for connecting our backend together.
+ *
+ * @see Network
+ * @see AbstractReport
+ * @see Incident
+ *
+ * @author Seif Eddine Bourogaa
+ */
 public class MODEL extends Observable{
 
     Network network;
@@ -44,7 +52,7 @@ public class MODEL extends Observable{
      * @see AbstractReport
      * @see Reporter
      * @see Network
-     * @see #updateControllers(Station)
+     * @see #addControllers(Station)
      * @see #correspondingIncidentExists(AbstractReport)
      * @see #getCorrespondingIncident(AbstractReport)
      */
@@ -61,7 +69,7 @@ public class MODEL extends Observable{
             Bellow is used to change states att all relevant nodes after a report has been made on a station.
             TODO: I will fix the structure after report methods has been completed. Otherwise everything is implemented. //Seif
          */
-        updateControllers(s);
+        addControllers(s);
 
         if(time == null){
             time = Date.from(Instant.now());
@@ -94,7 +102,7 @@ public class MODEL extends Observable{
      * @see AbstractReport
      * @see Reporter
      * @see Network
-     * @see #updateControllers(Station) //Will be added when the functionality for creating a Report is complete.
+     * @see #addControllers(Station) //Will be added when the functionality for creating a Report is complete.
      * @see #correspondingIncidentExistsRoute(AbstractReport)
      * @see #getCorrespondingIncidentRoute(AbstractReport)
      */
@@ -134,11 +142,12 @@ public class MODEL extends Observable{
      * @see #getAdjacentNodes(List, int)
      * @see #setActiveControllers(List)
      */
-    private void updateControllers(Station station){
+    private void addControllers(Station station){
         List<Network.Node> controllersAtNodes = new ArrayList<>();
         controllersAtNodes = getStationNodes(station);
         controllersAtNodes.addAll(getAdjacentNodes(controllersAtNodes, 1));
-        setActiveControllers(controllersAtNodes);
+        setActiveControllersNodes(controllersAtNodes);
+        setActiveControllersStation(station);
     }
 
     /**
@@ -149,8 +158,12 @@ public class MODEL extends Observable{
      * @see Network
      * @see Network.Node
      */
-    private void setActiveControllers(List<Network.Node> nodes){
-        network.setActiveControllers(nodes);
+    private void setActiveControllersNodes(List<Network.Node> nodes){
+        network.setActiveControllersNodes(nodes);
+    }
+
+    private void setActiveControllersStation(Station station){
+        network.setActiveControllersStations(station);
     }
 
     /**

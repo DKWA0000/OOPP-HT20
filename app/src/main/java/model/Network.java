@@ -8,9 +8,9 @@ import java.util.*;
 /**
  * A graph structure representing the public transportation network.
  *
- * @see Network.Node class
- * @see Station class
- * @see Route class
+ * @see Network.Node
+ * @see Station
+ * @see Route
  *
  * @author Seif Eddine Bourogaa
  */
@@ -23,6 +23,8 @@ public class Network {
     private Map<String, Station> stations;
     private List<Route> routes = new ArrayList<>();
     private List<Route> allAffectedRoutes = new ArrayList<>();
+    private List<Station> allAffectedStations = new ArrayList<>();
+    private List<Node> allAffectedNodes = new ArrayList<>();
 
     /**
      * Constructor of Network, takes a HashMap and passes it to createRoutes.
@@ -76,7 +78,7 @@ public class Network {
             for(Route route : routes){
                 if(route.getNodes().contains(node)){
                     impactedRoutes.add(route);
-                    allAffectedRoutes.add(route);
+                    setActiveControllersRoutes(route);
                 }
             }
 
@@ -239,26 +241,79 @@ public class Network {
     }
 
     /**
-     * Change states at Nodes to imply that controllers are present nearby.
+     * Change states at Nodes to imply that controllers are present nearby and add them to the List containing nodes with
+     * controllers nearby.
      *
-     * @param stations List of Nodes that should have their state changed
+     * @param nodes List of Nodes that should have their state changed
+     *
+     * @see Network.Node
      */
-    public void setActiveControllers(List<Node> stations){
+    public void setActiveControllersNodes(List<Node> nodes){
 
-        for(Node node : stations){
+        for(Node node : nodes){
             node.setState(true);
+            allAffectedNodes.add(node);
         }
     }
 
     /**
-     * Change states at Nodes to imply that there are no controllers nearby.
+     * Change states at Nodes to imply that there are no controllers nearby and remove them from the List containing
+     * nodes with controllers nearby.
      *
-     * @param stations List of Nodes that should have their state changed
+     * @param nodes List of Nodes that should have their state changed
+     *
+     * @see Network.Node
      */
-    public void noActiveControllers(List<Node> stations){
-        for(Node node : stations){
+    public void removeActiveControllersNodes(List<Node> nodes){
+        for(Node node : nodes){
             node.setState(false);
+            allAffectedNodes.remove(node);
         }
+    }
+
+    /**
+     * Add station to the list containing Stations with controllers nearby.
+     *
+     * @param station that should be added.
+     *
+     * @see Station
+     */
+    public void setActiveControllersStations(Station station){
+        allAffectedStations.add(station);
+    }
+
+    /**
+     * Remove station from the List containing Stations with controllers nearby.
+     *
+     * @param station that should be removed.
+     *
+     * @see Station
+     */
+    public void removeActiveControllersStations(Station station){
+        allAffectedStations.remove(station);
+    }
+
+    /**
+     * Add a route to the List containing Routes affected by controllers.
+     *
+     * @param route to add
+     *
+     * @see Route
+     */
+    public void setActiveControllersRoutes(Route route){
+
+        allAffectedRoutes.add(route);
+    }
+
+    /**
+     * Remove a route from the List containing routes affected by controllers.
+     *
+     * @param route to remove
+     *
+     * @see Route
+     */
+    public void removeActiveControllersRoutes(Route route){
+        allAffectedRoutes.remove(route);
     }
 
     /**
