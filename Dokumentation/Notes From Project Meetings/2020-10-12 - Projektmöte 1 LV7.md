@@ -24,7 +24,7 @@ Vidare behöver vi uppdatera RAD och SDD.
 * JavaDoc och fixa struktur i Projektet.
 
 ### Nästa möte:
-```Projektmöte, 2020-10-16 14:00 (X dagar)``` [länk](#)
+```Projektmöte, 2020-10-16 14:00 (4 dagar)``` [länk](#)
 
 ### Att göra till nästa möte:
 Seif: Fixar backenden så att rapporter ändrar states för hållplatser och vilka linjer som påverkas av dessa. Kommentera och fixa struktur i MODEL. Fixa Domän, Design osv modeller. 
