@@ -13,7 +13,7 @@ import java.util.*;
 public class Route {
 
     private String line;
-    private List<Network.Node> stops = new ArrayList<Network.Node>();
+    private List<Node> stops = new ArrayList<Node>();
 
     /**
      * Constructor of Route-object, takes parameter and passes it.
@@ -21,7 +21,7 @@ public class Route {
      * @param name String
      * @param stops List<Network.Node>
      */
-    public Route(String name, List<Network.Node> stops){
+    public Route(String name, List<Node> stops){
         this.line = name;
         this.stops = stops;
     }
@@ -30,7 +30,7 @@ public class Route {
         return this.line;
     }
 
-    public List<Network.Node> getNodes(){
+    public List<Node> getNodes(){
         return this.stops;
     }
 

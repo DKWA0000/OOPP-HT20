@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import model.Network;
+import model.Node;
 import model.Station;
 
 import static org.junit.Assert.assertEquals;
@@ -55,7 +56,7 @@ public class testStation {
 
     @Test
     public void testaddNode(){
-        test.addNode(testNetwork.createNode("testNode"));
+        test.addNode(new Node("testNode"));
         assertEquals(1, test.getNodes().size());
         assertEquals("testNode", test.getNodes().get(0).getName());
     }

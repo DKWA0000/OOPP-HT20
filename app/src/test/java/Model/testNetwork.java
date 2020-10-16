@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 import model.Network;
+import model.Node;
 import model.Route;
 import model.Station;
 
@@ -25,10 +26,10 @@ public class testNetwork {
     private HashMap<String, ArrayList> testMap = new HashMap<>();
     private Network testNetwork;
     private Route testRoute;
-    private Network.Node node1;
-    private Network.Node node2;
+    private Node node1;
+    private Node node2;
     private Station testStation;
-    private ArrayList<Network.Node> nodelist = new ArrayList<>();
+    private ArrayList<Node> nodelist = new ArrayList<>();
 
     /**
      * Method for generating testdata.
@@ -58,24 +59,24 @@ public class testNetwork {
 
         testNetwork = new Network(testMap);
 
-        ArrayList<Network.Node> testRouteList = new ArrayList<>();
+        ArrayList<Node> testRouteList = new ArrayList<>();
 
-        testRouteList.add(testNetwork.createNode("node1"));
-        testRouteList.add(testNetwork.createNode("node2"));
-        testRouteList.add(testNetwork.createNode("node3"));
-        testRouteList.add(testNetwork.createNode("node4"));
-        testRouteList.add(testNetwork.createNode("node5"));
+        testRouteList.add(new Node("node1"));
+        testRouteList.add(new Node("node2"));
+        testRouteList.add(new Node("node3"));
+        testRouteList.add(new Node("node4"));
+        testRouteList.add(new Node("node5"));
 
         testRoute = new Route("testRoute", testRouteList);
 
-        node1 = testNetwork.createNode("node1");
-        node2 = testNetwork.createNode("node1");
+        node1 = new Node("node1");
+        node2 = new Node("node1");
 
         testStation = new Station("testStation");
-        testStation.getNodes().add(testNetwork.createNode("node1"));
-        testStation.getNodes().add(testNetwork.createNode("node2"));
+        testStation.getNodes().add(new Node("node1"));
+        testStation.getNodes().add(new Node("node2"));
 
-        nodelist.add(testNetwork.createNode("testStationA 1"));
+        nodelist.add(new Node("testStationA 1"));
 
     }
 
@@ -143,7 +144,7 @@ public class testNetwork {
     @Test
     public void testgetNodeStation(){
         assertEquals("testStationA",
-                testNetwork.getNodeStation(testNetwork.createNode("testStationA 1")).getName());
+                testNetwork.getNodeStation(new Node("testStationA 1")).getName());
     }
 
     /**
@@ -174,7 +175,7 @@ public class testNetwork {
     @Test
     public void testgetStationName(){
         assertEquals("testStationA",
-                testNetwork.getStationName(testNetwork.createNode("testStationA 1")));
+                testNetwork.getStationName(new Node("testStationA 1")));
     }
 
     /**
@@ -239,7 +240,7 @@ public class testNetwork {
 
     @Test
     public void testgetImpactedRoutes(){
-        nodelist.add(testNetwork.createNode("testStationB 3"));
+        nodelist.add(new Node("testStationB 3"));
         assertEquals(2, testNetwork.getImpactedRoutes(nodelist).size());
     }
 
@@ -250,7 +251,7 @@ public class testNetwork {
     @Test
     public void testsetActiveControllers(){
         assertFalse(nodelist.get(0).getState());
-        testNetwork.setActiveControllers(nodelist);
+        testNetwork.setActiveControllersNodes(nodelist);
         assertTrue(nodelist.get(0).getState());
     }
 
@@ -260,9 +261,9 @@ public class testNetwork {
 
     @Test
     public void testnoActiveControllers(){
-        testNetwork.setActiveControllers(nodelist);
+        testNetwork.setActiveControllersNodes(nodelist);
         assertTrue(nodelist.get(0).getState());
-        testNetwork.noActiveControllers(nodelist);
+        testNetwork.removeActiveControllersNodes(nodelist);
         assertFalse(nodelist.get(0).getState());
     }
 
