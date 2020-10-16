@@ -14,7 +14,7 @@ vill utveckla arkitekturen av programmet.
 
 Vidare behöver vi uppdatera RAD och SDD.
 
-###Att göra denna vecka: 
+### Att göra denna vecka: 
 
 * Fixa så att statesen ändras för noder när man skapar en rapport. 
 * Kunna redigera en rapport. 
