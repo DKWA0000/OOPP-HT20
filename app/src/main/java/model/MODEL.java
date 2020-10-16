@@ -58,24 +58,22 @@ public class MODEL extends Observable{
      */
     public AbstractReport makeStationReport(String noContr, Date time, String image, String station, IncidentType it){
         latestReportIsRoute = false;
-        Reporter r = new Reporter("temp@google.com");
-        int n = Integer.parseInt(noContr);
 
-
-        Image i = null;
-
-        Station s = network.getStation(station);
+        Reporter reporter = new Reporter("temp@google.com");
+        int NumberOfControllants = Integer.parseInt(noContr);
+        Image i = null;                 //TODO
+        Station stationOfReport = network.getStation(station);
         /*
             Bellow is used to change states att all relevant nodes after a report has been made on a station.
             TODO: I will fix the structure after report methods has been completed. Otherwise everything is implemented. //Seif
          */
-        addControllers(s);
+        addControllers(stationOfReport);
 
         if(time == null){
             time = Date.from(Instant.now());
         }
 
-        AbstractReport report = new ReportStation(n,time,i,s,r);
+        AbstractReport report = new ReportStation(NumberOfControllants, time, i, stationOfReport, reporter);
         reportsList.add(report);
         notifyObservers(UpdateType.NEW_REPORT);
 
@@ -108,17 +106,18 @@ public class MODEL extends Observable{
      */
     public AbstractReport makeRouteReport(String noContr, Date time, String image, String route, IncidentType it){
         latestReportIsRoute = true;
-        Reporter r = new Reporter("temp@google.com");
-        int n = Integer.parseInt(noContr);
-        Image i = null;
-        Station s = network.getStation("Korsvägen");
-        Route ro = new Route(route, network.getStationRoutes(s));
+
+        Reporter reporter = new Reporter("temp@google.com");
+        int noOfControllants = Integer.parseInt(noContr);
+        Image i = null; //TODO
+        Station stationOfReport = network.getStation("Korsvägen");
+        Route routeOfReport = new Route(route, network.getStationRoutes(stationOfReport));
 
         if(time == null){
             time = Date.from(Instant.now());
         }
 
-        AbstractReport report = new ReportRoute(n,time,i,s,ro,r);
+        AbstractReport report = new ReportRoute(noOfControllants,time,i,stationOfReport,routeOfReport,reporter);
         reportsList.add(report);
         notifyObservers(UpdateType.NEW_REPORT);
 
@@ -286,8 +285,8 @@ public class MODEL extends Observable{
      * @see #makeRouteReport(String, Date, String, String, IncidentType)
      */
     public boolean correspondingIncidentExists(AbstractReport report) {
-        for (Incident i : IncidentList) {
-            if (i.getTypeOfIncident() == report.getType() && (i.getLastActiveStation().equals(report.getStation()))) {
+        for (Incident incident : IncidentList) {
+            if (incident.getTypeOfIncident() == report.getType() && (incident.getLastActiveStation().equals(report.getStation()))) {
                 return true;
             }
         }
@@ -305,9 +304,9 @@ public class MODEL extends Observable{
      * @see #makeStationReport(String, Date, String, String, IncidentType)
      */
     public Incident getCorrespondingIncident(AbstractReport report) {
-        for (Incident i : IncidentList) {
-            if (i.getTypeOfIncident() == report.getType() && (i.getLastActiveStation().equals(report.getStation()))) {
-                return i;
+        for (Incident incident : IncidentList) {
+            if (incident.getTypeOfIncident() == report.getType() && (incident.getLastActiveStation().equals(report.getStation()))) {
+                return incident;
             }
         }
         Incident incident = new Incident(report.getType());
@@ -327,8 +326,8 @@ public class MODEL extends Observable{
      * @see #makeRouteReport(String, Date, String, String, IncidentType)
      */
     public boolean correspondingIncidentExistsRoute(AbstractReport report) {
-        for (Incident i : IncidentListRoute) {
-            if (i.getTypeOfIncident() == report.getType() && i.getLastActiveRoute().getLine().equals(report.getRoute().getLine())) {
+        for (Incident incident : IncidentListRoute) {
+            if (incident.getTypeOfIncident() == report.getType() && incident.getLastActiveRoute().getLine().equals(report.getRoute().getLine())) {
                 return true;
             }
         }
@@ -346,9 +345,9 @@ public class MODEL extends Observable{
      * @see #makeRouteReport(String, Date, String, String, IncidentType)
      */
     public Incident getCorrespondingIncidentRoute(AbstractReport report) {
-        for (Incident i : IncidentListRoute) {
-            if (i.getTypeOfIncident() == report.getType() && i.getLastActiveRoute().getLine().equals(report.getRoute().getLine())) {
-                return i;
+        for (Incident incident : IncidentListRoute) {
+            if (incident.getTypeOfIncident() == report.getType() && incident.getLastActiveRoute().getLine().equals(report.getRoute().getLine())) {
+                return incident;
             }
         }
         Incident incident = new Incident(report.getType());
