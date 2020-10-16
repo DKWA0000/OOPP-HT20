@@ -434,11 +434,12 @@ public class MainActivity extends AppCompatActivity {
      * Edits a report if editContr is not null
      * TODO: identify which report should be edited
      */
-    private void editReport(){
-        if(editContr != null){
+    private void editReport() {
+        if (editContr != null) {
             //[Report].setNControllants(noContr);
         }
-    @Override
+    }
+
     public void setFinishOnTouchOutside(boolean finish) {
         super.setFinishOnTouchOutside(finish);
     }
