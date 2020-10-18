@@ -187,15 +187,13 @@ public class MainActivity extends AppCompatActivity {
      */
     private void createReportViewItem(AbstractReport report) {
         UserReportViewItem urw;
+        String time = report.getTimeOfReport().toString();
+        String controllants = Integer.toString(report.getnControllants());
         if (model.latestReportIsRoute) {
             String route = report.getRoute().getLine();
-            String time = report.getTimeOfReport().toString();
-            String controllants = Integer.toString(report.getnControllants());
             urw = new UserReportViewItem(getBaseContext(),route,time,controllants);
         } else {
             String station = report.getStation().getName();
-            String time = report.getTimeOfReport().toString();
-            String controllants = Integer.toString(report.getnControllants());
             urw = new UserReportViewItem(getBaseContext(),station,time,controllants);
         }
         ((LinearLayout)findViewById(R.id.Reportlist)).addView(urw);
@@ -212,34 +210,34 @@ public class MainActivity extends AppCompatActivity {
         if (view == findViewById(R.id.locationsButton)) {
             toLocation();
         }
-        if (view == findViewById(R.id.reportsButton)) {
+        else if (view == findViewById(R.id.reportsButton)) {
             toReport();
         }
-        if (view == findViewById(R.id.profileButton)) {
+        else if (view == findViewById(R.id.profileButton)) {
             toProfile();
         }
-        if (view == findViewById(R.id.makeReportText)) {
+        else if (view == findViewById(R.id.makeReportText)) {
             toMakeReport();
         }
-        if (view == findViewById(R.id.myReportsText)) {
+        else if (view == findViewById(R.id.myReportsText)) {
             toMyReports();
         }
-        if(view == findViewById(R.id.stationRadio)){
+        else if(view == findViewById(R.id.stationRadio)){
             setStationDropDown(View.VISIBLE);
         }
-        if(view == findViewById(R.id.tramRadio)){
+        else if(view == findViewById(R.id.tramRadio)){
             setStationDropDown(View.INVISIBLE);
         }
-        if(view == findViewById(R.id.nowRadio)){
+        else if(view == findViewById(R.id.nowRadio)){
             setWhenDropdown(View.GONE);
         }
-        if(view == findViewById(R.id.pastRadio)){
+        else if(view == findViewById(R.id.pastRadio)){
             setWhenDropdown(View.VISIBLE);
         }
-        if(view == findViewById(R.id.makeReportButton)){
+        else if(view == findViewById(R.id.makeReportButton)){
             makeReport();
         }
-        if(view == findViewById(R.id.updateButton)){
+        else if(view == findViewById(R.id.updateButton)){
             toEditReport();
         }
 
