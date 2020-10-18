@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import model.Network;
+import model.Node;
 import model.Route;
 
 /**
@@ -54,7 +55,7 @@ public class testRoute{
 
     @Test
     public void testAddNode(){
-        testRoute.getNodes().add(testNetwork.createNode("testNode"));
+        testRoute.getNodes().add(new Node("testNode"));
         assertEquals(1, testRoute.getNodes().size());
         assertEquals("testNode", testRoute.getNodes().get(0).getName());
     }

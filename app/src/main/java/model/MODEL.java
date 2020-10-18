@@ -70,7 +70,7 @@ public class MODEL extends Observable{
         addControllers(stationOfReport);
 
         if(time == null){
-            time = Date.from(Instant.now());
+            time = new Date();
         }
 
         AbstractReport report = new ReportStation(NumberOfControllants, time, i, stationOfReport, reporter);
@@ -114,7 +114,7 @@ public class MODEL extends Observable{
         Route routeOfReport = new Route(route, network.getStationRoutes(stationOfReport));
 
         if(time == null){
-            time = Date.from(Instant.now());
+            time = new Date();
         }
 
         AbstractReport report = new ReportRoute(noOfControllants,time,i,stationOfReport,routeOfReport,reporter);
@@ -139,10 +139,9 @@ public class MODEL extends Observable{
      * @see Station
      * @see #getStationNodes(Station)
      * @see #getAdjacentNodes(List, int)
-     * @see #setActiveControllers(List)
      */
     private void addControllers(Station station){
-        List<Network.Node> controllersAtNodes = new ArrayList<>();
+        List<Node> controllersAtNodes = new ArrayList<>();
         controllersAtNodes = getStationNodes(station);
         controllersAtNodes.addAll(getAdjacentNodes(controllersAtNodes, 1));
         setActiveControllersNodes(controllersAtNodes);
@@ -155,9 +154,9 @@ public class MODEL extends Observable{
      * @param nodes Nodes that should have their state changed.
      *
      * @see Network
-     * @see Network.Node
+     * @see Node
      */
-    private void setActiveControllersNodes(List<Network.Node> nodes){
+    private void setActiveControllersNodes(List<Node> nodes){
         network.setActiveControllersNodes(nodes);
     }
 
@@ -174,7 +173,7 @@ public class MODEL extends Observable{
      *
      * @see Network
      */
-    private List<Network.Node> getAdjacentNodes(List<Network.Node> nodes, int range) {
+    private List<Node> getAdjacentNodes(List<Node> nodes, int range) {
         return network.getAdjacentNodes(nodes, range);
     }
 
@@ -188,7 +187,7 @@ public class MODEL extends Observable{
      * @see Network
      * @see Station
      */
-    private List<Network.Node> getStationNodes(Station station){
+    private List<Node> getStationNodes(Station station){
         return station.getNodes();
     }
 

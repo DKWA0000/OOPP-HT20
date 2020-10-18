@@ -8,7 +8,7 @@ import java.util.*;
 /**
  * A graph structure representing the public transportation network.
  *
- * @see Network.Node
+ * @see Node
  * @see Station
  * @see Route
  *
@@ -42,6 +42,7 @@ public class Network {
         createRoutes(routesFromFile);
         mapAllNodes(routes);
     }
+
 
     /**
      * Creates all the routes.
@@ -147,13 +148,13 @@ public class Network {
      */
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void newNode(Node node, Route route, int position){
-        addNode(node.name);
+        addNode(node.getName());
 
         if (position != 0){
-            addEdge(node.name, route.getNodes().get(position - 1).name);
+            addEdge(node.getName(), route.getNodes().get(position - 1).getName());
         }
         if (position != route.getNodes().size() - 1){
-            addEdge(node.name, route.getNodes().get(position + 1).name);
+            addEdge(node.getName(), route.getNodes().get(position + 1).getName());
         }
     }
 
@@ -170,11 +171,11 @@ public class Network {
         List<Node> listOfDestinations = adjacencyList.get(node);
 
         if(position != 0 && !listOfDestinations.contains(route.getNodes().get(position - 1))){
-            addEdge(node.name, route.getNodes().get(position - 1).name);
+            addEdge(node.getName(), route.getNodes().get(position - 1).getName());
         }
 
         if(position != route.getNodes().size() - 1 && !listOfDestinations.contains(route.getNodes().get(position + 1))){
-            addEdge(node.name, route.getNodes().get(position + 1).name);
+            addEdge(node.getName(), route.getNodes().get(position + 1).getName());
         }
     }
 
@@ -246,7 +247,7 @@ public class Network {
      *
      * @param nodes List of Nodes that should have their state changed
      *
-     * @see Network.Node
+     * @see Node
      */
     public void setActiveControllersNodes(List<Node> nodes){
 
@@ -262,7 +263,7 @@ public class Network {
      *
      * @param nodes List of Nodes that should have their state changed
      *
-     * @see Network.Node
+     * @see Node
      */
     public void removeActiveControllersNodes(List<Node> nodes){
         for(Node node : nodes){
@@ -322,7 +323,7 @@ public class Network {
      *
      * @param station name of the Node to create as well as the Graph.Node.station attribute
      *
-     * @see Network.Node
+     * @see Node
      */
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void addNode(String station){
@@ -334,7 +335,7 @@ public class Network {
      *
      * @param station name of the Node to remove from the Graph
      *
-     * @see Network.Node
+     * @see Node
      */
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void removeNode(String station){
@@ -350,7 +351,7 @@ public class Network {
      * @param source name of the node to map from
      * @param destination name of the node to map to
      *
-     * @see Network.Node
+     * @see Node
      */
     private void addEdge(String source, String destination){
         adjacencyList.get(new Node(source)).add(new Node(destination));
@@ -364,7 +365,7 @@ public class Network {
      * @param source name of Node to remove mapping from
      * @param destination name of Node to remove mapping to
      *
-     * @see Network.Node
+     * @see Node
      */
     private void removeEdge(String source, String destination){
         List<Node> sourceEdges = adjacencyList.get(new Node(source));
@@ -377,7 +378,7 @@ public class Network {
         List<Node> adjacentNodes = new ArrayList<>();
 
         for(Node node : nodes){
-            adjacentNodes.addAll(adjacentNodes(node.name, range));
+            adjacentNodes.addAll(adjacentNodes(node.getName(), range));
         }
         return adjacentNodes;
     }
@@ -388,7 +389,7 @@ public class Network {
      * @param station name of the Node whose adjacent Nodes we are looking for
      * @param range how many stations away we want to find adjacent stations.
      *
-     * @see Network.Node
+     * @see Node
      *
      * @return List containing all adjacent nodes to @param station
      */
@@ -401,8 +402,8 @@ public class Network {
             Set<Node> temp = new HashSet<>();
 
             for(Node node : adjacentNodes){
-                temp.addAll(getNodesAhead(node.name));
-                temp.addAll(getNodesBehind(node.name));
+                temp.addAll(getNodesAhead(node.getName()));
+                temp.addAll(getNodesBehind(node.getName()));
             }
             adjacentNodes.addAll(temp);
         }
@@ -415,7 +416,7 @@ public class Network {
      *
      * @param station name of the Node whose forward Nodes we are looking for
      *
-     * @see Network.Node
+     * @see Node
      *
      * @return List containing all nodes ahead of @param station
      */
@@ -429,7 +430,7 @@ public class Network {
      *
      * @param station name of the Node whose backward Nodes we are looking for
      *
-     * @see Network.Node
+     * @see Node
      *
      * @return List containing all nodes behind of @param station
      */
@@ -541,93 +542,8 @@ public class Network {
      * @return the name of the station it belongs to.
      */
     public String getStationName(Node node){
-        return node.name.substring(0,node.name.lastIndexOf(' '));
+        return node.getName().substring(0,node.getName().lastIndexOf(' '));
     }
 
 
-    /**
-     * Temporary Node class until I can fix it. Need Graph specific information to get keys to work
-     * smoothly in order to find and address Nodes.
-     */
-    public class Node{
-        /**
-         * Name of the Node as well as the state of the node.
-         *
-         * @see #name
-         * @see #state
-         */
-        private String name;
-        private boolean state;
-
-        public Node(String name) {
-            this.name = name;
-            this.state = false;
-        }
-
-        @Override
-        /*
-            To make it easier to find our nodes.
-        */
-        public int hashCode(){
-            final int prime = 31;
-            int result = 1;
-            result = prime * result + getOuterType().hashCode();
-            result = prime * result + ((name == null) ? 0 : name.hashCode());
-            return result;
-        }
-
-        @Override
-        public boolean equals(Object obj){
-            if (this == obj)
-                return true;
-            if (obj == null)
-                return false;
-            if (getClass() != obj.getClass())
-                return false;
-            Node other = (Node) obj;
-            if (!getOuterType().equals(other.getOuterType()))
-                return false;
-            if (name == null) {
-                if (other.name != null)
-                    return false;
-            } else if (!name.equals(other.name))
-                return false;
-            return true;
-        }
-
-        @Override
-        public String toString() {
-            return name;
-        }
-
-        /**
-         * Get the name of the Node.
-         *
-         * @return Name of the Node.
-         */
-        public String getName() {
-            return this.name;
-        }
-
-        /**
-         * Get the current state of the Node.
-         *
-         * @return current state of the Node.
-         */
-        public boolean getState(){return state; }
-
-        /**
-         * Set the current state of the Node.
-         *
-         * @param desiredState state to change into.
-         */
-        public void setState(boolean desiredState){ state = desiredState;}
-
-        /**
-         * Used by our hash.
-         */
-        private Network getOuterType(){
-            return Network.this;
-        }
-    }
 }
