@@ -43,6 +43,7 @@ public class Network {
         mapAllNodes(routes);
     }
 
+
     /**
      * Creates all the routes.
      *

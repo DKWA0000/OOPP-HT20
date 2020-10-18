@@ -44,7 +44,8 @@ public class testNetwork {
         R1.add("testStationC 4");
         R1.add("testStationD 7");
         R1.add("testStationE 9");
-        R1.add("testStationA 2");
+        R1.add("testStationA 1");
+        R1.add("testStationA 1");
 
         ArrayList<String> R2 = new ArrayList<>();
         R2.add("testStationF 2");
@@ -52,6 +53,8 @@ public class testNetwork {
         R2.add("testStationD 7");
         R2.add("testStationG 6");
         R2.add("testStationH 8");
+        R2.add("testStationF 2");
+        R2.add("testStationF 2");
 
 
         testMap.put("R1", R1);
@@ -96,9 +99,10 @@ public class testNetwork {
 
     @Test
     public void testgetAdjacentNodes(){
-        assertEquals("[testStationB 3]",
+        assertEquals("[testStationB 3, testStationE 9, testStationA 1]",
                 testNetwork.getAdjacentNodes(nodelist, 1).toString());
-        assertEquals(3, testNetwork.getAdjacentNodes(nodelist, 2).size());
+        assertEquals(5, testNetwork.getAdjacentNodes(nodelist, 2).size());
+        System.out.println(nodelist.toString());
     }
 
     /**
