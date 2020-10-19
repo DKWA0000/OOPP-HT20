@@ -6,5 +6,6 @@
     <color name="smurf">#62B2FF</color>
     <color name="ic_launcher_background">#FFE852</color>
     <color name="text_gray">#B0B0B0</color>
+    <color name="white">#ffffff</color>
 
 </resources>
