@@ -5,9 +5,6 @@ import android.util.AttributeSet;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import model.AbstractReport;
-import model.Incident;
-import model.Network;
 
 /**
  * Class responsible for the view that hold IncidentListItems.

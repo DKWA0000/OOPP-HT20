@@ -5,7 +5,6 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
 import model.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -35,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
     private String route;
     private LinearLayout Incidentlist;
     private SearchView searchView;
-    private ListAdapter adapter;
     private ArrayList<View> copyOfIncidentlist;
 
     /**
@@ -62,6 +60,15 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Method that handles input in searchView and runs when character is added or deleted.
+     *
+     * @param menu Menu
+     *
+     * @see MODEL
+     * @see Incident
+     * @see IncidentView
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -87,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 } else {
                     for (int i = 0; i < copyOfIncidentlist.size(); i++) {
-                        String currentView = ((IncidentView) copyOfIncidentlist.get(i)).mLocationText.getText().toString();
+                        String currentView = ((IncidentView) copyOfIncidentlist.get(i)).getLocationText().getText().toString();
                         if (currentView.contains(newText)) {
                             Incidentlist.addView(copyOfIncidentlist.get(i));
                         }

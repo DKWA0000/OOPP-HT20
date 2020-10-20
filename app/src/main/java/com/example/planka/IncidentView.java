@@ -16,8 +16,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
  */
 
 public class IncidentView extends ConstraintLayout {
-    //Class which displays information regarding a given Incident.
-    public TextView mLocationText;
+    private TextView mLocationText;
     private TextView mTimeText;
     private TextView mCountText;
 
@@ -50,5 +49,9 @@ public class IncidentView extends ConstraintLayout {
         mLocationText.setText(position);
         mTimeText.setText(time);
         mCountText.setText(count);
+    }
+
+    public TextView getLocationText() {
+        return this.mLocationText;
     }
 }

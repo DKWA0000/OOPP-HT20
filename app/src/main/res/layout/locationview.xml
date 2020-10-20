@@ -8,7 +8,7 @@
         android:layout_height="match_parent"
         tools:visibility="visible">
 
-    <androidx.appcompat.widget.SearchView
+    <SearchView
             android:id="@+id/searchView"
             android:layout_width="383dp"
             android:layout_height="50dp"
