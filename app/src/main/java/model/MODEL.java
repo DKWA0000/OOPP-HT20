@@ -222,6 +222,12 @@ public class MODEL extends Observable{
         return reportsList.get(reportsList.size()-1);
     }
 
+    public ArrayList<Incident> getIncidentList() {
+        ArrayList<Incident> incidents = new ArrayList<>(IncidentList);
+        incidents.addAll(IncidentListRoute);
+        return incidents;
+    }
+
     /**
      * Get all Reports Users has made.
      *

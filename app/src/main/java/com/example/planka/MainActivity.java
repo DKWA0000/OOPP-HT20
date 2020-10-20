@@ -1,11 +1,12 @@
 package com.example.planka;
 
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import model.*;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -32,6 +33,10 @@ public class MainActivity extends AppCompatActivity {
     private String image;
     private String station;
     private String route;
+    private LinearLayout Incidentlist;
+    private SearchView searchView;
+    private ListAdapter adapter;
+    private ArrayList<View> copyOfIncidentlist;
 
     /**
      * Method running when creating a MainActivity
@@ -49,12 +54,49 @@ public class MainActivity extends AppCompatActivity {
 
         fileReader = new FileReader(this.getAssets());
         HashMap<String, ArrayList> allRoutes = fileReader.getAllRoutes();
-
-
+        Incidentlist = findViewById(R.id.Incidentlist);
+        copyOfIncidentlist = new ArrayList<>();
+        searchView = findViewById(R.id.searchView);
         model = new MODEL(allRoutes);
-
         startup();
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                for (int i = 0; i < Incidentlist.getChildCount(); i++) {
+                    if (!copyOfIncidentlist.contains(Incidentlist.getChildAt(i))) {
+                        copyOfIncidentlist.add(Incidentlist.getChildAt(i));
+                    }
+                }
+                Incidentlist.removeAllViews();
+
+                if (newText.isEmpty()) {
+                    Incidentlist.removeAllViews();
+                    for (int i = 0; i < copyOfIncidentlist.size(); i++) {
+                        Incidentlist.addView(copyOfIncidentlist.get(i));
+                    }
+                } else {
+                    for (int i = 0; i < copyOfIncidentlist.size(); i++) {
+                        String currentView = ((IncidentView) copyOfIncidentlist.get(i)).mLocationText.getText().toString();
+                        if (currentView.contains(newText)) {
+                            Incidentlist.addView(copyOfIncidentlist.get(i));
+                        }
+                    }
+                }
+                return false;
+            }
+        });
+        return true;
     }
 
     /**
@@ -99,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
                     String timee = outputformat.format(i.getListReports().get(0).getTimeOfReport());
 
                     IncidentView iw = new IncidentView(getBaseContext(), station, nCont, timee);
-                    ((LinearLayout)findViewById(R.id.Incidentlist)).addView(iw);
+                    Incidentlist.addView(iw);
 
                 } else if(model.latestReportIsRoute) {
 
@@ -110,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
                     String timee = outputformat.format(i.getListReports().get(0).getTimeOfReport());
 
                     IncidentView iw = new IncidentView(getBaseContext(), route, nCont, timee);
-                    ((LinearLayout)findViewById(R.id.Incidentlist)).addView(iw);
+                    Incidentlist.addView(iw);
                 }
 
             }
@@ -123,8 +165,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         });
-    }
 
+    }
 
     private void loadIncidents() {
         //TODO: implement and call at startup
@@ -281,6 +323,7 @@ public class MainActivity extends AppCompatActivity {
      * Updates the color of the buttons in the top menu
      */
     private void toLocation() {
+        searchView.setQuery("", true);
         activateLocationButton();
         inactivateReportButton();
         inactivateProfileButton();
