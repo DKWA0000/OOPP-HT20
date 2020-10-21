@@ -9,7 +9,7 @@ import java.util.Date;
  *
  * @see Incident
  *
- * @author: Lucas Karlsson.
+ * @author Lucas Karlsson.
  */
 
 public abstract class AbstractReport {

@@ -11,7 +11,7 @@ import java.util.HashMap;
 /**
  * Class Responsible for reading files.
  *
- * @see Network.Node class
+ * @see Node class
  * @see Route class
  *
  * @author Seif Eddine Bourogaa

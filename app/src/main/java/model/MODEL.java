@@ -20,9 +20,9 @@ import java.util.List;
 public class MODEL extends Observable{
 
     Network network;
-    private ArrayList<Incident> IncidentList;
-    private ArrayList<Incident> IncidentListRoute;
-    private ArrayList<AbstractReport> reportsList = new ArrayList<>();
+    private final ArrayList<Incident> IncidentList;
+    private final ArrayList<Incident> IncidentListRoute;
+    private final ArrayList<AbstractReport> reportsList = new ArrayList<>();
     private boolean latestReportIsRoute = false;
 
     @RequiresApi(api = Build.VERSION_CODES.N)

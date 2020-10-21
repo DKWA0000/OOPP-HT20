@@ -103,7 +103,6 @@ public class MainActivity extends AppCompatActivity {
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -488,7 +487,6 @@ public class MainActivity extends AppCompatActivity {
      */
     private void makeReport() {
         String image = null; // Will maybe be implemented at a later stage
-        IncidentType it;
 
         Date time;
         if (((RadioButton) findViewById(R.id.nowRadio)).isChecked()) {
@@ -498,10 +496,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (((RadioButton) findViewById(R.id.stationRadio)).isChecked() && noContr != null && time != null && station != null) {
-            it = IncidentType.STATION;
             model.makeStationReport(noContr, time, image, station);
         } else if (((RadioButton) findViewById(R.id.tramRadio)).isChecked() && noContr != null && time != null && route != null) {
-            it = IncidentType.ROUTE;
             model.makeRouteReport(noContr, time, image, route);
         }
     }
