@@ -34,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
     private FileReader fileReader;
     private String noContr;
     private String editContr;
-    private Date time;
     private String image;
     private String station;
     private String route;
@@ -121,14 +120,14 @@ public class MainActivity extends AppCompatActivity {
 
                 if (newText.isEmpty()) {
                     Incidentlist.removeAllViews();
-                    for (int i = 0; i < copyOfIncidentlist.size(); i++) {
-                        Incidentlist.addView(copyOfIncidentlist.get(i));
+                    for (View view : copyOfIncidentlist) {
+                        Incidentlist.addView(view);
                     }
                 } else {
-                    for (int i = 0; i < copyOfIncidentlist.size(); i++) {
-                        String currentView = ((IncidentView) copyOfIncidentlist.get(i)).getLocationText().getText().toString();
+                    for (View view : copyOfIncidentlist) {
+                        String currentView = ((IncidentView) view).getLocationText().getText().toString();
                         if (currentView.contains(newText)) {
-                            Incidentlist.addView(copyOfIncidentlist.get(i));
+                            Incidentlist.addView(view);
                         }
                     }
                 }
@@ -173,14 +172,14 @@ public class MainActivity extends AppCompatActivity {
                 Incident i = model.getLatestIncident();
                 DateFormat outputformat = new SimpleDateFormat("HH:mm:ss - dd/MM/yy");
                 sendNotification();
-                if (!model.latestReportIsRoute) {
+                if (!model.isLatestReportRoute()) {
                     String station = i.getLastActiveStation().getName();
                     String nCont = String.valueOf(i.getListReports().get(0).getnControllants());
                     String timee = outputformat.format(i.getListReports().get(0).getTimeOfReport());
                     IncidentView iw = new IncidentView(getBaseContext(), station, nCont, timee);
                     Incidentlist.addView(iw);
 
-                } else if(model.latestReportIsRoute) {
+                } else if(model.isLatestReportRoute()) {
                     String route = i.getLastActiveRoute().getLine();
                     String nCont = String.valueOf(i.getListReports().get(0).getnControllants());
                     String timee = outputformat.format(i.getListReports().get(0).getTimeOfReport());
@@ -261,7 +260,7 @@ public class MainActivity extends AppCompatActivity {
         UserReportViewItem urw;
         String time = report.getTimeOfReport().toString();
         String controllants = Integer.toString(report.getnControllants());
-        if (model.latestReportIsRoute) {
+        if (model.isLatestReportRoute()) {
             String route = report.getRoute().getLine();
             urw = new UserReportViewItem(getBaseContext(),route,time,controllants);
         } else {
@@ -504,6 +503,7 @@ public class MainActivity extends AppCompatActivity {
         String image = null; // Will maybe be implemented at a later stage
         IncidentType it;
 
+        Date time;
         if (((RadioButton) findViewById(R.id.nowRadio)).isChecked()) {
             time = Date.from(Instant.now());
         } else {

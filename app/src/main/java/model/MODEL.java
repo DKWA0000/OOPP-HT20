@@ -25,7 +25,7 @@ public class MODEL extends Observable{
     private ArrayList<Incident> IncidentList;
     private ArrayList<Incident> IncidentListRoute;
     private ArrayList<AbstractReport> reportsList = new ArrayList<>();
-    public boolean latestReportIsRoute = false;
+    private boolean latestReportIsRoute = false;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public MODEL(HashMap<String, ArrayList> fileContent){
@@ -261,6 +261,10 @@ public class MODEL extends Observable{
             return incidentList.get(index);
         else
             return null;
+    }
+
+    public boolean isLatestReportRoute() {
+        return latestReportIsRoute;
     }
 
     /**
