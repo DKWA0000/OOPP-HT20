@@ -1,10 +1,16 @@
 package com.example.planka;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 import model.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -35,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayout Incidentlist;
     private SearchView searchView;
     private ArrayList<View> copyOfIncidentlist;
+    public static final String NOTIFICATIONCHANNELID = "10001" ;
+    private final static String DEFAULTCHANNELID = "default" ;
 
     /**
      * Method running when creating a MainActivity
@@ -57,7 +65,31 @@ public class MainActivity extends AppCompatActivity {
         searchView = findViewById(R.id.searchView);
         model = new MODEL(allRoutes);
         startup();
+    }
 
+    public void sendNotification() {
+        Intent notificationIntent = new Intent(MainActivity. this, MainActivity. class );
+        notificationIntent.addCategory(Intent. CATEGORY_LAUNCHER );
+        notificationIntent.setAction(Intent. ACTION_MAIN );
+        notificationIntent.setFlags(Intent. FLAG_ACTIVITY_CLEAR_TOP | Intent. FLAG_ACTIVITY_SINGLE_TOP );
+        PendingIntent resultIntent = PendingIntent. getActivity (MainActivity. this, 0 , notificationIntent , 0 ) ;
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(MainActivity. this, DEFAULTCHANNELID)
+                .setSmallIcon(R.mipmap.ic_launcher_foreground)
+                .setContentTitle("Ny Rapport!")
+                .setContentIntent(resultIntent)
+                .setStyle(new NotificationCompat.InboxStyle())
+                .setContentText("Hej! En ny rapport har kommit in, öppna appen för att kolla!");
+        NotificationManager mNotificationManager = (NotificationManager)
+                getSystemService(Context.NOTIFICATION_SERVICE);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATIONCHANNELID, "NOTIFICATION_CHANNEL_NAME" , importance);
+            mBuilder.setChannelId(NOTIFICATIONCHANNELID);
+            assert mNotificationManager != null;
+            mNotificationManager.createNotificationChannel(notificationChannel);
+        }
+        assert mNotificationManager != null;
+        mNotificationManager.notify(( int ) System. currentTimeMillis (), mBuilder.build());
     }
 
     /**
@@ -139,25 +171,19 @@ public class MainActivity extends AppCompatActivity {
 
             if(type == UpdateType.NEW_INCIDENT){
                 Incident i = model.getLatestIncident();
+                DateFormat outputformat = new SimpleDateFormat("HH:mm:ss - dd/MM/yy");
+                sendNotification();
                 if (!model.latestReportIsRoute) {
-
                     String station = i.getLastActiveStation().getName();
                     String nCont = String.valueOf(i.getListReports().get(0).getnControllants());
-
-                    DateFormat outputformat = new SimpleDateFormat("HH:mm:ss - dd/MM/yy");
                     String timee = outputformat.format(i.getListReports().get(0).getTimeOfReport());
-
                     IncidentView iw = new IncidentView(getBaseContext(), station, nCont, timee);
                     Incidentlist.addView(iw);
 
                 } else if(model.latestReportIsRoute) {
-
                     String route = i.getLastActiveRoute().getLine();
                     String nCont = String.valueOf(i.getListReports().get(0).getnControllants());
-
-                    DateFormat outputformat = new SimpleDateFormat("HH:mm:ss - dd/MM/yy");
                     String timee = outputformat.format(i.getListReports().get(0).getTimeOfReport());
-
                     IncidentView iw = new IncidentView(getBaseContext(), route, nCont, timee);
                     Incidentlist.addView(iw);
                 }
@@ -185,9 +211,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private void initAutoFill() {
         String[] list = model.getAllStations();
-
         ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, list);
-
         ((AutoCompleteTextView)findViewById(R.id.stationTextBox)).setAdapter(adapter2);
     }
 
@@ -195,7 +219,6 @@ public class MainActivity extends AppCompatActivity {
      * Populates the drop down lists with correct content
      */
     private void initSpinners() {
-
         Spinner spinner = (Spinner) findViewById(R.id.lineSpinner);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.lines_array, android.R.layout.simple_spinner_item);
@@ -224,7 +247,7 @@ public class MainActivity extends AppCompatActivity {
     private void loadReports() {
 
         for (AbstractReport report: model.getAllReports()
-             ) {
+        ) {
 
             createReportViewItem(report);
         }
@@ -343,7 +366,6 @@ public class MainActivity extends AppCompatActivity {
         inactivateLocationButton();
         activateReportButton();
         inactivateProfileButton();
-
         toMakeReport();
     }
 
@@ -401,7 +423,7 @@ public class MainActivity extends AppCompatActivity {
     private void setStationDropDown(int visible) {
 
         if(visible == View.VISIBLE)
-           setLineDropdown(View.INVISIBLE);
+            setLineDropdown(View.INVISIBLE);
         else
             setLineDropdown(View.VISIBLE);
 
