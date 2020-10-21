@@ -9,7 +9,7 @@ import java.util.Date;
  *
  * @see AbstractReport
  *
- * @author: Lucas Karlsson.
+ * @author Lucas Karlsson.
  */
 
 public class ReportStation extends AbstractReport {

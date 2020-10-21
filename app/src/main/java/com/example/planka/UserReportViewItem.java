@@ -7,12 +7,11 @@ import android.util.AttributeSet;
 import android.widget.TextView;
 
 /**
- * //TODO
+ * View for a users reports
  *
- * @author TODO
+ * @author Lucas Karlsson
  */
 public class UserReportViewItem extends ConstraintLayout {
-    //Class which displays information regarding a given report.
     private TextView mLocationText;
     private TextView mTimeText;
     private TextView mCountText;
@@ -21,9 +20,7 @@ public class UserReportViewItem extends ConstraintLayout {
         super(context);
         inflate(context,R.layout.userreportviewitem,this);
         Init();
-
         SetText(position,time,count);
-
     }
 
     public UserReportViewItem(Context context, AttributeSet attrs) {

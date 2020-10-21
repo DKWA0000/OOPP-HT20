@@ -15,7 +15,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
  */
 
 public class LocationView extends ConstraintLayout {
-    //Class which displays information regarding a given incident.
     TextView mPositionLabel;
 
     public LocationView(Context context) {
@@ -25,7 +24,6 @@ public class LocationView extends ConstraintLayout {
     }
 
     public LocationView(Context context, AttributeSet attrs) {
-        //this is the constructor that currently gets called
         super(context, attrs);
         inflate(context,R.layout.locationview,this);
         Init();

@@ -9,15 +9,15 @@ import java.util.Date;
  *
  * @see AbstractReport
  *
- * @author: Lucas Karlsson.
+ * @author Lucas Karlsson.
  */
 
 public class Incident {
 
-    private ArrayList<AbstractReport> listReports = new ArrayList<>();
+    private final ArrayList<AbstractReport> listReports = new ArrayList<>();
     private final IncidentType typeOfIncident;
     private int totalTrustFactor = 0;
-    private int nominalTrustFactor = 0;
+    private int nominalTrustFactor;
     private int upVotes = 0;
     private int downVotes = 0;
 
