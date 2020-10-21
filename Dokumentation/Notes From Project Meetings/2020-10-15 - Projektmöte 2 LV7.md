@@ -1,12 +1,9 @@
-Filnamn: 2020-10-15 - Projektmöte 2 LV7.md
-
 # Projektmöte 2 LV7 - 2020-10-15
 *Sekreterare: Joakim Tubring
 
 ### Agenda:
 - Gå igenom Peer review på vårat projekt
 - Statusuppdatering
--
 
 ### Övergripande vad som diskuterades:
 
