@@ -7,6 +7,11 @@ import android.widget.TextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import model.IncidentType;
 
+/**
+ * //TODO
+ *
+ * @author TODO
+ */
 public class UserReportViewItem extends ConstraintLayout {
     //Class which displays information regarding a given report.
     private TextView mLocationText;

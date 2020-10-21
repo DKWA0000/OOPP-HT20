@@ -5,7 +5,7 @@ package model;
  *
  * @see AbstractReport
  *
- * @author: Lucas Karlsson.
+ * @author Lucas Karlsson.
  */
 
 public class Reporter {
@@ -32,15 +32,9 @@ public class Reporter {
         this.trustFactor += amount;
     }
 
-
-
     public String getMail() {
         return  this.mail;
     }
-
-    /**
-     * Added method to fetch trustfactor.
-     */
 
     public double getTrustFactor() { return this.trustFactor; }
 

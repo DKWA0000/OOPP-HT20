@@ -2,27 +2,29 @@ package com.example.planka;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.res.ResourcesCompat;
-import model.IncidentType;
+
+/**
+ * Class responsible for the view that displays Incidents.
+ *
+ * @see model.Incident
+ * @see model.MODEL
+ *
+ * @author Lucas Karlsson
+ */
 
 public class IncidentView extends ConstraintLayout {
     //Class which displays information regarding a given Incident.
     private TextView mLocationText;
     private TextView mTimeText;
     private TextView mCountText;
-    private boolean endorsed = false;
 
-    public IncidentView(IncidentType type, Context context, String station, String nCont, String time) {
+    public IncidentView(Context context, String station, String nCont, String time) {
         super(context);
         inflate(context,R.layout.incidentview,this);
         Init();
-        if(type == IncidentType.ROUTE) {
-            station = "Spårvagn " + station;
-        }
         SetText(station, time, String.valueOf(nCont));
     }
 
@@ -39,23 +41,9 @@ public class IncidentView extends ConstraintLayout {
     }
 
     private void Init(){
-        mLocationText = findViewById(R.id.urw_locationText);
-        mTimeText = findViewById(R.id.urw_timeText);
-        mCountText = findViewById(R.id.urw_countText);
-
-        ((ImageView)findViewById(R.id.iw_endorseShield)).setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.shield, null));
-        findViewById(R.id.iw_endorseShield).setTooltipText("Ej pålitlig rapport");
-
-
-        findViewById(R.id.iw_endorseShield).setOnClickListener((View view)->{
-                endorse(view);
-        });
-    }
-
-    private void endorse(View view) {
-        ((ImageView) view).setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.shield_green, null));
-        findViewById(R.id.iw_endorseShield).setTooltipText("Pålitlig rapport");
-        endorsed = false;
+        mLocationText = findViewById(R.id.locationText);
+        mTimeText = findViewById(R.id.timeText);
+        mCountText = findViewById(R.id.countText);
     }
 
     public void SetText(String position, String time, String count){

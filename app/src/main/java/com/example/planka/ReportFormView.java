@@ -2,8 +2,13 @@ package com.example.planka;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.TextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
+
+/**
+ * View that holds the form you use to report a Incident.
+ *
+ * @author Lucas Karlsson
+ */
 
 public class ReportFormView extends ConstraintLayout {
 
@@ -22,5 +27,5 @@ public class ReportFormView extends ConstraintLayout {
         super(context, attrs, defStyle);
         inflate(context,R.layout.reportformview,this);
     }
-
 }
+

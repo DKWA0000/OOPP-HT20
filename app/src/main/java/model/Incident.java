@@ -32,7 +32,11 @@ public class Incident {
     }
 
     /**
-     * Returns the latest report added to the listReport arraylist
+     * Gets the latest report added to a Incident.
+     *
+     * @return AbstractReport
+     *
+     * @see AbstractReport
      */
     public AbstractReport latestReport(){
         return listReports.get(listReports.size()-1);

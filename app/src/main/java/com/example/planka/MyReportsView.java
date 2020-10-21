@@ -4,6 +4,12 @@ import android.content.Context;
 import android.util.AttributeSet;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+/**
+ * The view that holds report created in the ReportFormView.
+ *
+ * @author Lucas Karlsson
+ */
+
 public class MyReportsView extends ConstraintLayout {
 
     public MyReportsView(Context context) {

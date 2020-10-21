@@ -1,4 +1,4 @@
-package model;
+package service;
 
 import android.content.res.AssetManager;
 
@@ -8,10 +8,13 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import model.Node; // only used for javadoc
+import model.Route;
+
 /**
  * Class Responsible for reading files.
  *
- * @see Network.Node class
+ * @see Node class
  * @see Route class
  *
  * @author Seif Eddine Bourogaa

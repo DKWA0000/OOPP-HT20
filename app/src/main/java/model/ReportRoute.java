@@ -16,7 +16,17 @@ public class ReportRoute extends AbstractReport{
 
     private IncidentType type;
 
-
+    /**
+     * Constructor for ReportRoute-object, takes the parameters and passes it.
+     *
+     * @param noContr int
+     * @param time Time
+     * @param image Image
+     * @param route Route
+     * @param reporter Reporter
+     *
+     * @see AbstractReport
+     */
     public ReportRoute(int noContr, Date time, Image image, Station station, Route route, Reporter reporter) {
         super(noContr, time, image, station, reporter, route);
         this.type = IncidentType.ROUTE;
