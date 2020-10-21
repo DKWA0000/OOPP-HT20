@@ -16,7 +16,7 @@ den koden till att fixa med fler userstories.
 
 
 ### Nästa möte:
-```Projektmöte, 2020-10-15 13:30 (1 dagar)``` [länk](#)
+```Projektmöte, 2020-10-15 13:30 (1 dagar)``` [länk](https://github.com/DKWA0000/OOPP-HT20/blob/master/Dokumentation/Notes%20From%20Project%20Meetings/2020-10-18%20-%20Projektm%C3%B6te%203%20LV7.md)
 
 ### Att göra till nästa möte:
 - Seif ska se över MODEL och se om denna går att refaktorisera. Ska även se över RAD och SDD.
