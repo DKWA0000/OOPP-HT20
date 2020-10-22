@@ -155,6 +155,10 @@ public class MODEL extends Observable{
         network.setActiveControllersNodes(nodes);
     }
 
+    public boolean userRouteImpacted(String userRoutes){
+        return network.userRouteImpacted(userRoutes);
+    }
+
     /**
      * Method to get all adjacent nodes for a List of Nodes.
      * @param nodes to find adjacent Nodes for.
