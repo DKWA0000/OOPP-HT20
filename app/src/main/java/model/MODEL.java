@@ -23,13 +23,17 @@ public class MODEL extends Observable{
     private final ArrayList<AbstractReport> reportsList = new ArrayList<>();
     private boolean latestReportIsRoute = false;
     private AbstractReport editReport;
+    private Reporter foo;
 
     public MODEL(HashMap<String, ArrayList> fileContent){
-
         network = new Network(fileContent);
         IncidentList = new ArrayList<>();
         IncidentListRoute = new ArrayList<>();
+        foo = new Reporter("foo@bar.me");
+    }
 
+    public Reporter getUser(){
+        return foo;
     }
 
     /**
@@ -50,22 +54,18 @@ public class MODEL extends Observable{
      */
     public AbstractReport makeStationReport(String noContr, Date time, String image, String station){
         latestReportIsRoute = false;
-
-        Reporter reporter = new Reporter("temp@google.com");
-        int NumberOfControllants = Integer.parseInt(noContr);
-        Image i = null;                 //TODO
+        Reporter reporter = getUser();
+        int numberOfControllers = Integer.parseInt(noContr);
+        //Attaching an image have not been implemented.
+        Image i = null;
         Station stationOfReport = network.getStation(station);
-        /*
-            Bellow is used to change states att all relevant nodes after a report has been made on a station.
-            TODO: I will fix the structure after report methods has been completed. Otherwise everything is implemented. //Seif
-         */
         addControllersNodes(stationOfReport);
 
         if(time == null){
             time = new Date();
         }
 
-        AbstractReport report = new ReportStation(NumberOfControllants, time, i, stationOfReport, reporter);
+        AbstractReport report = new ReportStation(numberOfControllers, time, i, stationOfReport, reporter);
         reportsList.add(report);
         notifyObservers(UpdateType.NEW_REPORT);
 
@@ -96,9 +96,10 @@ public class MODEL extends Observable{
      */
     public AbstractReport makeRouteReport(String noContr, Date time, String image, String route){
         latestReportIsRoute = true;
-        Reporter reporter = new Reporter("temp@google.com");
-        int noOfControllants = Integer.parseInt(noContr);
-        Image i = null; //TODO
+        Reporter reporter = getUser();
+        int numberOfControllers = Integer.parseInt(noContr);
+        //Attaching an image have not been implemented.
+        Image i = null;
 
         Route routeOfReport = network.getRouteFromString(route);
         addControllersRoute(routeOfReport);
@@ -107,7 +108,7 @@ public class MODEL extends Observable{
             time = new Date();
         }
 
-        AbstractReport report = new ReportRoute(noOfControllants,time,i, null, routeOfReport, reporter);
+        AbstractReport report = new ReportRoute(numberOfControllers,time,i, null, routeOfReport, reporter);
         reportsList.add(report);
         notifyObservers(UpdateType.NEW_REPORT);
 
