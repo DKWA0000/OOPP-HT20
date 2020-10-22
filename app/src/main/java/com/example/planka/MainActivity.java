@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 import model.*;
 import service.FileReader;
 
@@ -407,6 +408,7 @@ public class MainActivity extends AppCompatActivity {
      * Updates the color of the buttons in the top menu
      */
     private void toProfile() {
+        setLineDropdown(View.VISIBLE);
         inactivateLocationButton();
         inactivateReportButton();
         activateProfileButton();
