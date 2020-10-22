@@ -7,10 +7,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-import model.Network;
-import model.Node;
-import model.Route;
-import model.Station;
+import com.example.planka.model.Network;
+import com.example.planka.model.Node;
+import com.example.planka.model.Route;
+import com.example.planka.model.Station;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -90,7 +90,7 @@ public class testNetwork {
     @Test
     public void testCreateNetwork(){
         assertNotNull(testNetwork);
-        assertEquals("class model.Network", testNetwork.getClass().toString());
+        assertEquals("class Network", testNetwork.getClass().toString());
     }
 
     /**

@@ -3,7 +3,7 @@ package Model;
 import org.junit.Before;
 import org.junit.Test;
 
-import model.Reporter;
+import com.example.planka.model.Reporter;
 
 import static org.junit.Assert.assertEquals;
 

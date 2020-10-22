@@ -1,4 +1,4 @@
-package model;
+package com.example.planka.model;
 
 import android.media.Image;
 import java.util.ArrayList;

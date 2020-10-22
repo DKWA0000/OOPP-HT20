@@ -5,9 +5,9 @@ import org.junit.Test;
 
 import java.sql.Time;
 
-import model.ReportStation;
-import model.Reporter;
-import model.Station;
+import com.example.planka.model.ReportStation;
+import com.example.planka.model.Reporter;
+import com.example.planka.model.Station;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -38,7 +38,7 @@ public class testReportStation {
     @Test
     public void testNewReportStation(){
         assertNotNull(testReportStation);
-        assertEquals("class model.ReportStation", testReportStation.getClass().toString());
+        assertEquals("class ReportStation", testReportStation.getClass().toString());
     }
 
     /**

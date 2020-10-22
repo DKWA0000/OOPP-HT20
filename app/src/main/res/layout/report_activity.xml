@@ -5,7 +5,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MainActivity">
+        tools:context=".controllers.MainActivity">
 
 
     <View
@@ -73,7 +73,7 @@
 
     <view android:layout_width="0dp"
           android:layout_height="0dp"
-          class="com.example.planka.LocationView"
+          class="com.example.planka.controllers.LocationView"
           android:id="@+id/mainLocationView"
           app:layout_constraintTop_toBottomOf="@+id/toolbar"
           app:layout_constraintStart_toStartOf="@+id/toolbar"
@@ -83,7 +83,7 @@
 
     <view android:layout_width="0dp"
           android:layout_height="0dp"
-          class="com.example.planka.ReportView"
+          class="com.example.planka.controllers.ReportView"
           android:id="@+id/mainReportView"
           app:layout_constraintTop_toBottomOf="@+id/toolbar"
           app:layout_constraintStart_toStartOf="@+id/toolbar"
@@ -92,7 +92,7 @@
     />
     <view android:layout_width="0dp"
           android:layout_height="0dp"
-          class="com.example.planka.ProfileView"
+          class="com.example.planka.controllers.ProfileView"
           android:id="@+id/mainProfileView"
           app:layout_constraintTop_toBottomOf="@+id/toolbar"
           app:layout_constraintStart_toStartOf="@+id/toolbar"

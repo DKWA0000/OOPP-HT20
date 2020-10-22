@@ -1,4 +1,4 @@
-package service;
+package com.example.planka.service;
 
 import android.content.res.AssetManager;
 
@@ -8,8 +8,8 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import model.Node; // only used for javadoc
-import model.Route;
+import com.example.planka.model.Node; // only used for javadoc
+import com.example.planka.model.Route;
 
 /**
  * Class Responsible for reading files.

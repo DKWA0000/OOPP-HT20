@@ -1,8 +1,8 @@
-package model;
+package com.example.planka.model;
 
 import java.util.*;
 
-import service.FileReader;
+import com.example.planka.service.FileReader;
 
 /**
  * A graph structure representing the public transportation network.

@@ -74,14 +74,14 @@
 
         <view android:layout_width="0dp"
               android:layout_height="0dp"
-              class="com.example.planka.ReportFormView"
+              class="com.example.planka.controllers.ReportFormView"
               android:id="@+id/rw_reportFormView"
               app:layout_constraintTop_toBottomOf="@+id/line1" app:layout_constraintBottom_toBottomOf="parent"
               app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"/>
 
         <view android:layout_width="0dp"
               android:layout_height="0dp"
-              class="com.example.planka.MyReportsView"
+              class="com.example.planka.controllers.MyReportsView"
               android:id="@+id/rw_myReportsView"
               app:layout_constraintTop_toBottomOf="@+id/line1" app:layout_constraintBottom_toBottomOf="parent"
               app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"/>
@@ -90,7 +90,7 @@
                 android:id="@+id/rw_editReportView"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                class="com.example.planka.EditReportView"
+                class="com.example.planka.controllers.EditReportView"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

@@ -6,12 +6,12 @@ import org.junit.Test;
 import java.sql.Time;
 import java.util.ArrayList;
 
-import model.Incident;
-import model.IncidentType;
-import model.ReportRoute;
-import model.Reporter;
-import model.Route;
-import model.Station;
+import com.example.planka.model.Incident;
+import com.example.planka.model.IncidentType;
+import com.example.planka.model.ReportRoute;
+import com.example.planka.model.Reporter;
+import com.example.planka.model.Route;
+import com.example.planka.model.Station;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -46,7 +46,7 @@ public class testIncident {
     @Test
     public void testCreateIncident(){
         assertNotNull(testIncident);
-        assertEquals("class model.Incident", testIncident.getClass().toString());
+        assertEquals("class Incident", testIncident.getClass().toString());
     }
 
     /**

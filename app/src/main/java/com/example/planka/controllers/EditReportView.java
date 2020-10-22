@@ -1,8 +1,9 @@
-package com.example.planka;
+package com.example.planka.controllers;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import com.example.planka.R;
 
 /**
  * Class responsible for the view that shows when you edit a report.

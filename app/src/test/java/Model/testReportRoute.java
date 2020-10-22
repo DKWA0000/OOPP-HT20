@@ -9,11 +9,11 @@ import static org.junit.Assert.assertNotNull;
 import java.sql.Time;
 import java.util.ArrayList;
 
-import model.IncidentType;
-import model.ReportRoute;
-import model.Reporter;
-import model.Route;
-import model.Station;
+import com.example.planka.model.IncidentType;
+import com.example.planka.model.ReportRoute;
+import com.example.planka.model.Reporter;
+import com.example.planka.model.Route;
+import com.example.planka.model.Station;
 
 /**
  * @author: Joakim Tubring.
@@ -42,7 +42,7 @@ public class testReportRoute {
     @Test
     public void testNewReportroute(){
         assertNotNull(testReportRoute);
-        assertEquals("class model.ReportRoute", testReportRoute.getClass().toString());
+        assertEquals("class ReportRoute", testReportRoute.getClass().toString());
     }
 
     /**

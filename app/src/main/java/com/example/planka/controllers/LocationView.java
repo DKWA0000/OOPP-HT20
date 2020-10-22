@@ -1,16 +1,19 @@
-package com.example.planka;
+package com.example.planka.controllers;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.TextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import com.example.planka.R;
+import com.example.planka.model.Incident;
+import com.example.planka.model.MODEL;
 
 /**
  * Class responsible for the view that displays Incidents.
  *
  * @author Lucas Karlsson
- * @see model.Incident
- * @see model.MODEL
+ * @see Incident
+ * @see MODEL
  */
 
 public class LocationView extends ConstraintLayout {

@@ -7,9 +7,9 @@ import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import model.Network;
-import model.Node;
-import model.Route;
+import com.example.planka.model.Network;
+import com.example.planka.model.Node;
+import com.example.planka.model.Route;
 
 /**
  * @author: Joakim Tubring.

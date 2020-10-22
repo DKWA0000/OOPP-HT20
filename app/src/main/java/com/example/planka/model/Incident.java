@@ -1,5 +1,5 @@
 
-package model;
+package com.example.planka.model;
 
 import java.util.ArrayList;
 import java.util.Date;

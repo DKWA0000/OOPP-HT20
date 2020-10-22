@@ -1,9 +1,10 @@
-package com.example.planka;
+package com.example.planka.controllers;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.TextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import com.example.planka.R;
 
 /**
  * The view for individual reports.

@@ -6,9 +6,9 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import model.Network;
-import model.Node;
-import model.Station;
+import com.example.planka.model.Network;
+import com.example.planka.model.Node;
+import com.example.planka.model.Station;
 
 import static org.junit.Assert.assertEquals;
 

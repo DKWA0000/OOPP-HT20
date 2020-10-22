@@ -8,10 +8,10 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 
-import model.AbstractReport;
-import model.Incident;
-import model.IncidentType;
-import model.MODEL;
+import com.example.planka.model.AbstractReport;
+import com.example.planka.model.Incident;
+import com.example.planka.model.IncidentType;
+import com.example.planka.model.MODEL;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -76,7 +76,7 @@ public class testMODEL {
     @Test
     public void testcreateModel(){
         assertNotNull(testMODEL);
-        assertEquals("class model.MODEL", testMODEL.getClass().toString());
+        assertEquals("class MODEL", testMODEL.getClass().toString());
     }
 
     /**

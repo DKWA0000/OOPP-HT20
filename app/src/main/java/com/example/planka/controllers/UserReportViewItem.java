@@ -1,12 +1,13 @@
-package com.example.planka;
+package com.example.planka.controllers;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.TextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import model.AbstractReport;
-import model.IncidentType;
-import model.Observer;
+import com.example.planka.R;
+import com.example.planka.model.AbstractReport;
+import com.example.planka.model.IncidentType;
+import com.example.planka.model.Observer;
 
 import java.text.SimpleDateFormat;
 

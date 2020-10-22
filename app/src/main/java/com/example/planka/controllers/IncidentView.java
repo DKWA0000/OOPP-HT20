@@ -1,4 +1,4 @@
-package com.example.planka;
+package com.example.planka.controllers;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -6,9 +6,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import model.Incident;
-import model.IncidentType;
-import model.Observer;
+import com.example.planka.R;
+import com.example.planka.model.Incident;
+import com.example.planka.model.IncidentType;
+import com.example.planka.model.MODEL;
+import com.example.planka.model.Observer;
 
 import java.text.SimpleDateFormat;
 
@@ -16,8 +18,8 @@ import java.text.SimpleDateFormat;
  * Class responsible for the view that displays Incidents.
  *
  * @author Lucas Karlsson
- * @see model.Incident
- * @see model.MODEL
+ * @see Incident
+ * @see MODEL
  */
 
 public class IncidentView extends ConstraintLayout implements Observer<Incident> {

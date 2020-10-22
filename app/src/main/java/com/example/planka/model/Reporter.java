@@ -1,4 +1,4 @@
-package model;
+package com.example.planka.model;
 
 /**
  * Class representing the user that reports the incident.

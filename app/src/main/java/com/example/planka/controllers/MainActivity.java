@@ -1,4 +1,4 @@
-package com.example.planka;
+package com.example.planka.controllers;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -11,11 +11,9 @@ import android.view.View;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
-import model.*;
-import service.FileReader;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import com.example.planka.R;
+import com.example.planka.model.*;
+import com.example.planka.service.FileReader;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
@@ -25,8 +23,8 @@ import java.util.HashMap;
  * Class responsible for the view that displays Incidents.
  *
  * @author Lucas Karlsson
- * @see model.Incident
- * @see model.MODEL
+ * @see Incident
+ * @see MODEL
  */
 
 public class MainActivity extends AppCompatActivity implements Observer<UpdateType> {
