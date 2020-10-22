@@ -255,12 +255,14 @@ public class testNetwork {
      * Test that we could adjust the state of the controllers to active.
      */
 
+    /*
     @Test
     public void testsetActiveControllers(){
         assertFalse(nodelist.get(0).getState());
         testNetwork.setActiveControllersNodes(nodelist);
         assertTrue(nodelist.get(0).getState());
     }
+     */
 
     /**
      * Test that we could adjust the state of the controllers to inactive.
