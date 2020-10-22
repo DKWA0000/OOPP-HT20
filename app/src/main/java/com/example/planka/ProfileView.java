@@ -12,7 +12,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
  */
 
 public class ProfileView extends ConstraintLayout {
-    //Class which displays information regarding a given incident.
     TextView mPositionLabel;
 
     public ProfileView(Context context) {
@@ -22,7 +21,6 @@ public class ProfileView extends ConstraintLayout {
     }
 
     public ProfileView(Context context, AttributeSet attrs) {
-        //this is the constructor that currently gets called
         super(context, attrs);
         inflate(context,R.layout.profileview,this);
         Init();

@@ -58,7 +58,7 @@ public class testMODEL {
         testMODEL = new MODEL(testMap);
 
         report = testMODEL.makeStationReport("2", null,null,
-                "testStationA", IncidentType.STATION);
+                "testStationA");
 
         testTime = new Date().toString();
         reportString = report.getInfo().replace(testTime,"");
@@ -96,7 +96,7 @@ public class testMODEL {
     @Test
     public void testmakeRouteReport(){
         AbstractReport reportRoute = testMODEL.makeRouteReport("2",
-                null,null, null,IncidentType.ROUTE);
+                null,null, null);
         assertNotNull(reportRoute);
     }
 
@@ -174,7 +174,7 @@ public class testMODEL {
     @Test
     public void testgetCorrespondingIncidentRoute(){
         report = testMODEL.makeStationReport("2", null,null,
-                "testStationA", IncidentType.ROUTE);
+                "testStationA");
         assertEquals(IncidentType.ROUTE, testMODEL.getCorrespondingIncidentRoute(report).getTypeOfIncident());
     }
 

@@ -3,8 +3,6 @@ package model;
 import android.media.Image;
 import android.os.Build;
 import androidx.annotation.RequiresApi;
-
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -22,10 +20,10 @@ import java.util.List;
 public class MODEL extends Observable{
 
     Network network;
-    private ArrayList<Incident> IncidentList;
-    private ArrayList<Incident> IncidentListRoute;
-    private ArrayList<AbstractReport> reportsList = new ArrayList<>();
-    public boolean latestReportIsRoute = false;
+    private final ArrayList<Incident> IncidentList;
+    private final ArrayList<Incident> IncidentListRoute;
+    private final ArrayList<AbstractReport> reportsList = new ArrayList<>();
+    private boolean latestReportIsRoute = false;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public MODEL(HashMap<String, ArrayList> fileContent){
@@ -45,8 +43,6 @@ public class MODEL extends Observable{
      * @param time Time the Report is being made.
      * @param image Attached Image.
      * @param station Station the User is creating a Report for.
-     * @param it What type of incident the Report is.
-     *
      * @return A new Report.
      *
      * @see AbstractReport
@@ -56,7 +52,7 @@ public class MODEL extends Observable{
      * @see #correspondingIncidentExists(AbstractReport)
      * @see #getCorrespondingIncident(AbstractReport)
      */
-    public AbstractReport makeStationReport(String noContr, Date time, String image, String station, IncidentType it){
+    public AbstractReport makeStationReport(String noContr, Date time, String image, String station){
         latestReportIsRoute = false;
 
         Reporter reporter = new Reporter("temp@google.com");
@@ -93,8 +89,6 @@ public class MODEL extends Observable{
      * @param time Time the Report is being made.
      * @param image Attached Image.
      * @param route route the User is creating a Report for.
-     * @param it What type of incident the Report is.
-     *
      * @return A new Report.
      *
      * @see AbstractReport
@@ -104,7 +98,7 @@ public class MODEL extends Observable{
      * @see #correspondingIncidentExistsRoute(AbstractReport)
      * @see #getCorrespondingIncidentRoute(AbstractReport)
      */
-    public AbstractReport makeRouteReport(String noContr, Date time, String image, String route, IncidentType it){
+    public AbstractReport makeRouteReport(String noContr, Date time, String image, String route){
         latestReportIsRoute = true;
 
         Reporter reporter = new Reporter("temp@google.com");
@@ -141,7 +135,7 @@ public class MODEL extends Observable{
      * @see #getAdjacentNodes(List, int)
      */
     private void addControllers(Station station){
-        List<Node> controllersAtNodes = new ArrayList<>();
+        List<Node> controllersAtNodes;
         controllersAtNodes = getStationNodes(station);
         controllersAtNodes.addAll(getAdjacentNodes(controllersAtNodes, 1));
         setActiveControllersNodes(controllersAtNodes);
@@ -222,6 +216,12 @@ public class MODEL extends Observable{
         return reportsList.get(reportsList.size()-1);
     }
 
+    public ArrayList<Incident> getIncidentList() {
+        ArrayList<Incident> incidents = new ArrayList<>(IncidentList);
+        incidents.addAll(IncidentListRoute);
+        return incidents;
+    }
+
     /**
      * Get all Reports Users has made.
      *
@@ -257,6 +257,10 @@ public class MODEL extends Observable{
             return null;
     }
 
+    public boolean isLatestReportRoute() {
+        return latestReportIsRoute;
+    }
+
     /**
      * Get the latest incident.
      *
@@ -281,7 +285,7 @@ public class MODEL extends Observable{
      *
      * @see AbstractReport
      * @see Incident
-     * @see #makeRouteReport(String, Date, String, String, IncidentType)
+     * @see #makeRouteReport(String, Date, String, String)
      */
     public boolean correspondingIncidentExists(AbstractReport report) {
         for (Incident incident : IncidentList) {
@@ -300,7 +304,7 @@ public class MODEL extends Observable{
      *
      * @see Incident
      * @see AbstractReport
-     * @see #makeStationReport(String, Date, String, String, IncidentType)
+     * @see #makeStationReport(String, Date, String, String)
      */
     public Incident getCorrespondingIncident(AbstractReport report) {
         for (Incident incident : IncidentList) {
@@ -322,7 +326,7 @@ public class MODEL extends Observable{
      *
      * @see AbstractReport
      * @see Incident
-     * @see #makeRouteReport(String, Date, String, String, IncidentType)
+     * @see #makeRouteReport(String, Date, String, String)
      */
     public boolean correspondingIncidentExistsRoute(AbstractReport report) {
         for (Incident incident : IncidentListRoute) {
@@ -341,7 +345,7 @@ public class MODEL extends Observable{
      *
      * @see Incident
      * @see AbstractReport
-     * @see #makeRouteReport(String, Date, String, String, IncidentType)
+     * @see #makeRouteReport(String, Date, String, String)
      */
     public Incident getCorrespondingIncidentRoute(AbstractReport report) {
         for (Incident incident : IncidentListRoute) {

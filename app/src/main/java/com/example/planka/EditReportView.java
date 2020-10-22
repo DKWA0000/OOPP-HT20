@@ -4,6 +4,12 @@ import android.content.Context;
 import android.util.AttributeSet;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+/**
+ * Class responsible for the view that shows when you edit a report.
+ *
+ * @author Lucas Karlsson
+ */
+
 public class EditReportView extends ConstraintLayout {
 
     public EditReportView(Context context) {
@@ -13,7 +19,6 @@ public class EditReportView extends ConstraintLayout {
     }
 
     public EditReportView(Context context, AttributeSet attrs) {
-        //this is the constructor that currently gets called
         super(context, attrs);
         inflate(context,R.layout.editreportview,this);
     }

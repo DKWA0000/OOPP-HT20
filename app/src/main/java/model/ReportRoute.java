@@ -9,12 +9,12 @@ import java.util.Date;
  *
  * @see AbstractReport
  *
- * @author: Lucas Karlsson.
+ * @author Lucas Karlsson.
  */
 
 public class ReportRoute extends AbstractReport{
 
-    private IncidentType type;
+    private final IncidentType type;
 
     /**
      * Constructor for ReportRoute-object, takes the parameters and passes it.
