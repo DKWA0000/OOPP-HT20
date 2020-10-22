@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements Observer<UpdateTy
     private String image;
     private String station;
     private String route;
+    private String userRoute;
     private LinearLayout Incidentlist;
     private SearchView searchView;
     private ArrayList<View> copyOfIncidentlist;
@@ -71,12 +72,9 @@ public class MainActivity extends AppCompatActivity implements Observer<UpdateTy
     }
 
     /**
-     * When a completely new incident on a new location is created this method alerts the user with a notification.
-     *
-     * @see Intent
-     * @see NotificationManager
+     * Sends the User a notification when a Route they have selected is affected by controllers.
      */
-    public void sendNotification() {
+    public void sendNotificationRoute() {
         Intent notificationIntent = new Intent(MainActivity.this, MainActivity.class);
         notificationIntent.addCategory(Intent.CATEGORY_LAUNCHER);
         notificationIntent.setAction(Intent.ACTION_MAIN);
@@ -84,10 +82,10 @@ public class MainActivity extends AppCompatActivity implements Observer<UpdateTy
         PendingIntent resultIntent = PendingIntent.getActivity(MainActivity.this, 0, notificationIntent, 0);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(MainActivity.this, DEFAULTCHANNELID)
                 .setSmallIcon(R.mipmap.ic_launcher_foreground)
-                .setContentTitle("Ny Rapport!")
+                .setContentTitle("Linjen påverkas av kontrollanter!")
                 .setContentIntent(resultIntent)
                 .setStyle(new NotificationCompat.InboxStyle())
-                .setContentText("Hej! En ny rapport har kommit in, öppna appen för att kolla!");
+                .setContentText("Hej! Enligt en rapport påverkas denna linje av kontrollanter!");
         NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             int importance = NotificationManager.IMPORTANCE_HIGH;
@@ -220,18 +218,22 @@ public class MainActivity extends AppCompatActivity implements Observer<UpdateTy
         // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
 
+        spinner = findViewById(R.id.userRoute);
+        adapter = ArrayAdapter.createFromResource(this, R.array.lines_array, android.R.layout.simple_spinner_item);
+        spinner.setAdapter(adapter);
+
         spinner = findViewById(R.id.whenSpinner);
         adapter = ArrayAdapter.createFromResource(this, R.array.when_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
         spinner = findViewById(R.id.controllantsSpinner);
-        adapter = ArrayAdapter.createFromResource(this, R.array.lines_array, android.R.layout.simple_spinner_item);
+        adapter = ArrayAdapter.createFromResource(this, R.array.controllants_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
         spinner = findViewById(R.id.erw_controllantsEditSpinner);
-        adapter = ArrayAdapter.createFromResource(this, R.array.lines_array, android.R.layout.simple_spinner_item);
+        adapter = ArrayAdapter.createFromResource(this, R.array.controllants_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
@@ -378,6 +380,7 @@ public class MainActivity extends AppCompatActivity implements Observer<UpdateTy
         inactivateLocationButton();
         inactivateReportButton();
         activateProfileButton();
+        setUserRouteDropDown(View.VISIBLE);
     }
 
     /**
@@ -439,6 +442,10 @@ public class MainActivity extends AppCompatActivity implements Observer<UpdateTy
         findViewById(R.id.lineSpinner).setVisibility(visible);
     }
 
+    private void setUserRouteDropDown(int visible){
+        findViewById(R.id.userRoute).setVisibility(visible);
+    }
+
     private void setWhenDropdown() {
         findViewById(R.id.whenDropdownText).setVisibility(View.GONE);
         findViewById(R.id.whenDivider).setVisibility(View.GONE);
@@ -489,6 +496,17 @@ public class MainActivity extends AppCompatActivity implements Observer<UpdateTy
             }
         });
 
+        ((Spinner) findViewById(R.id.userRoute)).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                userRoute = (String) adapterView.getItemAtPosition(i);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                userRoute = null;
+            }
+        });
     }
 
 
@@ -506,8 +524,14 @@ public class MainActivity extends AppCompatActivity implements Observer<UpdateTy
 
         if (((RadioButton) findViewById(R.id.stationRadio)).isChecked() && noContr != null && time != null && station != null) {
             model.makeStationReport(noContr, time, image, station);
+            if(userRoute != null && model.userRouteImpacted(userRoute)) {
+                sendNotificationRoute();
+            }
         } else if (((RadioButton) findViewById(R.id.tramRadio)).isChecked() && noContr != null && time != null && route != null) {
             model.makeRouteReport(noContr, time, image, route);
+            if(userRoute != null && model.userRouteImpacted(userRoute)) {
+                sendNotificationRoute();
+            }
         }
     }
 

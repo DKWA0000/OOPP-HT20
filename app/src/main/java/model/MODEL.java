@@ -1,7 +1,6 @@
 package model;
 
 import android.media.Image;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -10,10 +9,11 @@ import java.util.List;
 /**
  * Class responsible for connecting our backend together.
  *
- * @author Seif Eddine Bourogaa
  * @see Network
  * @see AbstractReport
  * @see Incident
+ *
+ * @author Seif Eddine Bourogaa
  */
 public class MODEL extends Observable<UpdateType> {
 
@@ -23,49 +23,49 @@ public class MODEL extends Observable<UpdateType> {
     private final ArrayList<AbstractReport> reportsList = new ArrayList<>();
     private boolean latestReportIsRoute = false;
     private AbstractReport editReport;
+    private Reporter foo;
 
-    public MODEL(HashMap<String, ArrayList> fileContent) {
+    public MODEL(HashMap<String, ArrayList> fileContent){
         network = new Network(fileContent);
-
         IncidentList = new ArrayList<>();
-
         IncidentListRoute = new ArrayList<>();
+        foo = new Reporter("foo@bar.me");
+    }
 
+    public Reporter getUser(){
+        return foo;
     }
 
     /**
      * Method to create a new Report for a specific station.
      *
      * @param noContr Number of reported controllers.
-     * @param time    Time the Report is being made.
-     * @param image   Attached Image.
+     * @param time Time the Report is being made.
+     * @param image Attached Image.
      * @param station Station the User is creating a Report for.
      * @return A new Report.
+     *
      * @see AbstractReport
      * @see Reporter
      * @see Network
-     * @see #addControllers(Station)
+     * @see #addControllersNodes(Station)
      * @see #correspondingIncidentExists(AbstractReport)
      * @see #getCorrespondingIncident(AbstractReport)
      */
-    public AbstractReport makeStationReport(String noContr, Date time, String image, String station) {
+    public AbstractReport makeStationReport(String noContr, Date time, String image, String station){
         latestReportIsRoute = false;
-
-        Reporter reporter = new Reporter("temp@google.com");
-        int NumberOfControllants = Integer.parseInt(noContr);
-        Image i = null;                 //TODO
+        Reporter reporter = getUser();
+        int numberOfControllers = Integer.parseInt(noContr);
+        //Attaching an image have not been implemented.
+        Image i = null;
         Station stationOfReport = network.getStation(station);
-        /*
-            Bellow is used to change states att all relevant nodes after a report has been made on a station.
-            TODO: I will fix the structure after report methods has been completed. Otherwise everything is implemented. //Seif
-         */
-        addControllers(stationOfReport);
+        addControllersNodes(stationOfReport);
 
-        if (time == null) {
+        if(time == null){
             time = new Date();
         }
 
-        AbstractReport report = new ReportStation(NumberOfControllants, time, i, stationOfReport, reporter);
+        AbstractReport report = new ReportStation(numberOfControllers, time, i, stationOfReport, reporter);
         reportsList.add(report);
         notifyObservers(UpdateType.NEW_REPORT);
 
@@ -82,10 +82,11 @@ public class MODEL extends Observable<UpdateType> {
      * Method to create a new Report for a specific Route.
      *
      * @param noContr Number of reported controllers.
-     * @param time    Time the Report is being made.
-     * @param image   Attached Image.
-     * @param route   route the User is creating a Report for.
+     * @param time Time the Report is being made.
+     * @param image Attached Image.
+     * @param route route the User is creating a Report for.
      * @return A new Report.
+     *
      * @see AbstractReport
      * @see Reporter
      * @see Network
@@ -93,20 +94,21 @@ public class MODEL extends Observable<UpdateType> {
      * @see #correspondingIncidentExistsRoute(AbstractReport)
      * @see #getCorrespondingIncidentRoute(AbstractReport)
      */
-    public AbstractReport makeRouteReport(String noContr, Date time, String image, String route) {
+    public AbstractReport makeRouteReport(String noContr, Date time, String image, String route){
         latestReportIsRoute = true;
+        Reporter reporter = getUser();
+        int numberOfControllers = Integer.parseInt(noContr);
+        //Attaching an image have not been implemented.
+        Image i = null;
 
-        Reporter reporter = new Reporter("temp@google.com");
-        int noOfControllants = Integer.parseInt(noContr);
-        Image i = null; //TODO
-        Station stationOfReport = network.getStation("Korsvägen");
-        Route routeOfReport = new Route(route, network.getStationRoutes(stationOfReport));
+        Route routeOfReport = network.getRouteFromString(route);
+        addControllersRoute(routeOfReport);
 
-        if (time == null) {
+        if(time == null){
             time = new Date();
         }
 
-        AbstractReport report = new ReportRoute(noOfControllants, time, i, stationOfReport, routeOfReport, reporter);
+        AbstractReport report = new ReportRoute(numberOfControllers,time,i, null, routeOfReport, reporter);
         reportsList.add(report);
         notifyObservers(UpdateType.NEW_REPORT);
 
@@ -124,39 +126,45 @@ public class MODEL extends Observable<UpdateType> {
      * presence of controllers in the Network.
      *
      * @param station the User has reported.
+     *
      * @see Station
      * @see #getStationNodes(Station)
      * @see #getAdjacentNodes(List, int)
      */
-    private void addControllers(Station station) {
+    private void addControllersNodes(Station station){
         List<Node> controllersAtNodes;
         controllersAtNodes = getStationNodes(station);
         controllersAtNodes.addAll(getAdjacentNodes(controllersAtNodes, 1));
         setActiveControllersNodes(controllersAtNodes);
-        setActiveControllersStation(station);
+    }
+
+    private void addControllersRoute(Route route){
+        network.setActiveControllersRoutes(route);
     }
 
     /**
      * Method to set active controllers at a Node by changing its state to True.
      *
      * @param nodes Nodes that should have their state changed.
+     *
      * @see Network
      * @see Node
      */
-    private void setActiveControllersNodes(List<Node> nodes) {
+    private void setActiveControllersNodes(List<Node> nodes){
         network.setActiveControllersNodes(nodes);
     }
 
-    private void setActiveControllersStation(Station station) {
-        network.setActiveControllersStations(station);
+    public boolean userRouteImpacted(String userRoutes){
+        return network.userRouteImpacted(userRoutes);
     }
 
     /**
      * Method to get all adjacent nodes for a List of Nodes.
-     *
      * @param nodes to find adjacent Nodes for.
      * @param range how far we away we want to look for adjacent Nodes.
+     *
      * @return A list of all adjacent Nodes.
+     *
      * @see Network
      */
     private List<Node> getAdjacentNodes(List<Node> nodes, int range) {
@@ -167,20 +175,21 @@ public class MODEL extends Observable<UpdateType> {
      * Method to get all Nodes for a specific station.
      *
      * @param station whose Nodes we want to get.
+     *
      * @return List of all Nodes for a Station.
+     *
      * @see Network
      * @see Station
      */
-    private List<Node> getStationNodes(Station station) {
+    private List<Node> getStationNodes(Station station){
         return station.getNodes();
     }
 
     /**
      * Method to get all Routes affected by active Reports. Should be used to display all affected Routes to the User.
-     *
      * @return List of all Routes affected by User Reports.
      */
-    public List<Route> getAllImpactedRoutes() {
+    public List<Route> getAllImpactedRoutes(){
         return network.getAllImpactedRoutes();
     }
 
@@ -188,6 +197,7 @@ public class MODEL extends Observable<UpdateType> {
      * Get the Names of all stations in the Network.
      *
      * @return an Array of all Station names.
+     *
      * @see Network
      * @see Station
      */
@@ -199,10 +209,11 @@ public class MODEL extends Observable<UpdateType> {
      * Get the last made User Report.
      *
      * @return last made User Report.
+     *
      * @see AbstractReport
      */
-    public AbstractReport getLatestReport() {
-        return reportsList.get(reportsList.size() - 1);
+    public AbstractReport getLatestReport(){
+        return reportsList.get(reportsList.size()-1);
     }
 
     public ArrayList<Incident> getIncidentList() {
@@ -215,9 +226,10 @@ public class MODEL extends Observable<UpdateType> {
      * Get all Reports Users has made.
      *
      * @return all reports.
+     *
      * @see AbstractReport
      */
-    public ArrayList<AbstractReport> getAllReports() {
+    public ArrayList<AbstractReport> getAllReports(){
         return reportsList;
     }
 
@@ -226,20 +238,20 @@ public class MODEL extends Observable<UpdateType> {
      *
      * @return number of incidents.
      */
-    public int getIncidentCount() {
-        return IncidentList.size();
-    }
+    public int getIncidentCount(){ return IncidentList.size(); }
 
     /**
      * Get a specific incident.
      *
-     * @param index        index of the Incident.
+     * @param index index of the Incident.
      * @param incidentList List holding all incidents.
+     *
      * @return Sought after incident.
+     *
      * @see Incident
      */
-    public Incident getIncident(int index, ArrayList<Incident> incidentList) {
-        if (index >= 0 && index < incidentList.size())
+    public Incident getIncident(int index, ArrayList<Incident> incidentList){
+        if(index >= 0 && index < incidentList.size())
             return incidentList.get(index);
         else
             return null;
@@ -253,13 +265,14 @@ public class MODEL extends Observable<UpdateType> {
      * Get the latest incident.
      *
      * @return latest incident.
+     *
      * @see Incident
      */
     public Incident getLatestIncident() {
         if (latestReportIsRoute) {
-            return getIncident(IncidentListRoute.size() - 1, IncidentListRoute);
+            return getIncident(IncidentListRoute.size()-1, IncidentListRoute);
         } else {
-            return getIncident(IncidentList.size() - 1, IncidentList);
+            return getIncident(IncidentList.size()-1, IncidentList);
         }
     }
 
@@ -267,7 +280,9 @@ public class MODEL extends Observable<UpdateType> {
      * Method to check if there already exists a similar incident.
      *
      * @param report to see if incident exists for.
+     *
      * @return True if incident exists, false otherwise.
+     *
      * @see AbstractReport
      * @see Incident
      * @see #makeRouteReport(String, Date, String, String)
@@ -283,9 +298,10 @@ public class MODEL extends Observable<UpdateType> {
 
     /**
      * Get a corresponding incident.
-     *
      * @param report to find corresponding incident to.
+     *
      * @return the corresponding incident.
+     *
      * @see Incident
      * @see AbstractReport
      * @see #makeStationReport(String, Date, String, String)
@@ -305,7 +321,9 @@ public class MODEL extends Observable<UpdateType> {
      * Method to check if there already exists a similar incident to a RouteReport.
      *
      * @param report to see if incident exists for.
+     *
      * @return True if incident exists, false otherwise.
+     *
      * @see AbstractReport
      * @see Incident
      * @see #makeRouteReport(String, Date, String, String)
@@ -321,9 +339,10 @@ public class MODEL extends Observable<UpdateType> {
 
     /**
      * Get a corresponding incident for a RouteReport.
-     *
      * @param report to find corresponding incident to.
+     *
      * @return the corresponding incident.
+     *
      * @see Incident
      * @see AbstractReport
      * @see #makeRouteReport(String, Date, String, String)
@@ -339,9 +358,10 @@ public class MODEL extends Observable<UpdateType> {
         return incident;
     }
 
-    public void setEditReport(AbstractReport report) {
+    public void setEditReport(AbstractReport report){
         editReport = report;
     }
+
 
     public void editReport(int nCont) {
         editReport.setNControllants(nCont);
