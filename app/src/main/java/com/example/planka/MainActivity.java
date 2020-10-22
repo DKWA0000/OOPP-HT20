@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private String image;
     private String station;
     private String route;
-    private String userRoute;
+    private String userRoute = null;
     private LinearLayout Incidentlist;
     private SearchView searchView;
     private ArrayList<View> copyOfIncidentlist;
@@ -579,12 +579,12 @@ public class MainActivity extends AppCompatActivity {
 
         if (((RadioButton) findViewById(R.id.stationRadio)).isChecked() && noContr != null && time != null && station != null) {
             model.makeStationReport(noContr, time, image, station);
-            if(!userRoute.equals(null) && model.userRouteImpacted(userRoute)) {
+            if(userRoute != null && model.userRouteImpacted(userRoute)) {
                 sendNotificationRoute();
             }
         } else if (((RadioButton) findViewById(R.id.tramRadio)).isChecked() && noContr != null && time != null && route != null) {
             model.makeRouteReport(noContr, time, image, route);
-            if(!userRoute.equals(null) && model.userRouteImpacted(userRoute)) {
+            if(userRoute != null && model.userRouteImpacted(userRoute)) {
                 sendNotificationRoute();
             }
         }

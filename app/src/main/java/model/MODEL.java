@@ -45,7 +45,7 @@ public class MODEL extends Observable{
      * @see AbstractReport
      * @see Reporter
      * @see Network
-     * @see #addControllers(Station)
+     * @see #addControllersNodes(Station)
      * @see #correspondingIncidentExists(AbstractReport)
      * @see #getCorrespondingIncident(AbstractReport)
      */
