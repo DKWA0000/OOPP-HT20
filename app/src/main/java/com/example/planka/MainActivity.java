@@ -29,7 +29,7 @@ import java.util.HashMap;
  * @see model.MODEL
  */
 
-public class MainActivity extends AppCompatActivity implements Observer<UpdateType>{
+public class MainActivity extends AppCompatActivity implements Observer<UpdateType> {
 
     private MODEL model;
     private String noContr;
@@ -40,11 +40,9 @@ public class MainActivity extends AppCompatActivity implements Observer<UpdateTy
     private LinearLayout Incidentlist;
     private SearchView searchView;
     private ArrayList<View> copyOfIncidentlist;
-    private final DateFormat outputformat = new SimpleDateFormat("HH:mm:ss - dd/MM/yy");
     private static final String NOTIFICATIONCHANNELID = "10001";
     private final static String DEFAULTCHANNELID = "default";
     private String editContr;
-    private UserReportViewItem edit_urw;
 
     /**
      * Method running when creating a MainActivity
@@ -58,16 +56,13 @@ public class MainActivity extends AppCompatActivity implements Observer<UpdateTy
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.report_activity);
-
         FileReader fileReader = new FileReader(this.getAssets());
         HashMap<String, ArrayList> allRoutes = fileReader.getAllRoutes();
         Incidentlist = findViewById(R.id.Incidentlist);
         copyOfIncidentlist = new ArrayList<>();
         searchView = findViewById(R.id.searchView);
         model = new MODEL(allRoutes);
-
         model.addObserver(this);
-
         startup();
     }
 
@@ -164,38 +159,19 @@ public class MainActivity extends AppCompatActivity implements Observer<UpdateTy
 
     @Override
     public void notify(UpdateType type) {
-        System.out.println("UPDATE MODEL");
         switch (type) {
             case NEW_INCIDENT:
                 Incident i = model.getLatestIncident();
-                String nCont = String.valueOf(i.getNumberOfControllants());
-                String timee = outputformat.format(i.getListReports().get(0).getTimeOfReport());
-                String RouteOrStation;
-                sendNotification();
-                if (model.isLatestReportRoute()) {
-                    RouteOrStation = i.getLastActiveRoute().getLine();
-                    IncidentView iw = new IncidentView(getBaseContext(), i);
-                    Incidentlist.addView(iw);
-                } else {
-                    RouteOrStation = i.getLastActiveStation().getName();
-                    IncidentView iw = new IncidentView(getBaseContext(), i);
-                    Incidentlist.addView(iw);
-                }
+                IncidentView iw = new IncidentView(getBaseContext(), i);
+                Incidentlist.addView(iw);
                 break;
 
             case NEW_REPORT:
                 AbstractReport report = model.getLatestReport();
                 createReportViewItem(report);
                 break;
-
-
         }
     }
-
-
-
-
-
 
     /**
      * Passes a String[] with all station names to the AutoCompleteTextView box.
@@ -256,7 +232,6 @@ public class MainActivity extends AppCompatActivity implements Observer<UpdateTy
      * @param report data to be presented
      */
     private void createReportViewItem(AbstractReport report) {
-
 
         View.OnClickListener listener = (View view) -> {
             model.setEditReport(report);
@@ -419,7 +394,6 @@ public class MainActivity extends AppCompatActivity implements Observer<UpdateTy
         findViewById(R.id.rw_editReportView).setVisibility(View.VISIBLE);
     }
 
-
     /**
      * Sets the visibility of the chose station text field and the line drop down list
      *
@@ -442,7 +416,7 @@ public class MainActivity extends AppCompatActivity implements Observer<UpdateTy
         findViewById(R.id.lineSpinner).setVisibility(visible);
     }
 
-    private void setUserRouteDropDown(int visible){
+    private void setUserRouteDropDown(int visible) {
         findViewById(R.id.userRoute).setVisibility(visible);
     }
 
@@ -451,7 +425,6 @@ public class MainActivity extends AppCompatActivity implements Observer<UpdateTy
         findViewById(R.id.whenDivider).setVisibility(View.GONE);
         findViewById(R.id.whenSpinner).setVisibility(View.GONE);
     }
-
 
     /**
      * Creates listeners to the drop down lists and the autocomplete text box
@@ -524,12 +497,12 @@ public class MainActivity extends AppCompatActivity implements Observer<UpdateTy
 
         if (((RadioButton) findViewById(R.id.stationRadio)).isChecked() && noContr != null && time != null && station != null) {
             model.makeStationReport(noContr, time, image, station);
-            if(userRoute != null && model.userRouteImpacted(userRoute)) {
+            if (userRoute != null && model.userRouteImpacted(userRoute)) {
                 sendNotificationRoute();
             }
         } else if (((RadioButton) findViewById(R.id.tramRadio)).isChecked() && noContr != null && time != null && route != null) {
             model.makeRouteReport(noContr, time, image, route);
-            if(userRoute != null && model.userRouteImpacted(userRoute)) {
+            if (userRoute != null && model.userRouteImpacted(userRoute)) {
                 sendNotificationRoute();
             }
         }
