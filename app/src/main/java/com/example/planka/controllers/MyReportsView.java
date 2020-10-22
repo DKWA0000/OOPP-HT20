@@ -28,5 +28,4 @@ public class MyReportsView extends ConstraintLayout {
         inflate(context, R.layout.myreportsview, this);
     }
 
-
 }

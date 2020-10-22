@@ -14,6 +14,7 @@ import androidx.core.app.NotificationCompat;
 import com.example.planka.R;
 import com.example.planka.model.*;
 import com.example.planka.service.FileReader;
+
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
@@ -153,8 +154,6 @@ public class MainActivity extends AppCompatActivity implements Observer<UpdateTy
      * @see UpdateType
      * @see MODEL
      */
-
-
     @Override
     public void notify(UpdateType type) {
         switch (type) {
@@ -212,7 +211,6 @@ public class MainActivity extends AppCompatActivity implements Observer<UpdateTy
         spinner.setAdapter(adapter);
 
         spinnerListeners();
-
     }
 
     /**
@@ -230,14 +228,12 @@ public class MainActivity extends AppCompatActivity implements Observer<UpdateTy
      * @param report data to be presented
      */
     private void createReportViewItem(AbstractReport report) {
-
         View.OnClickListener listener = (View view) -> {
             model.setEditReport(report);
             toEditReport();
         };
 
         UserReportViewItem urw = new UserReportViewItem(getBaseContext(), report, listener);
-
         ((LinearLayout) findViewById(R.id.mrw_reportList)).addView(urw);
     }
 
@@ -296,38 +292,56 @@ public class MainActivity extends AppCompatActivity implements Observer<UpdateTy
         }
     }
 
+    /**
+     * Activates the buttons in the Incidents view tab
+     */
     private void activateLocationButton() {
         findViewById(R.id.locationsButton).setForeground(getDrawable(R.drawable.location_icon_active));
         findViewById(R.id.mainLocationView).setVisibility(View.VISIBLE);
     }
 
+    /**
+     * Inactivates the buttons in the Incidents view tab
+     */
     private void inactivateLocationButton() {
         findViewById(R.id.locationsButton).setForeground(getDrawable(R.drawable.location_icon));
         findViewById(R.id.mainLocationView).setVisibility(View.INVISIBLE);
     }
 
+    /**
+     * Activates the buttons in the Report view tab
+     */
     private void activateReportButton() {
         findViewById(R.id.reportsButton).setForeground(getDrawable(R.drawable.report_icon_active));
         findViewById(R.id.mainReportView).setVisibility(View.VISIBLE);
     }
 
+    /**
+     * Inactivates the buttons in the Report view tab
+     */
     private void inactivateReportButton() {
         findViewById(R.id.reportsButton).setForeground(getDrawable(R.drawable.report_icon));
         findViewById(R.id.mainReportView).setVisibility(View.INVISIBLE);
     }
 
+    /**
+     * Activates the buttons in the Profile tab
+     */
     private void activateProfileButton() {
         findViewById(R.id.profileButton).setForeground(getDrawable(R.drawable.profile_icon_active));
         findViewById(R.id.mainProfileView).setVisibility(View.VISIBLE);
     }
 
+    /**
+     * Inactivates the buttons in the Profile tab
+     */
     private void inactivateProfileButton() {
         findViewById(R.id.profileButton).setForeground(getDrawable(R.drawable.profile_icon));
         findViewById(R.id.mainProfileView).setVisibility(View.INVISIBLE);
     }
 
     /**
-     * Updates the color of the buttons in the top menu
+     * Updates the colors of the views and shows the Incident tab also clears the Search view
      */
     private void toLocation() {
         searchView.setQuery("", true);
@@ -347,13 +361,13 @@ public class MainActivity extends AppCompatActivity implements Observer<UpdateTy
     }
 
     /**
-     * Updates the color of the buttons in the top menu
+     * Updates the color of the buttons in the top menu and shows the Profile view
      */
     private void toProfile() {
         inactivateLocationButton();
         inactivateReportButton();
         activateProfileButton();
-        setUserRouteDropDown(View.VISIBLE);
+        setUserRouteDropDown();
     }
 
     /**
@@ -398,10 +412,11 @@ public class MainActivity extends AppCompatActivity implements Observer<UpdateTy
      * @param visible Int
      */
     private void setStationDropDown(int visible) {
-        if (visible == View.VISIBLE)
+        if (visible == View.VISIBLE) {
             setLineDropdown(View.INVISIBLE);
-        else
+        } else {
             setLineDropdown(View.VISIBLE);
+        }
 
         findViewById(R.id.stationTextBox).setVisibility(visible);
         findViewById(R.id.stationText).setVisibility(visible);
@@ -414,8 +429,8 @@ public class MainActivity extends AppCompatActivity implements Observer<UpdateTy
         findViewById(R.id.lineSpinner).setVisibility(visible);
     }
 
-    private void setUserRouteDropDown(int visible) {
-        findViewById(R.id.userRoute).setVisibility(visible);
+    private void setUserRouteDropDown() {
+        findViewById(R.id.userRoute).setVisibility(View.VISIBLE);
     }
 
     private void setWhenDropdown() {
@@ -519,6 +534,5 @@ public class MainActivity extends AppCompatActivity implements Observer<UpdateTy
     public void setFinishOnTouchOutside(boolean finish) {
         super.setFinishOnTouchOutside(finish);
     }
-
 
 }

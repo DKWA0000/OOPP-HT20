@@ -34,8 +34,12 @@ public class FileReader {
         loadAllRoutes(am);
     }
 
+    /**
+     * Method for loading all the routes using the files found csv files found in assets
+     *
+     * @param am AssetManager
+     */
     private void loadAllRoutes(AssetManager am) {
-
         try {
             for (String s : am.list("routes/")) {
 
@@ -51,7 +55,6 @@ public class FileReader {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     /**
@@ -60,4 +63,5 @@ public class FileReader {
     public HashMap<String, ArrayList> getAllRoutes() {
         return fileContent;
     }
+
 }

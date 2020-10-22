@@ -22,24 +22,23 @@ public abstract class Observable<T> {
      * @see Observer
      */
     public void notifyObservers(T data) {
-        for (Observer obs :
-                observers) {
+        for (Observer obs : observers) {
             obs.notify(data);
-
         }
     }
 
     public void addObserver(Observer<T> obs) {
-
-        if(observers.contains(obs))
+        if(observers.contains(obs)) {
             return;
+        }
 
         observers.add(obs);
-
     }
 
     public void removeObserver(Observer<T> obs){
-        if(observers.contains(obs))
+        if(observers.contains(obs)) {
             observers.remove(obs);
+        }
     }
+
 }

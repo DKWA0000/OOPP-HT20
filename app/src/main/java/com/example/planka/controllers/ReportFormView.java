@@ -28,5 +28,6 @@ public class ReportFormView extends ConstraintLayout {
         super(context, attrs, defStyle);
         inflate(context, R.layout.reportformview, this);
     }
+
 }
 

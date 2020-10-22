@@ -33,5 +33,4 @@ public class Route {
         return this.stops;
     }
 
-
 }

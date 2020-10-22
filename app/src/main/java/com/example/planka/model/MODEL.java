@@ -32,10 +32,6 @@ public class MODEL extends Observable<UpdateType> {
         foo = new Reporter("foo@bar.me");
     }
 
-    public Reporter getUser(){
-        return foo;
-    }
-
     /**
      * Method to create a new Report for a specific station.
      *
@@ -362,7 +358,6 @@ public class MODEL extends Observable<UpdateType> {
         editReport = report;
     }
 
-
     public void editReport(int nCont) {
         editReport.setNControllants(nCont);
         notifyObservers(UpdateType.REPORT_UPDATE);
@@ -371,4 +366,9 @@ public class MODEL extends Observable<UpdateType> {
     public AbstractReport getUpdatedReport() {
         return editReport;
     }
+
+    public Reporter getUser(){
+        return foo;
+    }
+
 }

@@ -31,4 +31,5 @@ public class ReportStation extends AbstractReport {
     public String toString() {
         return "";
     }
+
 }

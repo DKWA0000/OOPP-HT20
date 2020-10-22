@@ -1,4 +1,3 @@
-
 package com.example.planka.model;
 
 import java.util.ArrayList;
@@ -19,7 +18,6 @@ public class Incident extends Observable<Incident> implements Observer<AbstractR
     private int nominalTrustFactor;
     private int upVotes = 0;
     private int downVotes = 0;
-    private int averageAmountOfControllants = 0;
 
     /**
      * Constructor of Incident-object takes the IncidentType and passes it.
@@ -57,6 +55,17 @@ public class Incident extends Observable<Incident> implements Observer<AbstractR
     }
 
     /**
+     * Calculates the the average of controllants from all reports in an incident
+     */
+    public int getNumberOfControllants() {
+        int averageAmountOfControllants = 0;
+        for (AbstractReport r : listReports) {
+            averageAmountOfControllants += r.getnControllants();
+        }
+        return averageAmountOfControllants / listReports.size();
+    }
+
+    /**
      * Calculates and updates the collective trustfactor of the incident.
      *
      * @param report AbstractReport
@@ -65,6 +74,11 @@ public class Incident extends Observable<Incident> implements Observer<AbstractR
     public void updateNominalTrustFactor(AbstractReport report) {
         totalTrustFactor += report.getReporter().getTrustFactor();
         nominalTrustFactor = totalTrustFactor / listReports.size();
+    }
+
+    @Override
+    public void notify(AbstractReport report) {
+        notifyObservers(this);
     }
 
     public int getNominalTrustFactor() {
@@ -105,16 +119,4 @@ public class Incident extends Observable<Incident> implements Observer<AbstractR
         notifyObservers(this);
     }
 
-    public int getNumberOfControllants() {
-        averageAmountOfControllants = 0;
-        for (AbstractReport r : listReports) {
-            averageAmountOfControllants += r.getnControllants();
-        }
-        return averageAmountOfControllants / listReports.size();
-    }
-
-    @Override
-    public void notify(AbstractReport report) {
-        notifyObservers(this);
-    }
 }

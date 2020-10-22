@@ -24,9 +24,14 @@ public class Station {
         this.nodeList = new ArrayList<Node>();
     }
 
-    public void addNode(Node n) {
-        if (!nodeList.contains(n)) {
-            nodeList.add(n);
+    /**
+     * Method for adding a node to a Station
+     *
+     * @param node Node
+     */
+    public void addNode(Node node) {
+        if (!nodeList.contains(node)) {
+            nodeList.add(node);
         }
     }
 
@@ -37,5 +42,5 @@ public class Station {
     public ArrayList<Node> getNodes() {
         return this.nodeList;
     }
-    // TODO: .equals() !?
+
 }

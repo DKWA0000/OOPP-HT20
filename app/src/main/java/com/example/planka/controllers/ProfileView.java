@@ -13,6 +13,7 @@ import com.example.planka.R;
  */
 
 public class ProfileView extends ConstraintLayout {
+
     TextView mPositionLabel;
 
     public ProfileView(Context context) {
@@ -36,4 +37,5 @@ public class ProfileView extends ConstraintLayout {
     private void Init() {
         mPositionLabel = this.findViewById(R.id.urw_reportPositionLabel);
     }
+
 }

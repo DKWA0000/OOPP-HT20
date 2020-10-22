@@ -23,10 +23,10 @@ import java.text.SimpleDateFormat;
  */
 
 public class IncidentView extends ConstraintLayout implements Observer<Incident> {
+
     private TextView mLocationText;
     private TextView mTimeText;
     private TextView mCountText;
-
     private boolean like = false;
 
     public IncidentView(Context context, Incident incident) {
@@ -39,33 +39,26 @@ public class IncidentView extends ConstraintLayout implements Observer<Incident>
         String position;
         if (incident.getLatestReport().getType() == IncidentType.ROUTE) {
             position = "Linje " + incident.getLatestReport().getRoute().getLine();
-
         } else {
             position = incident.getLatestReport().getStation().getName();
         }
+
         SetText(position, time, controllants);
-
         incident.addObserver(this);
-
-        ImageView thumb = ((ImageView) findViewById(R.id.iw_like));
-
+        ImageView thumb = findViewById(R.id.iw_like);
         thumb.setImageResource(R.drawable.like);
 
-
-
         findViewById(R.id.iw_like).setOnClickListener((View view) -> {
-            if(!like) {
+            if (!like) {
                 thumb.setImageResource(R.drawable.like_green);
                 incident.upVote();
                 like = true;
-            }
-            else {
+            } else {
                 thumb.setImageResource(R.drawable.like);
                 incident.upVote();
                 like = false;
             }
         });
-
     }
 
     public IncidentView(Context context, AttributeSet attrs) {
@@ -86,8 +79,7 @@ public class IncidentView extends ConstraintLayout implements Observer<Incident>
         mCountText = findViewById(R.id.countText);
     }
 
-    public void update(Incident incident){
-        System.out.println("UPDATE INCIDENT");
+    public void update(Incident incident) {
         String time = new SimpleDateFormat("HH:mm:ss - dd/MM/yy").format(incident.getLatestReport().getTimeOfReport());
         String controllants = Integer.toString(incident.getLatestReport().getnControllants());
         String position;
@@ -97,11 +89,11 @@ public class IncidentView extends ConstraintLayout implements Observer<Incident>
         } else {
             position = incident.getLatestReport().getStation().getName();
         }
+
         SetText(position, time, controllants);
 
-
-        if(incident.getVotes() > 4 ){
-            ImageView verified = ((ImageView) findViewById(R.id.iw_verified));
+        if (incident.getVotes() > 4) {
+            ImageView verified = findViewById(R.id.iw_verified);
             verified.setImageResource(R.drawable.verified);
         }
     }
@@ -120,4 +112,5 @@ public class IncidentView extends ConstraintLayout implements Observer<Incident>
     public void notify(Incident data) {
         update(data);
     }
+
 }

@@ -16,7 +16,6 @@ public class EditReportView extends ConstraintLayout {
     public EditReportView(Context context) {
         super(context);
         inflate(context, R.layout.editreportview, this);
-
     }
 
     public EditReportView(Context context, AttributeSet attrs) {
