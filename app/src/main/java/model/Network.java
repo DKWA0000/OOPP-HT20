@@ -36,11 +36,10 @@ public class Network {
      * @see #createRoutes(HashMap)
      * @see FileReader
      */
-    @RequiresApi(api = Build.VERSION_CODES.N)
+
     public Network(HashMap<String, ArrayList> routesFromFile){
         stations = new HashMap<>();
         adjacencyList = new HashMap<>();
-
         createRoutes(routesFromFile);
         mapAllNodes(routes);
     }

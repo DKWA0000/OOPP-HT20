@@ -1,8 +1,6 @@
 package model;
 
 import android.media.Image;
-import android.os.Build;
-import androidx.annotation.RequiresApi;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -26,16 +24,7 @@ public class MODEL extends Observable{
     private boolean latestReportIsRoute = false;
     private AbstractReport editReport;
 
-
-
-
-
-
-
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public MODEL(HashMap<String, ArrayList> fileContent){
-
         network = new Network(fileContent);
 
         IncidentList = new ArrayList<>();

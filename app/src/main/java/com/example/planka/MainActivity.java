@@ -163,46 +163,42 @@ public class MainActivity extends AppCompatActivity {
     private void addModelObserver() {
         model.addObserver((UpdateType type) -> {
 
-            if (type == UpdateType.NEW_INCIDENT) {
-                Incident i = model.getLatestIncident();
-                DateFormat outputformat = new SimpleDateFormat("HH:mm:ss - dd/MM/yy");
-                sendNotification();
-                if (!model.isLatestReportRoute()) {
-                    String station = i.getLastActiveStation().getName();
+            switch (type) {
+                case NEW_INCIDENT:
+                    Incident i = model.getLatestIncident();
+                    DateFormat outputformat = new SimpleDateFormat("HH:mm:ss - dd/MM/yy");
                     String nCont = String.valueOf(i.getListReports().get(0).getnControllants());
                     String timee = outputformat.format(i.getListReports().get(0).getTimeOfReport());
-                    IncidentView iw = new IncidentView(getBaseContext(), station, nCont, timee);
-                    Incidentlist.addView(iw);
+                    String RouteOrStation;
+                    sendNotification();
+                    if (model.isLatestReportRoute()) {
+                        RouteOrStation = i.getLastActiveRoute().getLine();
+                        IncidentView iw = new IncidentView(getBaseContext(), RouteOrStation, nCont, timee);
+                        Incidentlist.addView(iw);
+                    } else {
+                        RouteOrStation = i.getLastActiveStation().getName();
+                        IncidentView iw = new IncidentView(getBaseContext(), RouteOrStation, nCont, timee);
+                        Incidentlist.addView(iw);
+                    }
+                    break;
 
-                } else if (model.isLatestReportRoute()) {
-                    String route = i.getLastActiveRoute().getLine();
-                    String nCont = String.valueOf(i.getListReports().get(0).getnControllants());
-                    String timee = outputformat.format(i.getListReports().get(0).getTimeOfReport());
-                    IncidentView iw = new IncidentView(getBaseContext(), route, nCont, timee);
-                    Incidentlist.addView(iw);
-                }
+                case NEW_REPORT:
+                    AbstractReport report = model.getLatestReport();
+                    createReportViewItem(report);
+                    break;
+
+                case REPORT_UPDATE:
+                    String time = model.getUpdatedReport().getTimeOfReport().toString();
+                    String controllants = Integer.toString(model.getUpdatedReport().getnControllants());
+                    String position;
+                    if (model.getUpdatedReport().getType() == IncidentType.ROUTE) {
+                        position = "Spårvagn " + model.getUpdatedReport().getRoute().getLine();
+                    } else {
+                        position = model.getUpdatedReport().getStation().getName();
+                    }
+                    edit_urw.SetText(position,time,controllants);
+                    break;
             }
-
-            if (type == UpdateType.NEW_REPORT) {
-                AbstractReport report = model.getLatestReport();
-                createReportViewItem(report);
-            }
-
-            if (type == UpdateType.REPORT_UPDATE) {
-
-                String time = model.getUpdatedReport().getTimeOfReport().toString();
-                String controllants = Integer.toString(model.getUpdatedReport().getnControllants());
-                String position;
-                if (model.getUpdatedReport().getType() == IncidentType.ROUTE) {
-                    position = "Spårvagn " + model.getUpdatedReport().getRoute().getLine();
-
-                } else {
-                    position = model.getUpdatedReport().getStation().getName();
-                }
-                edit_urw.SetText(position,time,controllants);
-            }
-
-
         });
     }
 
@@ -341,16 +337,6 @@ public class MainActivity extends AppCompatActivity {
             case R.id.erw_submitButton:
                 editReport();
                 break;
-
-
-
-
-
-                
-
-
-
-
         }
     }
 
@@ -560,7 +546,6 @@ public class MainActivity extends AppCompatActivity {
         if (editContr != null) {
             model.editReport(Integer.parseInt(editContr));
         }
-
         toMyReports();
     }
 
