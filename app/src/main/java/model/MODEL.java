@@ -24,15 +24,20 @@ public class MODEL extends Observable{
     private final ArrayList<Incident> IncidentListRoute;
     private final ArrayList<AbstractReport> reportsList = new ArrayList<>();
     private boolean latestReportIsRoute = false;
+    private List<Reporter> users = new ArrayList<>();
+
 
     public MODEL(HashMap<String, ArrayList> fileContent){
 
         network = new Network(fileContent);
-
         IncidentList = new ArrayList<>();
-
         IncidentListRoute = new ArrayList<>();
+        createUsers();
+    }
 
+    private void createUsers(){
+        Reporter foo = new Reporter("foo@pm.me");
+        Reporter bar = new Reporter("bar@pm.me"); 
     }
 
     /**
@@ -52,23 +57,19 @@ public class MODEL extends Observable{
      * @see #getCorrespondingIncident(AbstractReport)
      */
     public AbstractReport makeStationReport(String noContr, Date time, String image, String station){
-        latestReportIsRoute = false;
 
-        Reporter reporter = new Reporter("temp@google.com");
-        int NumberOfControllants = Integer.parseInt(noContr);
-        Image i = null;                 //TODO
+        latestReportIsRoute = false;
+        int NumberOfControllers = Integer.parseInt(noContr);
+        //Attaching an image have not yet been implemented.
+        Image i = null;
         Station stationOfReport = network.getStation(station);
-        /*
-            Bellow is used to change states att all relevant nodes after a report has been made on a station.
-            TODO: I will fix the structure after report methods has been completed. Otherwise everything is implemented. //Seif
-         */
         addControllers(stationOfReport);
 
         if(time == null){
             time = new Date();
         }
 
-        AbstractReport report = new ReportStation(NumberOfControllants, time, i, stationOfReport, reporter);
+        AbstractReport report = new ReportStation(NumberOfControllers, time, i, stationOfReport, users.get(0));
         reportsList.add(report);
         notifyObservers(UpdateType.NEW_REPORT);
 
