@@ -108,6 +108,7 @@ public class Network {
      *
      * @return Route object.
      */
+    /*
     public Route getRouteFromString(String routeString){
         for(Route route : routes){
             if(route.getLine().equals(routeString)){
@@ -116,6 +117,7 @@ public class Network {
         }
         return null;
     }
+     */
 
     /**
      * Method to see if a Route user have selected is affected by controllants.
@@ -124,6 +126,7 @@ public class Network {
      *
      * @return True if affected by controllers, false otherwise.
      */
+    /*
     public boolean userRouteImpacted(String routeString){
 
         Route route = getRouteFromString(routeString);
@@ -132,7 +135,7 @@ public class Network {
             return true;
         }
         return false;
-    }
+    }*/
 
     /**
      * Maps all the Nodes from every existing Route. Loads the Nodes into the adjacencyList and also creates Stations
