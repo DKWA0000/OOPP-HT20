@@ -2,7 +2,7 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/reportFormView"
+    android:id="@+id/rw_reportFormView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:visibility="visible" >

@@ -24,6 +24,14 @@ public class MODEL extends Observable{
     private final ArrayList<Incident> IncidentListRoute;
     private final ArrayList<AbstractReport> reportsList = new ArrayList<>();
     private boolean latestReportIsRoute = false;
+    private AbstractReport editReport;
+
+
+
+
+
+
+
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public MODEL(HashMap<String, ArrayList> fileContent){
@@ -356,5 +364,19 @@ public class MODEL extends Observable{
         Incident incident = new Incident(report.getType());
         IncidentListRoute.add(incident);
         return incident;
+    }
+
+    public void setEditReport(AbstractReport report){
+        editReport = report;
+    }
+
+
+    public void editReport(int nCont) {
+        editReport.setNControllants(nCont);
+        notifyObservers(UpdateType.REPORT_UPDATE);
+    }
+
+    public AbstractReport getUpdatedReport() {
+        return editReport;
     }
 }

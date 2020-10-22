@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * @Author Lucas Karlsson
  */
 
-public class Observable {
+public abstract class Observable {
 
     private ArrayList<Observer> observers = new ArrayList<Observer>();
 

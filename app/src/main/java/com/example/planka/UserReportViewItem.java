@@ -5,7 +5,6 @@ import android.util.AttributeSet;
 import android.widget.Button;
 import android.widget.TextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import model.IncidentType;
 
 /**
  * View for a users reports
@@ -17,18 +16,18 @@ public class UserReportViewItem extends ConstraintLayout {
     private TextView mTimeText;
     private TextView mCountText;
 
-    public UserReportViewItem(IncidentType type, Context context, String position, String time, String count,OnClickListener listener) {
+    public UserReportViewItem(Context context, String position, String time, String count) {
         super(context);
         inflate(context,R.layout.userreportviewitem,this);
         Init();
-        if(type == IncidentType.ROUTE) {
-            position = "Spårvagn " + position;
-        }
+
         SetText(position,time,count);
 
-        ((Button)findViewById(R.id.urw_editButton)).setOnClickListener(listener);
-        System.out.println("LISTENER");
 
+    }
+
+    public void setOnEditListener(OnClickListener listener){
+        ((Button)findViewById(R.id.urw_editButton)).setOnClickListener(listener);
     }
 
     public UserReportViewItem(Context context, AttributeSet attrs) {
