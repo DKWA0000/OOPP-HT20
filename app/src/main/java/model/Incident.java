@@ -20,6 +20,7 @@ public class Incident {
     private int nominalTrustFactor;
     private int upVotes = 0;
     private int downVotes = 0;
+    private int averageAmountOfControllants = 0;
 
     /**
      * Constructor of Incident-object takes the IncidentType and passes it.
@@ -95,5 +96,13 @@ public class Incident {
 
     public void downVote(){
         downVotes++;
+    }
+
+    public int getNumberOfControllants() {
+        averageAmountOfControllants = 0;
+        for (AbstractReport r : listReports) {
+            averageAmountOfControllants += r.getnControllants();
+        }
+        return averageAmountOfControllants / listReports.size();
     }
 }

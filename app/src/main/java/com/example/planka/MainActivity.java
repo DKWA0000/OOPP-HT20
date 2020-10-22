@@ -38,7 +38,8 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayout Incidentlist;
     private SearchView searchView;
     private ArrayList<View> copyOfIncidentlist;
-    public static final String NOTIFICATIONCHANNELID = "10001";
+    private final DateFormat outputformat = new SimpleDateFormat("HH:mm:ss - dd/MM/yy");
+    private static final String NOTIFICATIONCHANNELID = "10001";
     private final static String DEFAULTCHANNELID = "default";
 
     private String editContr;
@@ -166,8 +167,7 @@ public class MainActivity extends AppCompatActivity {
             switch (type) {
                 case NEW_INCIDENT:
                     Incident i = model.getLatestIncident();
-                    DateFormat outputformat = new SimpleDateFormat("HH:mm:ss - dd/MM/yy");
-                    String nCont = String.valueOf(i.getListReports().get(0).getnControllants());
+                    String nCont = String.valueOf(i.getNumberOfControllants());
                     String timee = outputformat.format(i.getListReports().get(0).getTimeOfReport());
                     String RouteOrStation;
                     sendNotification();
@@ -188,7 +188,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
 
                 case REPORT_UPDATE:
-                    String time = model.getUpdatedReport().getTimeOfReport().toString();
+                    String time = outputformat.format(model.getUpdatedReport().getTimeOfReport());
                     String controllants = Integer.toString(model.getUpdatedReport().getnControllants());
                     String position;
                     if (model.getUpdatedReport().getType() == IncidentType.ROUTE) {
@@ -262,9 +262,8 @@ public class MainActivity extends AppCompatActivity {
      * @param report data to be presented
      */
     private void createReportViewItem(AbstractReport report) {
-
         UserReportViewItem urw;
-        String time = report.getTimeOfReport().toString();
+        String time = outputformat.format(report.getTimeOfReport());
         String controllants = Integer.toString(report.getnControllants());
         if (model.isLatestReportRoute()) {
             String route = "Spårvagn " + report.getRoute().getLine();
@@ -340,8 +339,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-
     private void activateLocationButton() {
         findViewById(R.id.locationsButton).setForeground(getDrawable(R.drawable.location_icon_active));
         findViewById(R.id.mainLocationView).setVisibility(View.VISIBLE);
@@ -371,7 +368,6 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.profileButton).setForeground(getDrawable(R.drawable.profile_icon));
         findViewById(R.id.mainProfileView).setVisibility(View.INVISIBLE);
     }
-
 
     /**
      * Updates the color of the buttons in the top menu
@@ -414,8 +410,6 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.rw_editReportView).setVisibility(View.INVISIBLE);
     }
 
-
-
     /**
      * Updates the color of the submenu-text and shows MyReportsView
      */
@@ -447,7 +441,6 @@ public class MainActivity extends AppCompatActivity {
      * @param visible Int
      */
     private void setStationDropDown(int visible) {
-
         if (visible == View.VISIBLE)
             setLineDropdown(View.INVISIBLE);
         else
@@ -500,7 +493,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-       
+
 
         ((AutoCompleteTextView) findViewById(R.id.stationTextBox)).setOnItemClickListener((adapterView, view, i, l) -> station = adapterView.getItemAtPosition(i).toString());
 
@@ -524,7 +517,6 @@ public class MainActivity extends AppCompatActivity {
      */
     private void makeReport() {
         String image = null; // Will maybe be implemented at a later stage
-
         Date time;
         if (((RadioButton) findViewById(R.id.nowRadio)).isChecked()) {
             time = Date.from(Instant.now());
