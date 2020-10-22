@@ -25,10 +25,9 @@ public class MODEL extends Observable{
     private AbstractReport editReport;
 
     public MODEL(HashMap<String, ArrayList> fileContent){
+
         network = new Network(fileContent);
-
         IncidentList = new ArrayList<>();
-
         IncidentListRoute = new ArrayList<>();
 
     }
@@ -97,7 +96,6 @@ public class MODEL extends Observable{
      */
     public AbstractReport makeRouteReport(String noContr, Date time, String image, String route){
         latestReportIsRoute = true;
-
         Reporter reporter = new Reporter("temp@google.com");
         int noOfControllants = Integer.parseInt(noContr);
         Image i = null; //TODO
