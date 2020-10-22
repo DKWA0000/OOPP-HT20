@@ -1,8 +1,5 @@
 package model;
 
-import android.os.Build;
-import androidx.annotation.RequiresApi;
-
 import java.util.*;
 
 import service.FileReader;
@@ -25,7 +22,6 @@ public class Network {
     private Map<String, Station> stations;
     private List<Route> routes = new ArrayList<>();
     private List<Route> allAffectedRoutes = new ArrayList<>();
-    private List<Station> allAffectedStations = new ArrayList<>();
     private List<Node> allAffectedNodes = new ArrayList<>();
 
     /**
@@ -36,10 +32,10 @@ public class Network {
      * @see #createRoutes(HashMap)
      * @see FileReader
      */
-
     public Network(HashMap<String, ArrayList> routesFromFile){
         stations = new HashMap<>();
         adjacencyList = new HashMap<>();
+
         createRoutes(routesFromFile);
         mapAllNodes(routes);
     }
@@ -68,35 +64,32 @@ public class Network {
 
     /**
      * See if a Route is impacted by recently reported Nodes. Meaning, if any node the route passes through has controllers nearby.
-     * If they are, add them to the collection of affected Routes and return the Routes impacted by this particular report.
+     * If they are, add them to the collection of affected Routes.
      *
      * @param nodes All nodes with controllers nearby.
      */
-    private List<Route> impactedRoutes(List<Node> nodes){
-        List<Route> impactedRoutes = new ArrayList<>();
+    private void impactedRoutes(List<Node> nodes){
 
         for(Node node : nodes){
 
             for(Route route : routes){
                 if(route.getNodes().contains(node)){
-                    impactedRoutes.add(route);
                     setActiveControllersRoutes(route);
                 }
             }
 
         }
-        return impactedRoutes;
     }
 
     /**
-     * Get method to find which routes are affected by a particular List of nodes.
+     * Set method to add routes impacted by nodes to the List holding routes impacted by nodes.
      *
      * @param nodes All nodes with controllers nearby.
      *
      * @see #impactedRoutes(List)
      */
-    public List<Route> getImpactedRoutes(List<Node> nodes){
-        return impactedRoutes(nodes);
+    private void setImpactedRoutes(List<Node> nodes){
+        impactedRoutes(nodes);
     }
 
     /**
@@ -106,6 +99,39 @@ public class Network {
      */
     public List<Route> getAllImpactedRoutes(){
         return allAffectedRoutes;
+    }
+
+    /**
+     * Method to get a Route from a String.
+     *
+     * @param routeString Name of the route we want.
+     *
+     * @return Route object.
+     */
+    public Route getRouteFromString(String routeString){
+        for(Route route : routes){
+            if(route.getLine().equals(routeString)){
+                return route;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Method to see if a Route user have selected is affected by controllants.
+     *
+     * @param routeString Route user want to know about.
+     *
+     * @return True if affected by controllers, false otherwise.
+     */
+    public boolean userRouteImpacted(String routeString){
+
+        Route route = getRouteFromString(routeString);
+
+        if(allAffectedRoutes.contains(route)){
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -119,7 +145,6 @@ public class Network {
      * @see #existingNode(Node, Route, int)
      * @see #createStations(Node)
      */
-    @RequiresApi(api = Build.VERSION_CODES.N)
     private void mapAllNodes(List<Route> routes){
 
         for(Route route : routes){
@@ -147,7 +172,6 @@ public class Network {
      * @see #addNode(String)
      * @see #addEdge(String, String)
      */
-    @RequiresApi(api = Build.VERSION_CODES.N)
     private void newNode(Node node, Route route, int position){
         addNode(node.getName());
 
@@ -249,6 +273,7 @@ public class Network {
      * @param nodes List of Nodes that should have their state changed
      *
      * @see Node
+     * @see #impactedRoutes(List)
      */
     public void setActiveControllersNodes(List<Node> nodes){
 
@@ -256,6 +281,7 @@ public class Network {
             node.setState(true);
             allAffectedNodes.add(node);
         }
+        setImpactedRoutes(nodes);
     }
 
     /**
@@ -273,27 +299,6 @@ public class Network {
         }
     }
 
-    /**
-     * Add station to the list containing Stations with controllers nearby.
-     *
-     * @param station that should be added.
-     *
-     * @see Station
-     */
-    public void setActiveControllersStations(Station station){
-        allAffectedStations.add(station);
-    }
-
-    /**
-     * Remove station from the List containing Stations with controllers nearby.
-     *
-     * @param station that should be removed.
-     *
-     * @see Station
-     */
-    public void removeActiveControllersStations(Station station){
-        allAffectedStations.remove(station);
-    }
 
     /**
      * Add a route to the List containing Routes affected by controllers.
@@ -326,7 +331,6 @@ public class Network {
      *
      * @see Node
      */
-    @RequiresApi(api = Build.VERSION_CODES.N)
     private void addNode(String station){
         adjacencyList.putIfAbsent(new Node(station), new ArrayList<>());
     }
@@ -338,7 +342,6 @@ public class Network {
      *
      * @see Node
      */
-    @RequiresApi(api = Build.VERSION_CODES.N)
     private void removeNode(String station){
         adjacencyList.values().stream().forEach(e -> e.remove(new Node(station)));
         adjacencyList.remove(new Node(station));
@@ -545,6 +548,4 @@ public class Network {
     public String getStationName(Node node){
         return node.getName().substring(0,node.getName().lastIndexOf(' '));
     }
-
-
 }

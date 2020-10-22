@@ -60,7 +60,7 @@ public class MODEL extends Observable{
             Bellow is used to change states att all relevant nodes after a report has been made on a station.
             TODO: I will fix the structure after report methods has been completed. Otherwise everything is implemented. //Seif
          */
-        addControllers(stationOfReport);
+        addControllersNodes(stationOfReport);
 
         if(time == null){
             time = new Date();
@@ -101,14 +101,15 @@ public class MODEL extends Observable{
         Reporter reporter = new Reporter("temp@google.com");
         int noOfControllants = Integer.parseInt(noContr);
         Image i = null; //TODO
-        Station stationOfReport = network.getStation("Korsvägen");
-        Route routeOfReport = new Route(route, network.getStationRoutes(stationOfReport));
+
+        Route routeOfReport = network.getRouteFromString(route);
+        addControllersRoute(routeOfReport);
 
         if(time == null){
             time = new Date();
         }
 
-        AbstractReport report = new ReportRoute(noOfControllants,time,i,stationOfReport,routeOfReport,reporter);
+        AbstractReport report = new ReportRoute(noOfControllants,time,i, null, routeOfReport, reporter);
         reportsList.add(report);
         notifyObservers(UpdateType.NEW_REPORT);
 
@@ -131,12 +132,15 @@ public class MODEL extends Observable{
      * @see #getStationNodes(Station)
      * @see #getAdjacentNodes(List, int)
      */
-    private void addControllers(Station station){
+    private void addControllersNodes(Station station){
         List<Node> controllersAtNodes;
         controllersAtNodes = getStationNodes(station);
         controllersAtNodes.addAll(getAdjacentNodes(controllersAtNodes, 1));
         setActiveControllersNodes(controllersAtNodes);
-        setActiveControllersStation(station);
+    }
+
+    private void addControllersRoute(Route route){
+        network.setActiveControllersRoutes(route);
     }
 
     /**
@@ -149,10 +153,6 @@ public class MODEL extends Observable{
      */
     private void setActiveControllersNodes(List<Node> nodes){
         network.setActiveControllersNodes(nodes);
-    }
-
-    private void setActiveControllersStation(Station station){
-        network.setActiveControllersStations(station);
     }
 
     /**
