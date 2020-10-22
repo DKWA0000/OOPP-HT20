@@ -343,7 +343,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
 
             case R.id.userRoute:
-                setLineDropdown(View.VISIBLE);
+                setUserRouteDropDown(View.VISIBLE);
                 break;
 
             case R.id.userSave:
@@ -412,6 +412,7 @@ public class MainActivity extends AppCompatActivity {
         inactivateLocationButton();
         inactivateReportButton();
         activateProfileButton();
+        setUserRouteDropDown(View.VISIBLE);
     }
 
     /**
@@ -471,6 +472,9 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.lineDropdownText).setVisibility(visible);
         findViewById(R.id.lineDivider).setVisibility(visible);
         findViewById(R.id.lineSpinner).setVisibility(visible);
+    }
+
+    private void setUserRouteDropDown(int visible){
         findViewById(R.id.userRoute).setVisibility(visible);
     }
 

@@ -24,7 +24,7 @@ public class MODEL extends Observable{
     private final ArrayList<Incident> IncidentListRoute;
     private final ArrayList<AbstractReport> reportsList = new ArrayList<>();
     private boolean latestReportIsRoute = false;
-    private List<Reporter> users = new ArrayList<>();
+    Reporter foo;
 
 
     public MODEL(HashMap<String, ArrayList> fileContent){
@@ -32,12 +32,11 @@ public class MODEL extends Observable{
         network = new Network(fileContent);
         IncidentList = new ArrayList<>();
         IncidentListRoute = new ArrayList<>();
-        createUsers();
+        foo = new Reporter("foo@bar.me");
     }
 
-    private void createUsers(){
-        Reporter foo = new Reporter("foo@pm.me");
-        Reporter bar = new Reporter("bar@pm.me"); 
+    public Reporter getUser(){
+        return foo;
     }
 
     /**
@@ -69,7 +68,7 @@ public class MODEL extends Observable{
             time = new Date();
         }
 
-        AbstractReport report = new ReportStation(NumberOfControllers, time, i, stationOfReport, users.get(0));
+        AbstractReport report = new ReportStation(NumberOfControllers, time, i, stationOfReport, foo);
         reportsList.add(report);
         notifyObservers(UpdateType.NEW_REPORT);
 
