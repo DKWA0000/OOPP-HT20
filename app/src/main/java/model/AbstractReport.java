@@ -7,9 +7,8 @@ import java.util.Date;
 /**
  * Abstracted information from ReportRoute and ReportStation.
  *
- * @see Incident
- *
  * @author Lucas Karlsson.
+ * @see Incident
  */
 
 public abstract class AbstractReport {
@@ -25,13 +24,13 @@ public abstract class AbstractReport {
     /**
      * Constructor for ReportRoute-object and ReportStation-object takes the parameters and passes it.
      *
-     * @param noContr int
-     * @param time Time
-     * @param image Image
-     * @param station Station
+     * @param noContr  int
+     * @param time     Time
+     * @param image    Image
+     * @param station  Station
      * @param reporter Reporter
      */
-    AbstractReport (int noContr, Date time, Image image, Station station, Reporter reporter, Route route) {
+    AbstractReport(int noContr, Date time, Image image, Station station, Reporter reporter, Route route) {
         this.nControllants = noContr;
         this.timeOfReport = time;
         this.imageView = image;
@@ -52,15 +51,19 @@ public abstract class AbstractReport {
         return station;
     }
 
-    public Route getRoute() { return route; }
+    public Route getRoute() {
+        return route;
+    }
 
     public Reporter getReporter() {
         return reporter;
     }
 
-    public IncidentType getType() {return type;}
+    public IncidentType getType() {
+        return type;
+    }
 
-    public void setType(IncidentType type){
+    public void setType(IncidentType type) {
         this.type = type;
     }
 
@@ -68,13 +71,11 @@ public abstract class AbstractReport {
         this.nControllants = n;
     }
 
-    public String getInfo(){
-        return "{nmbr: "+getnControllants() +
+    public String getInfo() {
+        return "{nmbr: " + getnControllants() +
                 ",time: " + getTimeOfReport() +
                 ",station: " + getStation().getName() +
                 "}";
-
-
     }
 
 }

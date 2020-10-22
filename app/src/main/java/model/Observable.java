@@ -5,10 +5,9 @@ import java.util.ArrayList;
 /**
  * Class responsible for holding the observers and notifying them on a update.
  *
+ * @Author Lucas Karlsson
  * @see UpdateType
  * @see Observer
- *
- * @Author Lucas Karlsson
  */
 
 public abstract class Observable {
@@ -19,11 +18,10 @@ public abstract class Observable {
      * Method for notifying the observers given a type of update.
      *
      * @param type Type of update.
-     *
      * @see UpdateType
      * @see Observer
      */
-    public void notifyObservers(UpdateType type){
+    public void notifyObservers(UpdateType type) {
         for (Observer obs :
                 observers) {
             obs.update(type);
@@ -31,7 +29,7 @@ public abstract class Observable {
         }
     }
 
-    public void addObserver(Observer obs){
+    public void addObserver(Observer obs) {
         observers.add(obs);
     }
 

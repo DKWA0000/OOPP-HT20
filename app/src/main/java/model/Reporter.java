@@ -3,9 +3,8 @@ package model;
 /**
  * Class representing the user that reports the incident.
  *
- * @see AbstractReport
- *
  * @author Lucas Karlsson.
+ * @see AbstractReport
  */
 
 public class Reporter {
@@ -18,7 +17,7 @@ public class Reporter {
      *
      * @param mail String
      */
-    public Reporter(String mail){
+    public Reporter(String mail) {
         this.trustFactor = 0;
         this.mail = mail;
     }
@@ -28,14 +27,16 @@ public class Reporter {
      *
      * @param amount double
      */
-    public void increaseTrustFactor(double amount){
+    public void increaseTrustFactor(double amount) {
         this.trustFactor += amount;
     }
 
     public String getMail() {
-        return  this.mail;
+        return this.mail;
     }
 
-    public double getTrustFactor() { return this.trustFactor; }
+    public double getTrustFactor() {
+        return this.trustFactor;
+    }
 
 }

@@ -14,10 +14,9 @@ import model.Route;
 /**
  * Class Responsible for reading files.
  *
+ * @author Seif Eddine Bourogaa
  * @see Node class
  * @see Route class
- *
- * @author Seif Eddine Bourogaa
  */
 
 public class FileReader {
@@ -28,11 +27,10 @@ public class FileReader {
      * Constructor of FileReader, takes the AssetManager and passes it to loadAllRoutes.
      *
      * @param am AssetManager
-     *
      * @see #loadAllRoutes(AssetManager)
      */
     public FileReader(AssetManager am) {
-        fileContent  = new HashMap<>();
+        fileContent = new HashMap<>();
         loadAllRoutes(am);
     }
 
@@ -42,7 +40,7 @@ public class FileReader {
             for (String s : am.list("routes/")) {
 
                 BufferedReader reader = new BufferedReader(new InputStreamReader(am.open("routes/" + s)));
-                String name = s.replace(".txt" , "");
+                String name = s.replace(".txt", "");
                 ArrayList<String> stops = new ArrayList<>();
                 String line;
                 while ((line = reader.readLine()) != null) {
@@ -55,10 +53,11 @@ public class FileReader {
         }
 
     }
+
     /**
      * Get method for to get content read from file.
      */
-    public HashMap<String, ArrayList> getAllRoutes(){
+    public HashMap<String, ArrayList> getAllRoutes() {
         return fileContent;
     }
 }

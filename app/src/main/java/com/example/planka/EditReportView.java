@@ -14,18 +14,18 @@ public class EditReportView extends ConstraintLayout {
 
     public EditReportView(Context context) {
         super(context);
-        inflate(context,R.layout.editreportview,this);
+        inflate(context, R.layout.editreportview, this);
 
     }
 
     public EditReportView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        inflate(context,R.layout.editreportview,this);
+        inflate(context, R.layout.editreportview, this);
     }
 
     public EditReportView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        inflate(context,R.layout.editreportview,this);
+        inflate(context, R.layout.editreportview, this);
     }
 
 }

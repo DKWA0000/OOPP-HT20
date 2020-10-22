@@ -7,9 +7,8 @@ import java.util.Date;
 /**
  * Class representing multiple reports on the same route and or station.
  *
- * @see AbstractReport
- *
  * @author Lucas Karlsson.
+ * @see AbstractReport
  */
 
 public class Incident {
@@ -36,21 +35,19 @@ public class Incident {
      * Gets the latest report added to a Incident.
      *
      * @return AbstractReport
-     *
      * @see AbstractReport
      */
-    public AbstractReport latestReport(){
-        return listReports.get(listReports.size()-1);
+    public AbstractReport latestReport() {
+        return listReports.get(listReports.size() - 1);
     }
 
     /**
      * Add a report to the existing list of reports.
      *
      * @param r AbstractReport
-     *
      * @see AbstractReport
      */
-    public void addReport(AbstractReport r){
+    public void addReport(AbstractReport r) {
         listReports.add(r);
     }
 
@@ -58,21 +55,24 @@ public class Incident {
      * Calculates and updates the collective trustfactor of the incident.
      *
      * @param report AbstractReport
-     *
      * @see AbstractReport
      */
     public void updateNominalTrustFactor(AbstractReport report) {
         totalTrustFactor += report.getReporter().getTrustFactor();
-        nominalTrustFactor = totalTrustFactor/listReports.size();
+        nominalTrustFactor = totalTrustFactor / listReports.size();
     }
 
     public int getNominalTrustFactor() {
         return nominalTrustFactor;
     }
 
-    public Station getLastActiveStation(){ return latestReport().getStation(); }
+    public Station getLastActiveStation() {
+        return latestReport().getStation();
+    }
 
-    public Route getLastActiveRoute() { return latestReport().getRoute(); }
+    public Route getLastActiveRoute() {
+        return latestReport().getRoute();
+    }
 
     public Date getTime() {
         return latestReport().getTimeOfReport();
@@ -86,15 +86,15 @@ public class Incident {
         return listReports;
     }
 
-    public int getVotes(){
-        return upVotes-downVotes;
+    public int getVotes() {
+        return upVotes - downVotes;
     }
 
-    public void upVote(){ //TODO: collect user-data and cap to only on vote per user?
+    public void upVote() { //TODO: collect user-data and cap to only on vote per user?
         upVotes++;
     }
 
-    public void downVote(){
+    public void downVote() {
         downVotes++;
     }
 

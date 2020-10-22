@@ -16,23 +16,23 @@ public class ProfileView extends ConstraintLayout {
 
     public ProfileView(Context context) {
         super(context);
-        inflate(context,R.layout.profileview,this);
+        inflate(context, R.layout.profileview, this);
         Init();
     }
 
     public ProfileView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        inflate(context,R.layout.profileview,this);
+        inflate(context, R.layout.profileview, this);
         Init();
     }
 
     public ProfileView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        inflate(context,R.layout.profileview,this);
+        inflate(context, R.layout.profileview, this);
         Init();
     }
 
-    private void Init(){
+    private void Init() {
         mPositionLabel = this.findViewById(R.id.urw_reportPositionLabel);
     }
 }

@@ -16,23 +16,23 @@ public class ReportView extends ConstraintLayout {
 
     public ReportView(Context context) {
         super(context);
-        inflate(context,R.layout.reportview,this);
+        inflate(context, R.layout.reportview, this);
         Init();
     }
 
     public ReportView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        inflate(context,R.layout.reportview,this);
+        inflate(context, R.layout.reportview, this);
         Init();
     }
 
     public ReportView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        inflate(context,R.layout.reportview,this);
+        inflate(context, R.layout.reportview, this);
         Init();
     }
 
-    private void Init(){
+    private void Init() {
         mPositionLabel = this.findViewById(R.id.urw_reportPositionLabel);
     }
 }

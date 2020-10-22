@@ -5,9 +5,8 @@ import java.util.*;
 /**
  * Class representing a Station.
  *
- * @see AbstractReport
- *
  * @author Lucas Karlsson.
+ * @see AbstractReport
  */
 
 public class Station {
@@ -25,8 +24,8 @@ public class Station {
         this.nodeList = new ArrayList<Node>();
     }
 
-    public void addNode(Node n){
-        if(!nodeList.contains(n)) {
+    public void addNode(Node n) {
+        if (!nodeList.contains(n)) {
             nodeList.add(n);
         }
     }

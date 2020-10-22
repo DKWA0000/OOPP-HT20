@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import model.*;
 import service.FileReader;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -41,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
     private final DateFormat outputformat = new SimpleDateFormat("HH:mm:ss - dd/MM/yy");
     private static final String NOTIFICATIONCHANNELID = "10001";
     private final static String DEFAULTCHANNELID = "default";
-
     private String editContr;
     private UserReportViewItem edit_urw;
 
@@ -196,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
                     } else {
                         position = model.getUpdatedReport().getStation().getName();
                     }
-                    edit_urw.SetText(position,time,controllants);
+                    edit_urw.SetText(position, time, controllants);
                     break;
             }
         });
@@ -491,8 +491,6 @@ public class MainActivity extends AppCompatActivity {
                 editContr = null;
             }
         });
-
-
 
 
         ((AutoCompleteTextView) findViewById(R.id.stationTextBox)).setOnItemClickListener((adapterView, view, i, l) -> station = adapterView.getItemAtPosition(i).toString());

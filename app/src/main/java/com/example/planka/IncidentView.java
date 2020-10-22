@@ -10,10 +10,9 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 /**
  * Class responsible for the view that displays Incidents.
  *
+ * @author Lucas Karlsson
  * @see model.Incident
  * @see model.MODEL
- *
- * @author Lucas Karlsson
  */
 
 public class IncidentView extends ConstraintLayout {
@@ -23,42 +22,39 @@ public class IncidentView extends ConstraintLayout {
 
     public IncidentView(Context context, String station, String nCont, String time) {
         super(context);
-        inflate(context,R.layout.incidentview,this);
+        inflate(context, R.layout.incidentview, this);
         Init();
         SetText(station, time, String.valueOf(nCont));
 
-        ImageView thumb = ((ImageView)findViewById(R.id.iw_like));
+        ImageView thumb = ((ImageView) findViewById(R.id.iw_like));
 
         thumb.setImageResource(R.drawable.like);
-        findViewById(R.id.iw_like).setOnClickListener((View view)->{
+        findViewById(R.id.iw_like).setOnClickListener((View view) -> {
             thumb.setImageResource(R.drawable.like_green);
-            ImageView verified = ((ImageView)findViewById(R.id.iw_verified));
+            ImageView verified = ((ImageView) findViewById(R.id.iw_verified));
             verified.setImageResource(R.drawable.verified);
-
         });
-
-
     }
 
     public IncidentView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        inflate(context,R.layout.incidentview,this);
+        inflate(context, R.layout.incidentview, this);
         Init();
     }
 
     public IncidentView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        inflate(context,R.layout.incidentview,this);
+        inflate(context, R.layout.incidentview, this);
         Init();
     }
 
-    private void Init(){
+    private void Init() {
         mLocationText = findViewById(R.id.locationText);
         mTimeText = findViewById(R.id.timeText);
         mCountText = findViewById(R.id.countText);
     }
 
-    public void SetText(String position, String time, String count){
+    public void SetText(String position, String time, String count) {
         mLocationText.setText(position);
         mTimeText.setText(time);
         mCountText.setText(count);

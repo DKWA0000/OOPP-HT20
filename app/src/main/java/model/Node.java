@@ -1,6 +1,6 @@
 package model;
 
-public class Node{
+public class Node {
     /**
      * Name of the Node as well as the state of the node.
      *
@@ -19,7 +19,7 @@ public class Node{
         /*
             To make it easier to find our nodes.
         */
-    public int hashCode(){
+    public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((name == null) ? 0 : name.hashCode());
@@ -27,7 +27,7 @@ public class Node{
     }
 
     @Override
-    public boolean equals(Object obj){
+    public boolean equals(Object obj) {
         if (this == obj)
             return true;
         if (obj == null)
@@ -62,13 +62,17 @@ public class Node{
      *
      * @return current state of the Node.
      */
-    public boolean getState(){return state; }
+    public boolean getState() {
+        return state;
+    }
 
     /**
      * Set the current state of the Node.
      *
      * @param desiredState state to change into.
      */
-    public void setState(boolean desiredState){ state = desiredState;}
+    public void setState(boolean desiredState) {
+        state = desiredState;
+    }
 
 }

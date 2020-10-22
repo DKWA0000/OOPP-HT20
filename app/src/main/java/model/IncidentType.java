@@ -1,5 +1,5 @@
 package model;
 
 public enum IncidentType {
-    STATION,ROUTE
+    STATION, ROUTE
 }

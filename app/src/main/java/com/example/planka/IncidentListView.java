@@ -13,43 +13,34 @@ import androidx.constraintlayout.widget.ConstraintLayout;
  */
 
 public class IncidentListView extends ConstraintLayout {
+
     LinearLayout mIncidentList;
-    /* Placeholder: MODEL bör implementeras via Observer-pattern eller dylikt */
 
     public IncidentListView(Context context) {
         super(context);
-        inflate(context,R.layout.incidentlistview,this);
+        inflate(context, R.layout.incidentlistview, this);
         Init();
     }
 
     public IncidentListView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        inflate(context,R.layout.incidentlistview,this);
+        inflate(context, R.layout.incidentlistview, this);
         Init();
     }
 
     public IncidentListView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        inflate(context,R.layout.incidentlistview,this);
+        inflate(context, R.layout.incidentlistview, this);
         Init();
     }
 
-    private void Init(){
+    private void Init() {
         mIncidentList = findViewById(R.id.Incidentlist);
-        //PLACEHOLDER
-        /*
-        for (int x = 0 ; x < model.getIncidentCount() ; x++){
-            IncidentView test = new IncidentView(this.getContext(), model.getIncident(x));
-            /* This is where I'd use the info received from model.getIncident(x)
-             * to give explicit information regarding an Incident */
-            /* If I had any */
-
-        if(mIncidentList.getChildCount() == 0)
-        {
+        if (mIncidentList.getChildCount() == 0) {
             TextView emptyListNote = new TextView(this.getContext());
             emptyListNote.setText("No Incidents Found");
             mIncidentList.addView(emptyListNote);
         }
-        //PLACEHOLDER_END
     }
+
 }
