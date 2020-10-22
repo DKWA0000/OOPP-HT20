@@ -68,9 +68,7 @@ public class Network {
      * @param nodes All nodes with controllers nearby.
      */
     private void impactedRoutes(List<Node> nodes){
-
         for(Node node : nodes){
-
             for(Route route : routes){
                 if(route.getNodes().contains(node)){
                     setActiveControllersRoutes(route);

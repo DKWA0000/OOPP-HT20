@@ -13,18 +13,23 @@
         <item>10 min</item>
     </string-array>
 
-    <string-array name="lines_array">
+    <string-array name="controllants_array">
         <item>1</item>
         <item>2</item>
         <item>3</item>
         <item>4</item>
         <item>5</item>
-        <item>6</item>
-        <item>7</item>
-        <item>8</item>
-        <item>9</item>
-        <item>10</item>
-        <item>11</item>
-        <item>13</item>
     </string-array>
+
+    <string-array name="lines_array">
+    <item>3_Marklandsgatan</item>
+    <item>8_Angered</item>
+    <item>8_Frölunda</item>
+    <item>7_Bergsjön</item>
+    <item>6_Länsmansgården</item>
+    <item>3_Kålltorp</item>
+    <item>6_Kortedala</item>
+    <item>7_Tynnered</item>
+    </string-array>
+
 </resources>

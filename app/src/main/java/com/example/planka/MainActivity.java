@@ -234,12 +234,12 @@ public class MainActivity extends AppCompatActivity {
         spinner.setAdapter(adapter);
 
         spinner = findViewById(R.id.controllantsSpinner);
-        adapter = ArrayAdapter.createFromResource(this, R.array.lines_array, android.R.layout.simple_spinner_item);
+        adapter = ArrayAdapter.createFromResource(this, R.array.controllants_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
         spinner = findViewById(R.id.erw_controllantsEditSpinner);
-        adapter = ArrayAdapter.createFromResource(this, R.array.lines_array, android.R.layout.simple_spinner_item);
+        adapter = ArrayAdapter.createFromResource(this, R.array.controllants_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
@@ -266,7 +266,7 @@ public class MainActivity extends AppCompatActivity {
         String time = outputformat.format(report.getTimeOfReport());
         String controllants = Integer.toString(report.getnControllants());
         if (model.isLatestReportRoute()) {
-            String route = "Spårvagn " + report.getRoute().getLine();
+            String route = "Spårvagn " + (report.getRoute()).getLine();
             urw = new UserReportViewItem(getBaseContext(), route, time, controllants);
         } else {
             String station = report.getStation().getName();
