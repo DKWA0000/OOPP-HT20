@@ -14,8 +14,6 @@ import java.util.Date;
 
 public class ReportRoute extends AbstractReport{
 
-    private final IncidentType type;
-
     /**
      * Constructor for ReportRoute-object, takes the parameters and passes it.
      *
@@ -29,7 +27,7 @@ public class ReportRoute extends AbstractReport{
      */
     public ReportRoute(int noContr, Date time, Image image, Station station, Route route, Reporter reporter) {
         super(noContr, time, image, station, reporter, route);
-        this.type = IncidentType.ROUTE;
+        setType(IncidentType.ROUTE);
     }
 
 }

@@ -60,6 +60,10 @@ public abstract class AbstractReport {
 
     public IncidentType getType() {return type;}
 
+    public void setType(IncidentType type){
+        this.type = type;
+    }
+
     public void setNControllants(int n) {
         this.nControllants = n;
     }
