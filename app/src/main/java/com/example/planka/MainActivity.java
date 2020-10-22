@@ -69,36 +69,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * When a completely new incident on a new location is created this method alerts the user with a notification.
-     *
-     * @see Intent
-     * @see NotificationManager
-     */
-    public void sendNotification() {
-        Intent notificationIntent = new Intent(MainActivity.this, MainActivity.class);
-        notificationIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-        notificationIntent.setAction(Intent.ACTION_MAIN);
-        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        PendingIntent resultIntent = PendingIntent.getActivity(MainActivity.this, 0, notificationIntent, 0);
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(MainActivity.this, DEFAULTCHANNELID)
-                .setSmallIcon(R.mipmap.ic_launcher_foreground)
-                .setContentTitle("Ny Rapport!")
-                .setContentIntent(resultIntent)
-                .setStyle(new NotificationCompat.InboxStyle())
-                .setContentText("Hej! En ny rapport har kommit in, öppna appen för att kolla!");
-        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            int importance = NotificationManager.IMPORTANCE_HIGH;
-            NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATIONCHANNELID, "NOTIFICATION_CHANNEL_NAME", importance);
-            mBuilder.setChannelId(NOTIFICATIONCHANNELID);
-            assert mNotificationManager != null;
-            mNotificationManager.createNotificationChannel(notificationChannel);
-        }
-        assert mNotificationManager != null;
-        mNotificationManager.notify((int) System.currentTimeMillis(), mBuilder.build());
-    }
-
-    /**
      * Sends the User a notification when a Route they have selected is affected by controllers.
      */
     public void sendNotificationRoute() {
@@ -198,7 +168,6 @@ public class MainActivity extends AppCompatActivity {
                     String nCont = String.valueOf(i.getNumberOfControllants());
                     String timee = outputformat.format(i.getListReports().get(0).getTimeOfReport());
                     String RouteOrStation;
-                    sendNotification();
                     if (model.isLatestReportRoute()) {
                         RouteOrStation = i.getLastActiveRoute().getLine();
                         IncidentView iw = new IncidentView(getBaseContext(), RouteOrStation, nCont, timee);
