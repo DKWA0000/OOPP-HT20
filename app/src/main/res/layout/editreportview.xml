@@ -2,7 +2,7 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/editReportView"
+    android:id="@+id/rw_editReportView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:visibility="visible">
@@ -15,13 +15,14 @@
         <Button
             android:text="Komplettera"
             android:layout_width="166dp"
-            android:layout_height="83dp" android:id="@+id/EditReportButton"
+            android:layout_height="83dp"
+            android:id="@+id/erw_submitButton"
             app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" android:onClick="onClick"/>
 
 
         <TextView
-            android:id="@+id/textView12"
+            android:id="@+id/erw_text1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Komplettering"
@@ -35,22 +36,23 @@
             android:text="Hur många kontrollanter?"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/numberOfControllantsText"
-            app:layout_constraintTop_toBottomOf="@+id/textView12"
+            android:id="@+id/erw_text2"
+            app:layout_constraintTop_toBottomOf="@+id/erw_text1"
             app:layout_constraintStart_toStartOf="parent"
             android:textSize="18sp" android:layout_marginTop="12dp" app:layout_constraintEnd_toEndOf="parent"/>
+
         <Spinner
-            android:id="@+id/controllantsEditSpinner"
+            android:id="@+id/erw_controllantsEditSpinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:drawable/btn_dropdown"
             android:spinnerMode="dropdown"
-            app:layout_constraintTop_toBottomOf="@+id/textView12"
-            app:layout_constraintStart_toEndOf="@+id/numberOfControllantsText"
+            app:layout_constraintTop_toBottomOf="@+id/erw_text1"
+            app:layout_constraintStart_toEndOf="@+id/erw_text2"
             />
 
         <Button
-            android:id="@+id/imageButton"
+            android:id="@+id/erw_imageButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="80dp"
@@ -59,7 +61,15 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/numberOfControllantsText" />
+            app:layout_constraintTop_toBottomOf="@+id/erw_text2" />
+        <Button
+                android:text="X"
+                android:layout_width="42dp"
+                android:layout_height="39dp" android:id="@+id/erw_closeButton"
+                app:layout_constraintTop_toTopOf="parent"
+                android:onClick="onClick" android:layout_marginTop="5dp"
+                app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </merge>

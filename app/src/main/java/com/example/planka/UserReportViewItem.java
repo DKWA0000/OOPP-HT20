@@ -1,10 +1,10 @@
 package com.example.planka;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
-
 import android.content.Context;
 import android.util.AttributeSet;
+import android.widget.Button;
 import android.widget.TextView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 /**
  * View for a users reports
@@ -20,7 +20,14 @@ public class UserReportViewItem extends ConstraintLayout {
         super(context);
         inflate(context,R.layout.userreportviewitem,this);
         Init();
+
         SetText(position,time,count);
+
+
+    }
+
+    public void setOnEditListener(OnClickListener listener){
+        ((Button)findViewById(R.id.urw_editButton)).setOnClickListener(listener);
     }
 
     public UserReportViewItem(Context context, AttributeSet attrs) {
@@ -36,9 +43,9 @@ public class UserReportViewItem extends ConstraintLayout {
     }
 
     private void Init(){
-        mLocationText = findViewById(R.id.locationText);
-        mTimeText = findViewById(R.id.timeText);
-        mCountText = findViewById(R.id.countText);
+        mLocationText = findViewById(R.id.urw_locationText);
+        mTimeText = findViewById(R.id.urw_timeText);
+        mCountText = findViewById(R.id.urw_countText);
     }
 
     public void SetText(String position, String time, String count){

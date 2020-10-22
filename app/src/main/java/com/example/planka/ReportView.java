@@ -33,6 +33,6 @@ public class ReportView extends ConstraintLayout {
     }
 
     private void Init(){
-        mPositionLabel = this.findViewById(R.id.positionLabel);
+        mPositionLabel = this.findViewById(R.id.urw_reportPositionLabel);
     }
 }

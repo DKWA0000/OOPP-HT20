@@ -32,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
 
     private MODEL model;
     private String noContr;
-    private String editContr;
     private String image;
     private String station;
     private String route;
@@ -41,6 +40,9 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<View> copyOfIncidentlist;
     public static final String NOTIFICATIONCHANNELID = "10001";
     private final static String DEFAULTCHANNELID = "default";
+
+    private String editContr;
+    private UserReportViewItem edit_urw;
 
     /**
      * Method running when creating a MainActivity
@@ -185,6 +187,22 @@ public class MainActivity extends AppCompatActivity {
                 AbstractReport report = model.getLatestReport();
                 createReportViewItem(report);
             }
+
+            if (type == UpdateType.REPORT_UPDATE) {
+
+                String time = model.getUpdatedReport().getTimeOfReport().toString();
+                String controllants = Integer.toString(model.getUpdatedReport().getnControllants());
+                String position;
+                if (model.getUpdatedReport().getType() == IncidentType.ROUTE) {
+                    position = "Spårvagn " + model.getUpdatedReport().getRoute().getLine();
+
+                } else {
+                    position = model.getUpdatedReport().getStation().getName();
+                }
+                edit_urw.SetText(position,time,controllants);
+            }
+
+
         });
     }
 
@@ -224,6 +242,11 @@ public class MainActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
+        spinner = findViewById(R.id.erw_controllantsEditSpinner);
+        adapter = ArrayAdapter.createFromResource(this, R.array.lines_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+
         spinnerListeners();
 
     }
@@ -243,17 +266,27 @@ public class MainActivity extends AppCompatActivity {
      * @param report data to be presented
      */
     private void createReportViewItem(AbstractReport report) {
+
         UserReportViewItem urw;
         String time = report.getTimeOfReport().toString();
         String controllants = Integer.toString(report.getnControllants());
         if (model.isLatestReportRoute()) {
-            String route = report.getRoute().getLine();
+            String route = "Spårvagn " + report.getRoute().getLine();
             urw = new UserReportViewItem(getBaseContext(), route, time, controllants);
         } else {
             String station = report.getStation().getName();
             urw = new UserReportViewItem(getBaseContext(), station, time, controllants);
         }
-        ((LinearLayout) findViewById(R.id.Reportlist)).addView(urw);
+
+        View.OnClickListener listener = (View view) -> {
+            model.setEditReport(report);
+            toEditReport();
+            edit_urw = urw;
+        };
+
+        urw.setOnEditListener(listener);
+
+        ((LinearLayout) findViewById(R.id.mrw_reportList)).addView(urw);
     }
 
 
@@ -280,6 +313,7 @@ public class MainActivity extends AppCompatActivity {
                 toMakeReport();
                 break;
 
+            case R.id.erw_closeButton:
             case R.id.myReportsText:
                 toMyReports();
                 break;
@@ -304,11 +338,22 @@ public class MainActivity extends AppCompatActivity {
                 makeReport();
                 break;
 
-            case R.id.updateButton:
-                toEditReport();
+            case R.id.erw_submitButton:
+                editReport();
                 break;
+
+
+
+
+
+                
+
+
+
+
         }
     }
+
 
 
     private void activateLocationButton() {
@@ -378,10 +423,12 @@ public class MainActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.myReportsText)).setTextColor(getColor(R.color.smurf));
         ((TextView) findViewById(R.id.makeReportText)).setTextColor(getColor(R.color.text_gray));
 
-        findViewById(R.id.reportFormView).setVisibility(View.INVISIBLE);
-        findViewById(R.id.myReportsView).setVisibility(View.VISIBLE);
-        findViewById(R.id.editReportView).setVisibility(View.INVISIBLE);
+        findViewById(R.id.rw_reportFormView).setVisibility(View.INVISIBLE);
+        findViewById(R.id.rw_myReportsView).setVisibility(View.VISIBLE);
+        findViewById(R.id.rw_editReportView).setVisibility(View.INVISIBLE);
     }
+
+
 
     /**
      * Updates the color of the submenu-text and shows MyReportsView
@@ -390,21 +437,21 @@ public class MainActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.myReportsText)).setTextColor(getColor(R.color.text_gray));
         ((TextView) findViewById(R.id.makeReportText)).setTextColor(getColor(R.color.smurf));
 
-        findViewById(R.id.reportFormView).setVisibility(View.VISIBLE);
-        findViewById(R.id.myReportsView).setVisibility(View.INVISIBLE);
-        findViewById(R.id.editReportView).setVisibility(View.INVISIBLE);
+        findViewById(R.id.rw_reportFormView).setVisibility(View.VISIBLE);
+        findViewById(R.id.rw_myReportsView).setVisibility(View.INVISIBLE);
+        findViewById(R.id.rw_editReportView).setVisibility(View.INVISIBLE);
     }
 
     /**
      * Shows EditReportView
      */
     private void toEditReport() {
-        ((TextView) findViewById(R.id.myReportsText)).setTextColor(getColor(R.color.text_gray));
-        ((TextView) findViewById(R.id.makeReportText)).setTextColor(getColor(R.color.smurf));
+        ((TextView) findViewById(R.id.myReportsText)).setTextColor(getColor(R.color.smurf));
+        ((TextView) findViewById(R.id.makeReportText)).setTextColor(getColor(R.color.text_gray));
 
-        findViewById(R.id.reportFormView).setVisibility(View.INVISIBLE);
-        findViewById(R.id.myReportsView).setVisibility(View.INVISIBLE);
-        findViewById(R.id.editReportView).setVisibility(View.VISIBLE);
+        findViewById(R.id.rw_reportFormView).setVisibility(View.INVISIBLE);
+        findViewById(R.id.rw_myReportsView).setVisibility(View.INVISIBLE);
+        findViewById(R.id.rw_editReportView).setVisibility(View.VISIBLE);
     }
 
 
@@ -454,7 +501,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-       /* ((Spinner)findViewById(R.id.controllantsEditSpinner)).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        ((Spinner) findViewById(R.id.erw_controllantsEditSpinner)).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 editContr = (String) adapterView.getItemAtPosition(i);
@@ -464,7 +511,10 @@ public class MainActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> adapterView) {
                 editContr = null;
             }
-        });*/
+        });
+
+
+       
 
         ((AutoCompleteTextView) findViewById(R.id.stationTextBox)).setOnItemClickListener((adapterView, view, i, l) -> station = adapterView.getItemAtPosition(i).toString());
 
@@ -505,12 +555,13 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Edits a report if editContr is not null
-     * TODO: identify which report should be edited
      */
     private void editReport() {
         if (editContr != null) {
-            //[Report].setNControllants(noContr);
+            model.editReport(Integer.parseInt(editContr));
         }
+
+        toMyReports();
     }
 
     public void setFinishOnTouchOutside(boolean finish) {

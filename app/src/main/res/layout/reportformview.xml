@@ -2,7 +2,7 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
        xmlns:app="http://schemas.android.com/apk/res-auto"
        xmlns:tools="http://schemas.android.com/tools"
-       android:id="@+id/reportFormView"
+       android:id="@+id/rw_reportFormView"
        android:layout_width="match_parent"
        android:layout_height="match_parent"
        tools:visibility="visible">
@@ -154,7 +154,7 @@
         <TextView
                 android:text="3. Extra information"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:id="@+id/textView12"
+                android:layout_height="wrap_content" android:id="@+id/erw_text1"
                 app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/line2" android:textSize="24sp"/>
 
@@ -163,8 +163,8 @@
                 android:text="Hur många kontrollanter?"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/numberOfControllantsText"
-                app:layout_constraintTop_toBottomOf="@+id/textView12"
+                android:id="@+id/erw_text2"
+                app:layout_constraintTop_toBottomOf="@+id/erw_text1"
                 app:layout_constraintStart_toStartOf="parent"
                 android:textSize="18sp" android:layout_marginTop="12dp" app:layout_constraintEnd_toEndOf="parent"/>
         <Spinner
@@ -173,12 +173,12 @@
                 android:layout_height="wrap_content"
                 android:background="@android:drawable/btn_dropdown"
                 android:spinnerMode="dropdown"
-                app:layout_constraintTop_toBottomOf="@+id/textView12"
-                app:layout_constraintStart_toEndOf="@+id/numberOfControllantsText"
+                app:layout_constraintTop_toBottomOf="@+id/erw_text1"
+                app:layout_constraintStart_toEndOf="@+id/erw_text2"
         />
 
         <Button
-            android:id="@+id/imageButton"
+            android:id="@+id/erw_imageButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:spinnerMode="dropdown"
@@ -187,6 +187,10 @@
             app:layout_constraintHorizontal_bias="0.491"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/controllantsSpinner" />
+
+
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </merge>
