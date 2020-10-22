@@ -29,7 +29,7 @@ import java.util.HashMap;
  * @see model.MODEL
  */
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements Observer<UpdateType>{
 
     private MODEL model;
     private String noContr;
@@ -64,6 +64,9 @@ public class MainActivity extends AppCompatActivity {
         copyOfIncidentlist = new ArrayList<>();
         searchView = findViewById(R.id.searchView);
         model = new MODEL(allRoutes);
+
+        model.addObserver(this);
+
         startup();
     }
 
@@ -151,8 +154,6 @@ public class MainActivity extends AppCompatActivity {
         setWhenDropdown();
         initAutoFill();
         loadReports();
-        loadIncidents();
-        addModelObserver();
     }
 
     /**
@@ -161,50 +162,41 @@ public class MainActivity extends AppCompatActivity {
      * @see UpdateType
      * @see MODEL
      */
-    private void addModelObserver() {
-        model.addObserver((UpdateType type) -> {
 
-            switch (type) {
-                case NEW_INCIDENT:
-                    Incident i = model.getLatestIncident();
-                    String nCont = String.valueOf(i.getNumberOfControllants());
-                    String timee = outputformat.format(i.getListReports().get(0).getTimeOfReport());
-                    String RouteOrStation;
-                    sendNotification();
-                    if (model.isLatestReportRoute()) {
-                        RouteOrStation = i.getLastActiveRoute().getLine();
-                        IncidentView iw = new IncidentView(getBaseContext(), RouteOrStation, nCont, timee);
-                        Incidentlist.addView(iw);
-                    } else {
-                        RouteOrStation = i.getLastActiveStation().getName();
-                        IncidentView iw = new IncidentView(getBaseContext(), RouteOrStation, nCont, timee);
-                        Incidentlist.addView(iw);
-                    }
-                    break;
 
-                case NEW_REPORT:
-                    AbstractReport report = model.getLatestReport();
-                    createReportViewItem(report);
-                    break;
+    @Override
+    public void notify(UpdateType type) {
+        System.out.println("UPDATE MODEL");
+        switch (type) {
+            case NEW_INCIDENT:
+                Incident i = model.getLatestIncident();
+                String nCont = String.valueOf(i.getNumberOfControllants());
+                String timee = outputformat.format(i.getListReports().get(0).getTimeOfReport());
+                String RouteOrStation;
+                sendNotification();
+                if (model.isLatestReportRoute()) {
+                    RouteOrStation = i.getLastActiveRoute().getLine();
+                    IncidentView iw = new IncidentView(getBaseContext(), i);
+                    Incidentlist.addView(iw);
+                } else {
+                    RouteOrStation = i.getLastActiveStation().getName();
+                    IncidentView iw = new IncidentView(getBaseContext(), i);
+                    Incidentlist.addView(iw);
+                }
+                break;
 
-                case REPORT_UPDATE:
-                    String time = outputformat.format(model.getUpdatedReport().getTimeOfReport());
-                    String controllants = Integer.toString(model.getUpdatedReport().getnControllants());
-                    String position;
-                    if (model.getUpdatedReport().getType() == IncidentType.ROUTE) {
-                        position = "Spårvagn " + model.getUpdatedReport().getRoute().getLine();
-                    } else {
-                        position = model.getUpdatedReport().getStation().getName();
-                    }
-                    edit_urw.SetText(position, time, controllants);
-                    break;
-            }
-        });
+            case NEW_REPORT:
+                AbstractReport report = model.getLatestReport();
+                createReportViewItem(report);
+                break;
+
+
+        }
     }
 
-    private void loadIncidents() {
-        //TODO: implement and call at startup
-    }
+
+
+
 
 
     /**
@@ -262,24 +254,14 @@ public class MainActivity extends AppCompatActivity {
      * @param report data to be presented
      */
     private void createReportViewItem(AbstractReport report) {
-        UserReportViewItem urw;
-        String time = outputformat.format(report.getTimeOfReport());
-        String controllants = Integer.toString(report.getnControllants());
-        if (model.isLatestReportRoute()) {
-            String route = "Spårvagn " + report.getRoute().getLine();
-            urw = new UserReportViewItem(getBaseContext(), route, time, controllants);
-        } else {
-            String station = report.getStation().getName();
-            urw = new UserReportViewItem(getBaseContext(), station, time, controllants);
-        }
+
 
         View.OnClickListener listener = (View view) -> {
             model.setEditReport(report);
             toEditReport();
-            edit_urw = urw;
         };
 
-        urw.setOnEditListener(listener);
+        UserReportViewItem urw = new UserReportViewItem(getBaseContext(), report, listener);
 
         ((LinearLayout) findViewById(R.id.mrw_reportList)).addView(urw);
     }
@@ -542,4 +524,6 @@ public class MainActivity extends AppCompatActivity {
     public void setFinishOnTouchOutside(boolean finish) {
         super.setFinishOnTouchOutside(finish);
     }
+
+
 }

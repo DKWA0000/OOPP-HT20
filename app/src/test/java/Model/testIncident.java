@@ -55,7 +55,7 @@ public class testIncident {
 
     @Test
     public void testaddReport(){
-        assertNotNull(testIncident.latestReport());
+        assertNotNull(testIncident.getLatestReport());
     }
 
     /**
@@ -65,7 +65,7 @@ public class testIncident {
     @Test
     public void testlatestReport(){
         assertEquals("{nmbr: 2,time: 01:02:03,station: testStation}",
-                testIncident.latestReport().getInfo());
+                testIncident.getLatestReport().getInfo());
     }
 
     /**
@@ -83,7 +83,7 @@ public class testIncident {
 
     @Test
     public void testupdateNominalTrustFactor() {
-        testIncident.updateNominalTrustFactor(testIncident.latestReport());
+        testIncident.updateNominalTrustFactor(testIncident.getLatestReport());
         assertEquals(1, testIncident.getNominalTrustFactor());
     }
 

@@ -1,7 +1,7 @@
 package model;
 
-public interface Observer {
+public interface Observer<T> {
 
-    void update(UpdateType type);
+    void notify(T data);
 
 }

@@ -11,7 +11,7 @@ import java.util.Date;
  * @see Incident
  */
 
-public abstract class AbstractReport {
+public abstract class AbstractReport extends Observable<AbstractReport> {
 
     private int nControllants;
     private Date timeOfReport;
@@ -69,6 +69,7 @@ public abstract class AbstractReport {
 
     public void setNControllants(int n) {
         this.nControllants = n;
+        notifyObservers(this);
     }
 
     public String getInfo() {

@@ -6,6 +6,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import model.Incident;
+import model.IncidentType;
+import model.Observer;
+
+import java.text.SimpleDateFormat;
 
 /**
  * Class responsible for the view that displays Incidents.
@@ -15,25 +20,50 @@ import androidx.constraintlayout.widget.ConstraintLayout;
  * @see model.MODEL
  */
 
-public class IncidentView extends ConstraintLayout {
+public class IncidentView extends ConstraintLayout implements Observer<Incident> {
     private TextView mLocationText;
     private TextView mTimeText;
     private TextView mCountText;
 
-    public IncidentView(Context context, String station, String nCont, String time) {
+    private boolean like = false;
+
+    public IncidentView(Context context, Incident incident) {
         super(context);
         inflate(context, R.layout.incidentview, this);
         Init();
-        SetText(station, time, String.valueOf(nCont));
+
+        String time = new SimpleDateFormat("HH:mm:ss - dd/MM/yy").format(incident.getLatestReport().getTimeOfReport());
+        String controllants = Integer.toString(incident.getLatestReport().getnControllants());
+        String position;
+        if (incident.getLatestReport().getType() == IncidentType.ROUTE) {
+            position = "Linje " + incident.getLatestReport().getRoute().getLine();
+
+        } else {
+            position = incident.getLatestReport().getStation().getName();
+        }
+        SetText(position, time, controllants);
+
+        incident.addObserver(this);
 
         ImageView thumb = ((ImageView) findViewById(R.id.iw_like));
 
         thumb.setImageResource(R.drawable.like);
+
+
+
         findViewById(R.id.iw_like).setOnClickListener((View view) -> {
-            thumb.setImageResource(R.drawable.like_green);
-            ImageView verified = ((ImageView) findViewById(R.id.iw_verified));
-            verified.setImageResource(R.drawable.verified);
+            if(!like) {
+                thumb.setImageResource(R.drawable.like_green);
+                incident.upVote();
+                like = true;
+            }
+            else {
+                thumb.setImageResource(R.drawable.like);
+                incident.upVote();
+                like = false;
+            }
         });
+
     }
 
     public IncidentView(Context context, AttributeSet attrs) {
@@ -54,6 +84,26 @@ public class IncidentView extends ConstraintLayout {
         mCountText = findViewById(R.id.countText);
     }
 
+    public void update(Incident incident){
+        System.out.println("UPDATE INCIDENT");
+        String time = new SimpleDateFormat("HH:mm:ss - dd/MM/yy").format(incident.getLatestReport().getTimeOfReport());
+        String controllants = Integer.toString(incident.getLatestReport().getnControllants());
+        String position;
+        if (incident.getLatestReport().getType() == IncidentType.ROUTE) {
+            position = "Linje " + incident.getLatestReport().getRoute().getLine();
+
+        } else {
+            position = incident.getLatestReport().getStation().getName();
+        }
+        SetText(position, time, controllants);
+
+
+        if(incident.getVotes() > 4 ){
+            ImageView verified = ((ImageView) findViewById(R.id.iw_verified));
+            verified.setImageResource(R.drawable.verified);
+        }
+    }
+
     public void SetText(String position, String time, String count) {
         mLocationText.setText(position);
         mTimeText.setText(time);
@@ -62,5 +112,10 @@ public class IncidentView extends ConstraintLayout {
 
     public TextView getLocationText() {
         return this.mLocationText;
+    }
+
+    @Override
+    public void notify(Incident data) {
+        update(data);
     }
 }

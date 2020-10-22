@@ -10,27 +10,36 @@ import java.util.ArrayList;
  * @see Observer
  */
 
-public abstract class Observable {
+public abstract class Observable<T> {
 
-    private ArrayList<Observer> observers = new ArrayList<Observer>();
+    private ArrayList<Observer<T>> observers = new ArrayList<Observer<T>>();
 
     /**
      * Method for notifying the observers given a type of update.
      *
-     * @param type Type of update.
+     * @param data Type of update.
      * @see UpdateType
      * @see Observer
      */
-    public void notifyObservers(UpdateType type) {
+    public void notifyObservers(T data) {
         for (Observer obs :
                 observers) {
-            obs.update(type);
+            obs.notify(data);
 
         }
     }
 
-    public void addObserver(Observer obs) {
+    public void addObserver(Observer<T> obs) {
+
+        if(observers.contains(obs))
+            return;
+
         observers.add(obs);
+
     }
 
+    public void removeObserver(Observer<T> obs){
+        if(observers.contains(obs))
+            observers.remove(obs);
+    }
 }

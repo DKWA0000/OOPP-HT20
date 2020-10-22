@@ -11,7 +11,7 @@ import java.util.Date;
  * @see AbstractReport
  */
 
-public class Incident {
+public class Incident extends Observable<Incident> implements Observer<AbstractReport>{
 
     private final ArrayList<AbstractReport> listReports = new ArrayList<>();
     private final IncidentType typeOfIncident;
@@ -37,7 +37,7 @@ public class Incident {
      * @return AbstractReport
      * @see AbstractReport
      */
-    public AbstractReport latestReport() {
+    public AbstractReport getLatestReport() {
         return listReports.get(listReports.size() - 1);
     }
 
@@ -48,7 +48,12 @@ public class Incident {
      * @see AbstractReport
      */
     public void addReport(AbstractReport r) {
+        if(listReports.size() > 0)
+            getLatestReport().removeObserver(this);
         listReports.add(r);
+        r.addObserver(this);
+        System.out.println("ADDED REPORT");
+        notifyObservers(this);
     }
 
     /**
@@ -67,15 +72,15 @@ public class Incident {
     }
 
     public Station getLastActiveStation() {
-        return latestReport().getStation();
+        return getLatestReport().getStation();
     }
 
     public Route getLastActiveRoute() {
-        return latestReport().getRoute();
+        return getLatestReport().getRoute();
     }
 
     public Date getTime() {
-        return latestReport().getTimeOfReport();
+        return getLatestReport().getTimeOfReport();
     }
 
     public IncidentType getTypeOfIncident() {
@@ -90,12 +95,14 @@ public class Incident {
         return upVotes - downVotes;
     }
 
-    public void upVote() { //TODO: collect user-data and cap to only on vote per user?
+    public void upVote() {
         upVotes++;
+        notifyObservers(this);
     }
 
     public void downVote() {
         downVotes++;
+        notifyObservers(this);
     }
 
     public int getNumberOfControllants() {
@@ -104,5 +111,10 @@ public class Incident {
             averageAmountOfControllants += r.getnControllants();
         }
         return averageAmountOfControllants / listReports.size();
+    }
+
+    @Override
+    public void notify(AbstractReport report) {
+        notifyObservers(this);
     }
 }

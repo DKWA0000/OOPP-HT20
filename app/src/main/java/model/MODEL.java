@@ -15,7 +15,7 @@ import java.util.List;
  * @see AbstractReport
  * @see Incident
  */
-public class MODEL extends Observable {
+public class MODEL extends Observable<UpdateType> {
 
     Network network;
     private final ArrayList<Incident> IncidentList;

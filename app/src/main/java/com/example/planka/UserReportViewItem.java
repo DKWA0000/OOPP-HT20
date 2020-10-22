@@ -2,33 +2,38 @@ package com.example.planka;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.Button;
 import android.widget.TextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import model.AbstractReport;
+import model.IncidentType;
+import model.Observer;
+
+import java.text.SimpleDateFormat;
 
 /**
  * View for a users reports
  *
  * @author Lucas Karlsson
  */
-public class UserReportViewItem extends ConstraintLayout {
+public class UserReportViewItem extends ConstraintLayout implements Observer<AbstractReport> {
     private TextView mLocationText;
     private TextView mTimeText;
     private TextView mCountText;
 
-    public UserReportViewItem(Context context, String position, String time, String count) {
+    public UserReportViewItem(Context context, AbstractReport report, OnClickListener listener) {
         super(context);
+
         inflate(context, R.layout.userreportviewitem, this);
         Init();
 
-        SetText(position, time, count);
+        findViewById(R.id.urw_editButton).setOnClickListener(listener);
 
+        update(report);
+        report.addObserver(this);
 
     }
 
-    public void setOnEditListener(OnClickListener listener) {
-        ((Button) findViewById(R.id.urw_editButton)).setOnClickListener(listener);
-    }
+
 
     public UserReportViewItem(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -52,5 +57,24 @@ public class UserReportViewItem extends ConstraintLayout {
         mLocationText.setText(position);
         mTimeText.setText(time);
         mCountText.setText(count);
+    }
+
+
+    public void update(AbstractReport report){
+        System.out.println("UPDATE REPORT");
+        String time = new SimpleDateFormat("HH:mm:ss - dd/MM/yy").format(report.getTimeOfReport());
+        String controllants = Integer.toString(report.getnControllants());
+        String position;
+        if (report.getType() == IncidentType.ROUTE) {
+            position = "Linje " + report.getRoute().getLine();
+
+        } else {
+            position = report.getStation().getName();
+        }
+        SetText(position, time, controllants);
+    }
+    @Override
+    public void notify(AbstractReport data) {
+        update(data);
     }
 }
