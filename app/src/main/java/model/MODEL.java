@@ -51,7 +51,7 @@ public class MODEL extends Observable{
      * @see AbstractReport
      * @see Reporter
      * @see Network
-     * @see #addControllers(Station)
+     * @see #addControllersNodes(Station)
      * @see #correspondingIncidentExists(AbstractReport)
      * @see #getCorrespondingIncident(AbstractReport)
      */
@@ -59,10 +59,10 @@ public class MODEL extends Observable{
 
         latestReportIsRoute = false;
         int NumberOfControllers = Integer.parseInt(noContr);
-        //Attaching an image have not yet been implemented.
+        //Attaching an image have not been implemented.
         Image i = null;
         Station stationOfReport = network.getStation(station);
-        addControllers(stationOfReport);
+        addControllersNodes(stationOfReport);
 
         if(time == null){
             time = new Date();
@@ -93,24 +93,24 @@ public class MODEL extends Observable{
      * @see AbstractReport
      * @see Reporter
      * @see Network
-     * @see #addControllers(Station) //Will be added when the functionality for creating a Report is complete.
+     * @see #addControllersRoutes(Station) //Will be added when the functionality for creating a Report is complete.
      * @see #correspondingIncidentExistsRoute(AbstractReport)
      * @see #getCorrespondingIncidentRoute(AbstractReport)
      */
-    public AbstractReport makeRouteReport(String noContr, Date time, String image, String route){
-        latestReportIsRoute = true;
+    public AbstractReport makeRouteReport(String noContr, Date time, String image, String routeString){
 
-        Reporter reporter = new Reporter("temp@google.com");
-        int noOfControllants = Integer.parseInt(noContr);
-        Image i = null; //TODO
-        Station stationOfReport = network.getStation("Korsvägen");
-        Route routeOfReport = new Route(route, network.getStationRoutes(stationOfReport));
+        latestReportIsRoute = true;
+        int numberOfControllers = Integer.parseInt(noContr);
+        //Attaching an image have not been implemented.
+        Image i = null;
+        Route route = network.getRouteFromString(routeString);
+        addControllersRoute(route);
 
         if(time == null){
             time = new Date();
         }
 
-        AbstractReport report = new ReportRoute(noOfControllants,time,i,stationOfReport,routeOfReport,reporter);
+        AbstractReport report = new ReportRoute(numberOfControllers,time,i,route,foo);
         reportsList.add(report);
         notifyObservers(UpdateType.NEW_REPORT);
 
@@ -137,12 +137,15 @@ public class MODEL extends Observable{
      * @see #getStationNodes(Station)
      * @see #getAdjacentNodes(List, int)
      */
-    private void addControllers(Station station){
+    private void addControllersNodes(Station station){
         List<Node> controllersAtNodes;
         controllersAtNodes = getStationNodes(station);
         controllersAtNodes.addAll(getAdjacentNodes(controllersAtNodes, 1));
         setActiveControllersNodes(controllersAtNodes);
-        setActiveControllersStation(station);
+    }
+
+    private void addControllersRoute(Route route){
+        network.setActiveControllersRoutes(route);
     }
 
     /**
@@ -155,10 +158,6 @@ public class MODEL extends Observable{
      */
     private void setActiveControllersNodes(List<Node> nodes){
         network.setActiveControllersNodes(nodes);
-    }
-
-    private void setActiveControllersStation(Station station){
-        network.setActiveControllersStations(station);
     }
 
     /**
