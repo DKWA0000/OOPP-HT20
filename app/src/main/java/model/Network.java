@@ -108,9 +108,9 @@ public class Network {
      *
      * @return Route object.
      */
-    public Route getRouteFromString(String routeString ){
+    public Route getRouteFromString(String routeString){
         for(Route route : routes){
-            if(route.getLine() == routeString){
+            if(route.getLine().equals(routeString)){
                 return route;
             }
         }
