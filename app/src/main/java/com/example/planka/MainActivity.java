@@ -10,9 +10,10 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
 import model.*;
 import service.FileReader;
+
+import java.lang.reflect.Array;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private String image;
     private String station;
     private String route;
+    private String userRoute;
     private LinearLayout Incidentlist;
     private SearchView searchView;
     private ArrayList<View> copyOfIncidentlist;
@@ -82,6 +84,33 @@ public class MainActivity extends AppCompatActivity {
                 .setContentIntent(resultIntent)
                 .setStyle(new NotificationCompat.InboxStyle())
                 .setContentText("Hej! En ny rapport har kommit in, öppna appen för att kolla!");
+        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATIONCHANNELID, "NOTIFICATION_CHANNEL_NAME", importance);
+            mBuilder.setChannelId(NOTIFICATIONCHANNELID);
+            assert mNotificationManager != null;
+            mNotificationManager.createNotificationChannel(notificationChannel);
+        }
+        assert mNotificationManager != null;
+        mNotificationManager.notify((int) System.currentTimeMillis(), mBuilder.build());
+    }
+
+    /**
+     * Sends the User a notification when a Route they have selected is affected by controllers.
+     */
+    public void sendNotificationRoute() {
+        Intent notificationIntent = new Intent(MainActivity.this, MainActivity.class);
+        notificationIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+        notificationIntent.setAction(Intent.ACTION_MAIN);
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent resultIntent = PendingIntent.getActivity(MainActivity.this, 0, notificationIntent, 0);
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(MainActivity.this, DEFAULTCHANNELID)
+                .setSmallIcon(R.mipmap.ic_launcher_foreground)
+                .setContentTitle("Linjen påverkas av kontrollanter!")
+                .setContentIntent(resultIntent)
+                .setStyle(new NotificationCompat.InboxStyle())
+                .setContentText("Hej! Enligt en rapport påverkas denna linje av kontrollanter!");
         NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             int importance = NotificationManager.IMPORTANCE_HIGH;
@@ -214,6 +243,10 @@ public class MainActivity extends AppCompatActivity {
         // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
 
+        spinner = findViewById(R.id.userRoute);
+        adapter = ArrayAdapter.createFromResource(this, R.array.lines_array, android.R.layout.simple_spinner_item);
+        spinner.setAdapter(adapter);
+
         spinner = findViewById(R.id.whenSpinner);
         adapter = ArrayAdapter.createFromResource(this, R.array.when_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -306,6 +339,14 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.updateButton:
                 toEditReport();
+                break;
+
+            case R.id.userRoute:
+                setLineDropdown(View.VISIBLE);
+                break;
+
+            case R.id.userSave:
+                saveProfile();
                 break;
         }
     }
@@ -407,7 +448,6 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.editReportView).setVisibility(View.VISIBLE);
     }
 
-
     /**
      * Sets the visibility of the chose station text field and the line drop down list
      *
@@ -429,6 +469,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.lineDropdownText).setVisibility(visible);
         findViewById(R.id.lineDivider).setVisibility(visible);
         findViewById(R.id.lineSpinner).setVisibility(visible);
+        findViewById(R.id.userRoute).setVisibility(visible);
     }
 
     private void setWhenDropdown() {
@@ -454,18 +495,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-       /* ((Spinner)findViewById(R.id.controllantsEditSpinner)).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                editContr = (String) adapterView.getItemAtPosition(i);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-                editContr = null;
-            }
-        });*/
-
         ((AutoCompleteTextView) findViewById(R.id.stationTextBox)).setOnItemClickListener((adapterView, view, i, l) -> station = adapterView.getItemAtPosition(i).toString());
 
         ((Spinner) findViewById(R.id.lineSpinner)).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -477,6 +506,18 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
                 route = null;
+            }
+        });
+
+        ((Spinner) findViewById(R.id.userRoute)).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                userRoute = (String) adapterView.getItemAtPosition(i);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                userRoute = null;
             }
         });
 
@@ -498,8 +539,29 @@ public class MainActivity extends AppCompatActivity {
 
         if (((RadioButton) findViewById(R.id.stationRadio)).isChecked() && noContr != null && time != null && station != null) {
             model.makeStationReport(noContr, time, image, station);
+            if(userRoute != null && model.userRouteImpacted(userRoute)) {
+                sendNotificationRoute();
+            }
         } else if (((RadioButton) findViewById(R.id.tramRadio)).isChecked() && noContr != null && time != null && route != null) {
             model.makeRouteReport(noContr, time, image, route);
+            if(userRoute != null && model.userRouteImpacted(userRoute)) {
+                sendNotificationRoute();
+            }
+        }
+    }
+
+    /**
+     * Save User Profile.
+     */
+    private void saveProfile(){
+        if(userRoute != null){
+            checkUserRoute(userRoute);
+        }
+    }
+
+    private void checkUserRoute(String userRoute){
+        if(model.userRouteImpacted(userRoute)) {
+            sendNotificationRoute();
         }
     }
 

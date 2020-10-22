@@ -1,8 +1,5 @@
 package model;
 
-import android.os.Build;
-import androidx.annotation.RequiresApi;
-
 import java.util.*;
 
 import service.FileReader;
@@ -36,7 +33,6 @@ public class Network {
      * @see #createRoutes(HashMap)
      * @see FileReader
      */
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public Network(HashMap<String, ArrayList> routesFromFile){
         stations = new HashMap<>();
         adjacencyList = new HashMap<>();
@@ -110,6 +106,38 @@ public class Network {
     }
 
     /**
+     * Method to get a Route from a String.
+     *
+     * @param routeString Name of the route we want.
+     *
+     * @return Route object.
+     */
+    private Route getRouteFromString(String routeString ){
+        for(Route route : routes){
+            if(route.getLine() == routeString){
+                return route;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Method to see if a Route user have selected is affected by controllants.
+     *
+     * @param routeString Route user want to know about.
+     *
+     * @return True if affected by controllers, false otherwise.
+     */
+    public boolean userRouteImpacted(String routeString){
+        Route route = getRouteFromString(routeString);
+
+        if(allAffectedRoutes.contains(route)){
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Maps all the Nodes from every existing Route. Loads the Nodes into the adjacencyList and also creates Stations
      * and adds each Node to corresponding Station.
      *
@@ -120,7 +148,6 @@ public class Network {
      * @see #existingNode(Node, Route, int)
      * @see #createStations(Node)
      */
-    @RequiresApi(api = Build.VERSION_CODES.N)
     private void mapAllNodes(List<Route> routes){
 
         for(Route route : routes){
@@ -148,7 +175,6 @@ public class Network {
      * @see #addNode(String)
      * @see #addEdge(String, String)
      */
-    @RequiresApi(api = Build.VERSION_CODES.N)
     private void newNode(Node node, Route route, int position){
         addNode(node.getName());
 
@@ -327,7 +353,6 @@ public class Network {
      *
      * @see Node
      */
-    @RequiresApi(api = Build.VERSION_CODES.N)
     private void addNode(String station){
         adjacencyList.putIfAbsent(new Node(station), new ArrayList<>());
     }
@@ -339,7 +364,6 @@ public class Network {
      *
      * @see Node
      */
-    @RequiresApi(api = Build.VERSION_CODES.N)
     private void removeNode(String station){
         adjacencyList.values().stream().forEach(e -> e.remove(new Node(station)));
         adjacencyList.remove(new Node(station));

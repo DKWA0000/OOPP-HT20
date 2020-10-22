@@ -1,8 +1,8 @@
 package model;
 
 import android.media.Image;
-import android.os.Build;
-import androidx.annotation.RequiresApi;
+
+import java.lang.reflect.GenericDeclaration;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -25,7 +25,6 @@ public class MODEL extends Observable{
     private final ArrayList<AbstractReport> reportsList = new ArrayList<>();
     private boolean latestReportIsRoute = false;
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public MODEL(HashMap<String, ArrayList> fileContent){
 
         network = new Network(fileContent);
@@ -122,6 +121,10 @@ public class MODEL extends Observable{
         getCorrespondingIncidentRoute(report).addReport(report);
         notifyObservers(UpdateType.NEW_INCIDENT);
         return report;
+    }
+
+    public boolean userRouteImpacted(String userRoutes){
+        return network.userRouteImpacted(userRoutes);
     }
 
     /**
