@@ -35,10 +35,22 @@ public class Station {
         }
     }
 
+    /**
+     * Method to get the name of a Station.
+     *
+     * @return name of a Station
+     */
     public String getName() {
         return this.name;
     }
 
+    /**
+     * Method to get all the Nodes in a Station.
+     *
+     * @return all Nodes in a Station
+     *
+     * @see Node
+     */
     public ArrayList<Node> getNodes() {
         return this.nodeList;
     }

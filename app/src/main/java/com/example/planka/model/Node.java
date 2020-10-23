@@ -16,9 +16,9 @@ public class Node {
     }
 
     @Override
-        /*
-            To make it easier to find our nodes.
-        */
+    /*
+        To make it easier to find our nodes.
+    */
     public int hashCode() {
         final int prime = 31;
         int result = 1;

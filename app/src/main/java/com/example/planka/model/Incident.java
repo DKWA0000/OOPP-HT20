@@ -81,39 +81,88 @@ public class Incident extends Observable<Incident> implements Observer<AbstractR
         notifyObservers(this);
     }
 
+    /**
+     * Method to get the nominal trust factor of an Incident.
+     *
+     * @return nominal trust factor of the Incident.
+     */
     public int getNominalTrustFactor() {
         return nominalTrustFactor;
     }
 
+    /**
+     * Get the last active Station.
+     *
+     * @return last active Station.
+     *
+     * @see Station
+     */
     public Station getLastActiveStation() {
         return getLatestReport().getStation();
     }
 
+    /**
+     * Get the last active Route.
+     *
+     * @return last active Route.
+     *
+     * @see Route
+     */
     public Route getLastActiveRoute() {
         return getLatestReport().getRoute();
     }
 
+    /**
+     * Get time of the latest report.
+     *
+     * @return time of latest report.
+     */
     public Date getTime() {
         return getLatestReport().getTimeOfReport();
     }
 
+    /**
+     * Get what type of Incident it is.
+     *
+     * @return type of Incident.
+     *
+     * @see IncidentType
+     */
     public IncidentType getTypeOfIncident() {
         return typeOfIncident;
     }
 
+    /**
+     * Method to get all reports.
+     *
+     * @return List of all Reports.
+     *
+     * @see AbstractReport
+     */
     public ArrayList<AbstractReport> getListReports() {
         return listReports;
     }
 
+    /**
+     * Method to get votes.
+     *
+     * @return number of votes.
+     */
     public int getVotes() {
         return upVotes - downVotes;
     }
 
+    /**
+     * Method for upvoting.
+     */
     public void upVote() {
         upVotes++;
         notifyObservers(this);
     }
 
+    /**
+     * Method to down vote.
+     */
     public void downVote() {
         downVotes++;
         notifyObservers(this);

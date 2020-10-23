@@ -2,8 +2,6 @@ package com.example.planka.model;
 
 import java.util.*;
 
-import com.example.planka.service.FileReader;
-
 /**
  * A graph structure representing the public transportation network.
  *
@@ -15,14 +13,18 @@ import com.example.planka.service.FileReader;
  */
 public class Network {
 
-    /*
-        Make an adjacency list to store the nodes and their connections.
-    */
+    /**
+     * @see #adjacencyList Graph representing the tram network.
+     * @see #stations Graph representing Stations.
+     * @see #routes List of all tram lines in the tram network.
+     * @see #allAffectedNodes all Nodes affected by a report.
+     * @see #allAffectedRoutes all Routes affected by a report.
+     */
     private Map<Node, List<Node>> adjacencyList;
     private Map<String, Station> stations;
     private List<Route> routes = new ArrayList<>();
-    private List<Route> allAffectedRoutes = new ArrayList<>();
     private List<Node> allAffectedNodes = new ArrayList<>();
+    private List<Route> allAffectedRoutes = new ArrayList<>();
 
     /**
      * Constructor of Network, takes a HashMap and passes it to createRoutes.
@@ -30,7 +32,6 @@ public class Network {
      * @param routesFromFile HashMap containing information about every Route.
      *
      * @see #createRoutes(HashMap)
-     * @see FileReader
      */
     public Network(HashMap<String, ArrayList> routesFromFile){
         stations = new HashMap<>();
@@ -43,9 +44,7 @@ public class Network {
     /**
      * Creates all the routes.
      *
-     * @param routesFromFile contains a List of lists, with information about each route's stops.
-     *
-     * @see FileReader
+     * @param routesFromFile A HashMap with information about each route's stops.
      */
     private void createRoutes(HashMap<String, ArrayList> routesFromFile){
 
@@ -105,7 +104,6 @@ public class Network {
      *
      * @return Route object.
      */
-
     public Route getRouteFromString(String routeString){
         for(Route route : routes){
             if(route.getLine().equals(routeString)){
@@ -122,7 +120,6 @@ public class Network {
      *
      * @return True if affected by controllers, false otherwise.
      */
-
     public boolean userRouteImpacted(String routeString){
 
         Route route = getRouteFromString(routeString);
@@ -290,6 +287,8 @@ public class Network {
      * @param nodes List of Nodes that should have their state changed
      *
      * @see Node
+     *
+     * Note: Kept for further development purposes.
      */
     public void removeActiveControllersNodes(List<Node> nodes){
         for(Node node : nodes){
@@ -317,6 +316,8 @@ public class Network {
      * @param route to remove
      *
      * @see Route
+     *
+     * Note: Kept for further development purposes.
      */
     public void removeActiveControllersRoutes(Route route){
         allAffectedRoutes.remove(route);
@@ -340,6 +341,8 @@ public class Network {
      * @param station name of the Node to remove from the Graph
      *
      * @see Node
+     *
+     * Note: Kept for further development purposes.
      */
     private void removeNode(String station){
         adjacencyList.values().stream().forEach(e -> e.remove(new Node(station)));
@@ -358,7 +361,6 @@ public class Network {
      */
     private void addEdge(String source, String destination){
         adjacencyList.get(new Node(source)).add(new Node(destination));
-        List<Node> abc = adjacencyList.get(new Node(source));
     }
 
     /**
@@ -369,6 +371,8 @@ public class Network {
      * @param destination name of Node to remove mapping to
      *
      * @see Node
+     *
+     * Note: kept for further development purposes.
      */
     private void removeEdge(String source, String destination){
         List<Node> sourceEdges = adjacencyList.get(new Node(source));
@@ -377,6 +381,15 @@ public class Network {
         }
     }
 
+    /**
+     * Method to get adjacent nodes for a list of nodes.
+     * @param nodes one want to find adjacent nodes for.
+     * @param range how far one want to check for adjacent nodes.
+     *
+     * @return all adjacent nodes.
+     *
+     * @see #adjacentNodes(String, int)
+     */
     public List<Node> getAdjacentNodes(List<Node> nodes, int range){
         List<Node> adjacentNodes = new ArrayList<>();
 
@@ -450,90 +463,21 @@ public class Network {
     }
 
     /**
-     * Returns the Node before the given Node in given Route.
-     * Returns null if there is no Node before given Node.
-     *
-     * @param n Node of interest
-     * @param r Route of interest
-     *
-     * @return The Node before n
-     */
-    public Node getPrevNode(Node n ,Route r){
-
-        for (int i = 1; i < r.getNodes().size(); i++) {
-            Node current = r.getNodes().get(i);
-            if(current == n){
-                return r.getNodes().get(i-1);
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Returns the Node after the given Node in given a given Route.
-     * Returns null if there is no Node after given Node.
-     *
-     * @param n Node of interest
-     * @param r Route of interest
-     *
-     * @return The Node after n
-     */
-    public Node getNextNode(Node n ,Route r){
-
-        for (int i = 0; i < r.getNodes().size()-1; i++){
-            Node current = r.getNodes().get(i);
-            if(current == n){
-                return r.getNodes().get(i+1);
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Returns all Nodes in the given Route.
-     *
-     * @param r Route of interest
-     *
-     * @return An ordered list of all nodes in that Route
-     */
-    public List<Node> getRouteNodes(Route r){
-        return r.getNodes();
-    }
-
-    /**
      * Returns a specific Station
      * @param station name of the Station
      * @return Station object with given name
+     *
+     * @see Station
      */
     public Station getStation(String station){
         return stations.get(station);
     }
 
     /**
-     * Returns the Station of a given Node.
-     *
-     * @param n Node of interest
-     *
-     * @return The Nodes Station
-     */
-    public Station getNodeStation(Node n){
-        return stations.get(getStationName(n));
-    }
-
-    /**
-     * Returns all Nodes at the given Station.
-     *
-     * @param s Station of interest
-     *
-     * @return An ordered list of all nodes at that Station
-     */
-    public List<Node> getStationRoutes(Station s){
-        return s.getNodes();
-    }
-
-    /**
      * Returns all station names
      * @return String[] of all station names
+     *
+     * @see Station
      */
     public String[] getAllStationNames(){
         return stations.keySet().toArray(new String[0]);
@@ -543,6 +487,8 @@ public class Network {
      * Get the name of which station a node belongs to.
      *
      * @return the name of the station it belongs to.
+     *
+     * @see Station
      */
     public String getStationName(Node node){
         return node.getName().substring(0,node.getName().lastIndexOf(' '));

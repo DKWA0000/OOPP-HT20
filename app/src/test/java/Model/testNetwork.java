@@ -105,32 +105,6 @@ public class testNetwork {
         System.out.println(nodelist.toString());
     }
 
-    /**
-     * Test that the previous Node is testRoute is returned.
-     */
-
-    @Test
-    public void testgetPrevNode(){
-        assertEquals("node3", testNetwork.getPrevNode(testRoute.getNodes().get(3), testRoute).toString());
-    }
-
-    /**
-     * Test that that next Node in testRoute is returned.
-     */
-
-    @Test
-    public void testgetNextNode(){
-        assertEquals("node4", testNetwork.getNextNode(testRoute.getNodes().get(2), testRoute).toString());
-    }
-
-    /**
-     * Test that all Nodes in testRoute is returned.
-     */
-
-    @Test
-    public void testgetRouteNodes(){
-        assertEquals("[node1, node2, node3, node4, node5]",testNetwork.getRouteNodes(testRoute).toString());
-    }
 
     /**
      * Verify that the correct Station is returned.
@@ -139,25 +113,6 @@ public class testNetwork {
     @Test
     public void testgetStation(){
         assertEquals("testStationA", testNetwork.getStation("testStationA").getName());
-    }
-
-    /**
-     * Verify that the "subnodes" Station is returned.
-     */
-
-    @Test
-    public void testgetNodeStation(){
-        assertEquals("testStationA",
-                testNetwork.getNodeStation(new Node("testStationA 1")).getName());
-    }
-
-    /**
-     * Verify that the correct Routes is returned.
-     */
-
-    @Test
-    public void testgetStationRoutes(){
-        assertEquals("[node1, node2]", testNetwork.getStationRoutes(testStation).toString());
     }
 
     /**
@@ -236,16 +191,6 @@ public class testNetwork {
     public void testsetState(){
         node1.setState(true);
         assertTrue(node1.getState());
-    }
-
-    /**
-     * Verify that correct number of routes is returned.
-     */
-
-    @Test
-    public void testgetImpactedRoutes(){
-        nodelist.add(new Node("testStationB 3"));
-        assertEquals(2, testNetwork.getImpactedRoutes(nodelist).size());
     }
 
     /**

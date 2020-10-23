@@ -27,6 +27,11 @@ public abstract class Observable<T> {
         }
     }
 
+    /**
+     * Method to add Observers.
+     *
+     * @param obs Object to add to Observer.
+     */
     public void addObserver(Observer<T> obs) {
         if(observers.contains(obs)) {
             return;
@@ -35,6 +40,11 @@ public abstract class Observable<T> {
         observers.add(obs);
     }
 
+    /**
+     * Method to remove from Observer.
+     *
+     * @param obs Object to remove from Observer.
+     */
     public void removeObserver(Observer<T> obs){
         if(observers.contains(obs)) {
             observers.remove(obs);

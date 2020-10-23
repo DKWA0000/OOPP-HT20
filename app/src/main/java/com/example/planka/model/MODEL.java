@@ -86,7 +86,7 @@ public class MODEL extends Observable<UpdateType> {
      * @see AbstractReport
      * @see Reporter
      * @see Network
-     * @see #addControllers(Station) //Will be added when the functionality for creating a Report is complete.
+     * @see #addControllersRoute(Route)
      * @see #correspondingIncidentExistsRoute(AbstractReport)
      * @see #getCorrespondingIncidentRoute(AbstractReport)
      */
@@ -133,6 +133,12 @@ public class MODEL extends Observable<UpdateType> {
         setActiveControllersNodes(controllersAtNodes);
     }
 
+    /**
+     * Set controllers at a Route. 
+     * @param route to have controllers. 
+     *              
+     * @see Network#setActiveControllersRoutes(Route) 
+     */
     private void addControllersRoute(Route route){
         network.setActiveControllersRoutes(route);
     }
@@ -144,11 +150,20 @@ public class MODEL extends Observable<UpdateType> {
      *
      * @see Network
      * @see Node
+     * @see Network#setActiveControllersNodes(List) 
      */
     private void setActiveControllersNodes(List<Node> nodes){
         network.setActiveControllersNodes(nodes);
     }
 
+    /**
+     * Check if the Route a User want to get notifications for are affected by controllers.
+     * @param userRoutes Route user want to have notifications for.
+     *                   
+     * @return True if affected by controllers, false otherwise. 
+     * 
+     * @see Network#userRouteImpacted(String) 
+     */
     public boolean userRouteImpacted(String userRoutes){
         return network.userRouteImpacted(userRoutes);
     }
@@ -353,21 +368,37 @@ public class MODEL extends Observable<UpdateType> {
         return incident;
     }
 
+    /**
+     * Set method used after editing a Report.
+     * 
+     * @param report to set edits to.
+     *               
+     * @see #editReport(int) 
+     */
     public void setEditReport(AbstractReport report){
         editReport = report;
     }
-
+    
+    /**
+     * Method to edit a Report.
+     * 
+     * @param nCont number of controllers to add to Report. 
+     *              
+     * @see AbstractReport
+     */
     public void editReport(int nCont) {
         editReport.setNControllants(nCont);
         notifyObservers(UpdateType.REPORT_UPDATE);
     }
 
-    public AbstractReport getUpdatedReport() {
-        return editReport;
-    }
-
+    /**
+     * Method to get a Reporter.
+     *
+     * @return Reporter.
+     *
+     * Note: Only used as a place holder for Users.
+     */
     public Reporter getUser(){
         return foo;
     }
-
 }

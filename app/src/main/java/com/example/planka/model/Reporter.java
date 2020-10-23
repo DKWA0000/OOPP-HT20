@@ -31,12 +31,20 @@ public class Reporter {
         this.trustFactor += amount;
     }
 
+    /**
+     * Method to get mail of a Reporter.
+     * @return Mail of the reporter.
+     */
     public String getMail() {
         return this.mail;
     }
 
+    /**
+     * Method to get the TrustFactor of a Reporter.
+     *
+     * @return TrustFactor of a Reporter.
+     */
     public double getTrustFactor() {
         return this.trustFactor;
     }
-
 }

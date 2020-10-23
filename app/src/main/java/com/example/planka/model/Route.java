@@ -12,7 +12,7 @@ import java.util.*;
 public class Route {
 
     private String line;
-    private List<Node> stops = new ArrayList<Node>();
+    private List<Node> stops = new ArrayList<>();
 
     /**
      * Constructor of Route-object, takes parameter and passes it.
@@ -25,10 +25,22 @@ public class Route {
         this.stops = stops;
     }
 
+    /**
+     * Method to get name of a Route.
+     *
+     * @return Name of the Route.
+     */
     public String getLine() {
         return this.line;
     }
 
+    /**
+     * Method to get all Nodes in a Route.
+     *
+     * @return Nodes in a Route.
+     *
+     * @see Node
+     */
     public List<Node> getNodes() {
         return this.stops;
     }
