@@ -143,7 +143,7 @@ public class MainActivity extends AppCompatActivity implements Observer<UpdateTy
         toLocation();
         initSpinners();
         setLineDropdown(View.INVISIBLE);
-        setWhenDropdown();
+        setWhenDropdown(View.GONE);
         initAutoFill();
         loadReports();
         initProfile();
@@ -280,11 +280,11 @@ public class MainActivity extends AppCompatActivity implements Observer<UpdateTy
                 break;
 
             case R.id.nowRadio:
-                setWhenDropdown();
+                setWhenDropdown(View.GONE);
                 break;
 
             case R.id.pastRadio:
-                setStationDropDown(View.VISIBLE);
+                setWhenDropdown(View.VISIBLE);
                 break;
 
             case R.id.makeReportButton:
@@ -438,10 +438,10 @@ public class MainActivity extends AppCompatActivity implements Observer<UpdateTy
         findViewById(R.id.userRoute).setVisibility(View.VISIBLE);
     }
 
-    private void setWhenDropdown() {
-        findViewById(R.id.whenDropdownText).setVisibility(View.GONE);
-        findViewById(R.id.whenDivider).setVisibility(View.GONE);
-        findViewById(R.id.whenSpinner).setVisibility(View.GONE);
+    private void setWhenDropdown(int visible) {
+        findViewById(R.id.whenDropdownText).setVisibility(visible);
+        findViewById(R.id.whenDivider).setVisibility(visible);
+        findViewById(R.id.whenSpinner).setVisibility(visible);
     }
 
     /**
