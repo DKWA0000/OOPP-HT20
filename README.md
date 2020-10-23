@@ -1,6 +1,6 @@
 ## Planka (OOPP-HT20)
 This project is an app keeping track of user interaction with public transport ticket controllants. When you see a controllant you can report it in the app, 
-after which other users can interact with your report. This can be done by either vouching for or against the credibility of the report.
+after which other users can interact with your report by vouching for its credibility.
 
 ## Screenshots
 <img src="./Dokumentation/Screenshots/screenshotlocation.png" alt="Location" title="Location" width="270" height="480" /> |
