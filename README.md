@@ -24,7 +24,14 @@ Include logo/demo screenshot etc.
 5. Run it!
 
 ## Tests
-//how to run tests 
+1. Edit configuration
+2. Create new Android JUnit config
+3. Test kind should be all in the directory
+3. Select the test folder as the directory
+4. Use Planka.app as the classpath of module
+5. Run it
+
+With our tests we have covered 100% of the methods and 95% of the lines in our Model package.
 
 ## Links
 Trello: https://trello.com/b/qLDXbmwg/oopp-ht20<br />
