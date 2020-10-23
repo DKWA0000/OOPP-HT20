@@ -3,9 +3,9 @@ This project is an app keeping track of user interaction with public transport t
 after which other users can interact with your report. This can be done by either vouching for or against the credibility of the report.
 
 ## Screenshots
-<img src="./Dokumentation/Screenshots/screenshotlocation.png" alt="Location" title="Location" width="135" height="240" />
-<img src="./Dokumentation/Screenshots/screenshotprofile.png" alt="Profile" title="Profile" width="135" height="240" />
-<img src="./Dokumentation/Screenshots/screenshotreport.png" alt="Report" title="Report" width="135" height="240" />
+<img src="./Dokumentation/Screenshots/screenshotlocation.png" alt="Location" title="Location" width="270" height="480" /> |
+<img src="./Dokumentation/Screenshots/screenshotprofile.png" alt="Profile" title="Profile" width="270" height="480" /> |
+<img src="./Dokumentation/Screenshots/screenshotreport.png" alt="Report" title="Report" width="270" height="480" />
 
 ## Tech/framework used
 <img src="https://i.pinimg.com/originals/f1/ea/a7/f1eaa7278f64e27128e062a3de918265.png" alt="Java"
