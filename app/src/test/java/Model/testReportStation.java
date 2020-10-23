@@ -38,7 +38,7 @@ public class testReportStation {
     @Test
     public void testNewReportStation(){
         assertNotNull(testReportStation);
-        assertEquals("class ReportStation", testReportStation.getClass().toString());
+        assertEquals("class com.example.planka.model.ReportStation", testReportStation.getClass().toString());
     }
 
     /**

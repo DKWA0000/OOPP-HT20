@@ -90,7 +90,7 @@ public class testNetwork {
     @Test
     public void testCreateNetwork(){
         assertNotNull(testNetwork);
-        assertEquals("class Network", testNetwork.getClass().toString());
+        assertEquals("class com.example.planka.model.Network", testNetwork.getClass().toString());
     }
 
     /**
@@ -219,6 +219,17 @@ public class testNetwork {
     @Test
     public void testaddNodeToExistingStation(){
         System.out.println(Arrays.toString(testNetwork.getAllStationNames()));
+    }
+
+    @Test
+    public void testuserRouteImpacted(){
+        assertFalse(testNetwork.userRouteImpacted("testRoute"));
+    }
+
+    @Test
+    public void testremoveActiveControllersRoutes(){
+        testNetwork.removeActiveControllersRoutes(testRoute);
+        assertFalse(testRoute.getNodes().get(0).getState());
     }
 
 }

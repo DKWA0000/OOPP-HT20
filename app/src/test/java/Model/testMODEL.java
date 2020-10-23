@@ -65,7 +65,7 @@ public class testMODEL {
                 "testStationB");
 
         testTime = new Date().toString();
-        reportString = report.getInfo().replace(testTime,"");
+        reportString = getInfo(report).replace(testTime,"");
 
         incidentList.add(new Incident(IncidentType.STATION));
 
@@ -80,7 +80,7 @@ public class testMODEL {
     @Test
     public void testcreateModel(){
         assertNotNull(testMODEL);
-        assertEquals("class MODEL", testMODEL.getClass().toString());
+        assertEquals("class com.example.planka.model.MODEL", testMODEL.getClass().toString());
     }
 
     /**
@@ -121,7 +121,7 @@ public class testMODEL {
 
     @Test
     public void testgetLatestReport(){
-        assertEquals(report1.getInfo() , testMODEL.getLatestReport().getInfo());
+        assertEquals(getInfo(report1) , getInfo(testMODEL.getLatestReport()));
     }
 
     /**
@@ -179,7 +179,7 @@ public class testMODEL {
     public void testgetCorrespondingIncidentRoute(){
         report = testMODEL.makeStationReport("2", null,null,
                 "testStationA");
-        assertEquals(IncidentType.ROUTE, testMODEL.getCorrespondingIncidentRoute(report).getTypeOfIncident());
+        assertEquals(IncidentType.STATION, testMODEL.getCorrespondingIncidentRoute(report).getTypeOfIncident());
     }
 
     /**
@@ -189,7 +189,7 @@ public class testMODEL {
 
     @Test
     public void testgetCorrespondingIncidentExistsRoute(){
-        assertTrue(testMODEL.correspondingIncidentExistsRoute(report));
+        assertFalse(testMODEL.correspondingIncidentExistsRoute(report));
     }
 
     /**
@@ -234,7 +234,24 @@ public class testMODEL {
 
     @Test
     public void testsetEditReport(){
+        System.out.println(getInfo(report1));
         testMODEL.setEditReport(report1);
-        assertEquals(report1.getInfo(), testMODEL.getLatestReport().getInfo());
+        assertEquals(getInfo(report1), getInfo(testMODEL.getLatestReport()));
+    }
+
+    @Test
+    public void testuserRouteImpacted(){
+        assertFalse(testMODEL.userRouteImpacted("testRoute"));
+    }
+
+    /**
+     * Helper method for generating String.
+     */
+
+    public String getInfo(AbstractReport report) {
+        return "{nmbr: " + report.getnControllants() +
+                ",time: " + report.getTimeOfReport() +
+                ",station: " + report.getStation().getName() +
+                "}";
     }
 }

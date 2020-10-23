@@ -9,6 +9,7 @@ import static org.junit.Assert.assertNotNull;
 import java.sql.Time;
 import java.util.ArrayList;
 
+import com.example.planka.model.AbstractReport;
 import com.example.planka.model.IncidentType;
 import com.example.planka.model.ReportRoute;
 import com.example.planka.model.Reporter;
@@ -29,9 +30,8 @@ public class testReportRoute {
     @Before
     public void buildTestData(){
 
-        testReportRoute = new ReportRoute(2, new Time(1, 2, 3), null,
-                new Route("testRoute", new ArrayList<>()),
-                new Reporter("testMail"));
+        testReportRoute = new ReportRoute(2, new Time(1,2,3),null,
+                new Route("testRoute", new ArrayList<>()), new Reporter("testMail"));
     }
 
     /**
@@ -41,7 +41,7 @@ public class testReportRoute {
     @Test
     public void testNewReportroute(){
         assertNotNull(testReportRoute);
-        assertEquals("class ReportRoute", testReportRoute.getClass().toString());
+        assertEquals("class com.example.planka.model.ReportRoute", testReportRoute.getClass().toString());
     }
 
     /**
@@ -68,7 +68,7 @@ public class testReportRoute {
 
     @Test
     public void testgetStation() {
-        assertEquals("testStation", testReportRoute.getStation().getName());
+        assertEquals("", testReportRoute.getStation().getName());
     }
 
     /**
@@ -105,7 +105,18 @@ public class testReportRoute {
 
     @Test
     public void testgetInfo(){
-        assertEquals("{nmbr: 2,time: 01:02:03,station: testStation}", testReportRoute.getInfo());
+        assertEquals("{nmbr: 2,time: 01:02:03,station: }", getInfo(testReportRoute));
+    }
+
+    /**
+     * Helper method for generating String.
+     */
+
+    public String getInfo(AbstractReport report) {
+        return "{nmbr: " + report.getnControllants() +
+                ",time: " + report.getTimeOfReport() +
+                ",station: " + report.getStation().getName() +
+                "}";
     }
 
 }

@@ -6,6 +6,7 @@ import org.junit.Test;
 import java.sql.Time;
 import java.util.ArrayList;
 
+import com.example.planka.model.AbstractReport;
 import com.example.planka.model.Incident;
 import com.example.planka.model.IncidentType;
 import com.example.planka.model.ReportRoute;
@@ -14,6 +15,7 @@ import com.example.planka.model.Route;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 /**
  * @author: Joakim Tubring.
@@ -45,7 +47,7 @@ public class testIncident {
     @Test
     public void testCreateIncident(){
         assertNotNull(testIncident);
-        assertEquals("class Incident", testIncident.getClass().toString());
+        assertEquals("class com.example.planka.model.Incident", testIncident.getClass().toString());
     }
 
     /**
@@ -63,8 +65,9 @@ public class testIncident {
 
     @Test
     public void testlatestReport(){
-        assertEquals("{nmbr: 2,time: 01:02:03,station: testStation}",
-                testIncident.getLatestReport().getInfo());
+        System.out.println(testIncident.getLatestReport().hashCode());
+        assertEquals("{nmbr: 2,time: 01:02:03,station: null }",
+                getInfo(testIncident.getLatestReport()));
     }
 
     /**
@@ -92,7 +95,7 @@ public class testIncident {
 
     @Test
     public void testgetLastActiveStation(){
-        assertEquals("testStation", testIncident.getLastActiveStation().getName());
+        assertNull(testIncident.getLastActiveStation());
     }
 
     /**
@@ -167,5 +170,16 @@ public class testIncident {
     @Test
     public void testgetNumberofControllants(){
         assertEquals(2, testIncident.getNumberOfControllants());
+    }
+
+    /**
+     * Helper method for generating String.
+     */
+
+    public String getInfo(AbstractReport report) {
+        return "{nmbr: " + report.getnControllants() +
+                ",time: " + report.getTimeOfReport() +
+                ",station: " + report.getStation().getName() +
+                "}";
     }
 }

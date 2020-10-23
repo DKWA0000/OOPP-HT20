@@ -122,14 +122,4 @@ public abstract class AbstractReport extends Observable<AbstractReport> {
         notifyObservers(this);
     }
 
-    /**
-     * Method to get info from a report.
-     * @return String containing info on a report.
-     */
-    public String getInfo() {
-        return "{nmbr: " + getnControllants() +
-                ",time: " + getTimeOfReport() +
-                ",station: " + getStation().getName() +
-                "}";
-    }
 }

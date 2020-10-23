@@ -3,7 +3,7 @@ package Model;
 import org.junit.Before;
 import org.junit.Test;
 
-import model.Node;
+import com.example.planka.model.Node;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
