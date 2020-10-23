@@ -215,18 +215,31 @@ public class testNetwork {
         assertFalse(nodelist.get(0).getState());
     }
 
+    /**
+     * Test that we could adjust the state of the controllers to inactive.
+     */
+
     @Test
     public void testaddNodeToExistingStation(){
-        System.out.println(Arrays.toString(testNetwork.getAllStationNames()));
+        assertEquals(2, testStation.getNodes().size());
     }
+
+    /**
+     * Verify that correct status is returned.
+     */
 
     @Test
     public void testuserRouteImpacted(){
         assertFalse(testNetwork.userRouteImpacted("testRoute"));
     }
 
+    /**
+     * Test that we could remove active Controllers from Route.
+     */
+
     @Test
     public void testremoveActiveControllersRoutes(){
         testNetwork.removeActiveControllersRoutes(testRoute);
+        assertFalse(testRoute.getNodes().get(0).getState());
     }
 }

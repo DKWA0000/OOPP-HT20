@@ -201,20 +201,36 @@ public class testMODEL {
         assertEquals(IncidentType.STATION, testMODEL.getLatestIncident().getTypeOfIncident());
     }
 
+    /**
+     * Verify that correct number of impacted Routes is returned.
+     */
+
     @Test
     public void testgetAllImpactedRoutes(){
         assertEquals(6, testMODEL.getAllImpactedRoutes().size());
     }
+
+    /**
+     * Verify that correct number of incidents are returned.
+     */
 
     @Test
     public void testgetIncidentList(){
         assertEquals(2, testMODEL.getIncidentList().size());
     }
 
+    /**
+     * Verify that the latestroute value is correct.
+     */
+
     @Test
     public void testisLatestReportRoute(){
         assertFalse(testMODEL.isLatestReportRoute());
     }
+
+    /**
+     * Test that we could edit reports.
+     */
 
     @Test
     public void testsetEditReport(){
