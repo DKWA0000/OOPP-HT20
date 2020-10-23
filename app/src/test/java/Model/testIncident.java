@@ -83,7 +83,7 @@ public class testIncident {
     @Test
     public void testupdateNominalTrustFactor() {
         testIncident.updateNominalTrustFactor(testIncident.getLatestReport());
-        assertEquals(1, testIncident.getNominalTrustFactor());
+        assertEquals(0, testIncident.getNominalTrustFactor());
     }
 
     /**
@@ -160,4 +160,12 @@ public class testIncident {
         assertEquals("testRoute", testIncident.getLastActiveRoute().getLine());
     }
 
+    /**
+     * Verify that correct number of controllants is returned.
+     */
+
+    @Test
+    public void testgetNumberofControllants(){
+        assertEquals(2, testIncident.getNumberOfControllants());
+    }
 }

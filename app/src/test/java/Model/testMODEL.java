@@ -14,6 +14,7 @@ import com.example.planka.model.IncidentType;
 import com.example.planka.model.MODEL;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -26,6 +27,7 @@ public class testMODEL {
     private HashMap<String, ArrayList> testMap = new HashMap<>();
     private MODEL testMODEL = new MODEL(testMap);
     private AbstractReport report;
+    private AbstractReport report1;
     private AbstractReport routeReport;
     private String testTime;
     private String reportString;
@@ -59,6 +61,8 @@ public class testMODEL {
 
         report = testMODEL.makeStationReport("2", null,null,
                 "testStationA");
+        report1 = testMODEL.makeStationReport("2", null,null,
+                "testStationB");
 
         testTime = new Date().toString();
         reportString = report.getInfo().replace(testTime,"");
@@ -117,7 +121,7 @@ public class testMODEL {
 
     @Test
     public void testgetLatestReport(){
-        assertEquals(report.getInfo(), testMODEL.getLatestReport().getInfo());
+        assertEquals(report1.getInfo() , testMODEL.getLatestReport().getInfo());
     }
 
     /**
@@ -126,7 +130,7 @@ public class testMODEL {
 
     @Test
     public void testgetAllReports(){
-        assertEquals(1, testMODEL.getAllReports().size());
+        assertEquals(2, testMODEL.getAllReports().size());
     }
 
     /**
@@ -135,7 +139,7 @@ public class testMODEL {
 
     @Test
     public void testgetIncidentCount(){
-        assertEquals(1, testMODEL.getIncidentCount());
+        assertEquals(2, testMODEL.getIncidentCount());
     }
 
     /**
@@ -197,4 +201,40 @@ public class testMODEL {
         assertEquals(IncidentType.STATION, testMODEL.getLatestIncident().getTypeOfIncident());
     }
 
+    /**
+     * Verify that correct number of impacted Routes is returned.
+     */
+
+    @Test
+    public void testgetAllImpactedRoutes(){
+        assertEquals(6, testMODEL.getAllImpactedRoutes().size());
+    }
+
+    /**
+     * Verify that correct number of incidents are returned.
+     */
+
+    @Test
+    public void testgetIncidentList(){
+        assertEquals(2, testMODEL.getIncidentList().size());
+    }
+
+    /**
+     * Verify that the latestroute value is correct.
+     */
+
+    @Test
+    public void testisLatestReportRoute(){
+        assertFalse(testMODEL.isLatestReportRoute());
+    }
+
+    /**
+     * Test that we could edit reports.
+     */
+
+    @Test
+    public void testsetEditReport(){
+        testMODEL.setEditReport(report1);
+        assertEquals(report1.getInfo(), testMODEL.getLatestReport().getInfo());
+    }
 }
