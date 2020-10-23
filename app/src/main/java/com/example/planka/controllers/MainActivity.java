@@ -146,6 +146,11 @@ public class MainActivity extends AppCompatActivity implements Observer<UpdateTy
         setWhenDropdown();
         initAutoFill();
         loadReports();
+        initProfile();
+    }
+
+    private void initProfile() {
+        ((TextView)findViewById(R.id.emailAdress)).setText(model.getUser().getMail());
     }
 
     /**
