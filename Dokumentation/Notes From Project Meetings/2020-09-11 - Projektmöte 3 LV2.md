@@ -12,7 +12,7 @@ Vi diskuterade vad som sades på handledningsmötet och kollade igenom våra Use
 Vi gjorde sedan tillsammans klart domänmodellen på samma sida och Seif fick ansvar att skicka in den efter mötet.
 
 ### Nästa möte:
-```Projektmöte, 2020-09-14 15:15 (3 dagar)``` [länk](https://github.com/DKWA0000/OOPP-HT20/blob/master/Notes%20From%20Project%20Meetings/2020-09-14%20-%20Projektm%C3%B6te%201%20LV3.md)
+```Projektmöte, 2020-09-14 15:15 (3 dagar)``` [länk](https://github.com/DKWA0000/OOPP-HT20/blob/master/Dokumentation/Notes%20From%20Project%20Meetings/2020-09-14%20-%20Projektmöte%201%20LV3.md)
 
 ### Att göra till nästa möte:
 - Lämna in domänmodellen

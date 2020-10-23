@@ -20,6 +20,6 @@ Vi gick även tillsammans igenom våra User stories och lade till några fler. <
 Vi diskuterade domänmodellen och fick bra inputs och feedback. 
 
 ### Nästa möte:
-```Projektmöte, 2020-09-11 15:00 (0 dagar)``` [länk](https://github.com/DKWA0000/OOPP-HT20/blob/master/Notes%20From%20Project%20Meetings/2020-09-11%20-%20Projektm%C3%B6te%203%20LV2.md)
+```Projektmöte, 2020-09-11 15:00 (0 dagar)``` [länk](https://github.com/DKWA0000/OOPP-HT20/blob/master/Dokumentation/Notes%20From%20Project%20Meetings/2020-09-11%20-%20Projektmöte%203%20LV2.md)
 
 ### Att göra till nästa möte:

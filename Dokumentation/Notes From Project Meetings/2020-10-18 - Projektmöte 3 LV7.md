@@ -13,7 +13,7 @@ tills inlämningen. Samt från peerreviewn och sammanställde någon slags lista
 ut uppgifter till alla medlemmar. 
 
 ### Nästa möte:
-```Projektmöte, 2020-10-21 17:00 (3 dagar)``` [länk](#)
+```Projektmöte, 2020-10-21 17:00 (3 dagar)``` [länk](https://github.com/DKWA0000/OOPP-HT20/blob/master/Dokumentation/Notes%20From%20Project%20Meetings/2020-10-22%20-%20Projektmöte%202%20LV8.md)
 
 ### Att göra till nästa möte:
 - Lucas ska refaktorisera allt som går, fixa till snygga till. Även fixa sök funktionen bland incidenter. Notis funktionen 

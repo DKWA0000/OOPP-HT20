@@ -13,7 +13,7 @@ då det är lite konstigt när man har android studio, väntar så vi kan fråga
 Planerade vad mer som behövs göra resten av veckan, se nedan!
 
 ### Nästa möte:
-```Projektmöte, 2020-10-02 15:15 (1 dagar)``` [länk](https://github.com/DKWA0000/OOPP-HT20/blob/master/Mazdak/Notes%20From%20Project%20Meetings/2020-10-01%20-%20Projektmöte%202%20LV5.md)
+```Projektmöte, 2020-10-02 15:15 (1 dagar)``` [länk](https://github.com/DKWA0000/OOPP-HT20/blob/master/Dokumentation/Notes%20From%20Project%20Meetings/2020-10-01%20-%20Projektmöte%202%20LV5.md)
 
 ### Att göra till nästa möte:
 - Lucas ska lägga till text om gui i RAD samt definitioner på ord. Även lägga till funktionalitet i model.

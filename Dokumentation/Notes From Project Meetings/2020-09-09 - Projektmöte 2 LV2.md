@@ -14,7 +14,7 @@ för feedback om vilken lösning som funkar bäst samt ha brainstormat om hur de
 i vår applikation. 
 
 ### Nästa möte:
-```Handledningsmöte, 2020-09-11 14:00 (2 dagar)``` [länk](https://github.com/DKWA0000/OOPP-HT20/blob/master/Notes%20From%20Project%20Meetings/2020-09-11%20-%20Handledningsm%C3%B6te%20LV2.md)
+```Handledningsmöte, 2020-09-11 14:00 (2 dagar)``` [länk](https://github.com/DKWA0000/OOPP-HT20/blob/master/Dokumentation/Notes%20From%20Project%20Meetings/2020-09-11%20-%20Handledningsmöte%20LV2.md)
 
 ### Att göra till nästa möte:
 - Implementera 2 graf strukturer. 

@@ -12,7 +12,7 @@ så började vi koppla ihop lite klasser och kollektivt lösa problem som uppkom
 vi hade planerat att göra inte kommer funka p.g.a begränsningar inom android applications. T.ex. läsa in från csv filer.
 
 ### Nästa möte:
-```Projektmöte, 2020-09-21 11:45 (1 dagar)``` [länk](https://github.com/DKWA0000/OOPP-HT20/blob/master/Mazdak/Notes%20From%20Project%20Meetings/2020-09-21%20-%20Projektm%C3%B6te%201%20LV4.md)
+```Projektmöte, 2020-09-21 11:45 (1 dagar)``` [länk](https://github.com/DKWA0000/OOPP-HT20/blob/master/Dokumentation/Notes%20From%20Project%20Meetings/2020-09-21%20-%20Projektmöte%201%20LV4.md)
 
 ### Att göra till nästa möte:
 - Samtliga ska se till att projektet kör på deras datorer
