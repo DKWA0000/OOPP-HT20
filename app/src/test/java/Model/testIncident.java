@@ -11,7 +11,6 @@ import com.example.planka.model.IncidentType;
 import com.example.planka.model.ReportRoute;
 import com.example.planka.model.Reporter;
 import com.example.planka.model.Route;
-import com.example.planka.model.Station;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -34,7 +33,7 @@ public class testIncident {
 
         testIncident = new Incident(IncidentType.ROUTE);
         testReportRoute = new ReportRoute(2, new Time(1, 2, 3), null,
-                new Station("testStation"), new Route("testRoute",
+                new Route("testRoute",
                 new ArrayList<>()), new Reporter("testMail"));
         testIncident.addReport(testReportRoute);
     }

@@ -13,7 +13,6 @@ import com.example.planka.model.IncidentType;
 import com.example.planka.model.ReportRoute;
 import com.example.planka.model.Reporter;
 import com.example.planka.model.Route;
-import com.example.planka.model.Station;
 
 /**
  * @author: Joakim Tubring.
@@ -31,7 +30,7 @@ public class testReportRoute {
     public void buildTestData(){
 
         testReportRoute = new ReportRoute(2, new Time(1, 2, 3), null,
-                new Station("testStation"), new Route("testRoute", new ArrayList<>()),
+                new Route("testRoute", new ArrayList<>()),
                 new Reporter("testMail"));
     }
 

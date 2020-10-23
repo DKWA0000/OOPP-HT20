@@ -96,7 +96,6 @@ public class MODEL extends Observable<UpdateType> {
         int numberOfControllers = Integer.parseInt(noContr);
         //Attaching an image have not been implemented.
         Image i = null;
-
         Route routeOfReport = network.getRouteFromString(route);
         addControllersRoute(routeOfReport);
 
@@ -104,7 +103,7 @@ public class MODEL extends Observable<UpdateType> {
             time = new Date();
         }
 
-        AbstractReport report = new ReportRoute(numberOfControllers,time,i, null, routeOfReport, reporter);
+        AbstractReport report = new ReportRoute(numberOfControllers, time, i, routeOfReport, reporter);
         reportsList.add(report);
         notifyObservers(UpdateType.NEW_REPORT);
 
