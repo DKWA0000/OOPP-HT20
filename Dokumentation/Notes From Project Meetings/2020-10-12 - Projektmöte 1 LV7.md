@@ -1,5 +1,3 @@
-Filnamn: 2020-10-12 - Projektmöte 1 LV7.md
-
 # Projektmöte 1 LV7 - 2020-10-12
 *Sekreterare: Seif Bourogaa*
 

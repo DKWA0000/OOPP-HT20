@@ -24,7 +24,7 @@ public class ReportRoute extends AbstractReport {
      * @see AbstractReport
      */
     public ReportRoute(int noContr, Date time, Image image, Station station, Route route, Reporter reporter) {
-        super(noContr, time, image, station, reporter, route);
+        super(noContr, time, image, null, reporter, route);
         setType(IncidentType.ROUTE);
     }
 

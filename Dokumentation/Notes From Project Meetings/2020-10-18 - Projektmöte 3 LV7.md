@@ -1,5 +1,5 @@
 # Projektmöte 3 LV7 - 2020-10-18
-*Sekreterare: Lucas Karlsson
+*Sekreterare: Lucas Karlsson*
 
 ### Agenda:
 - Gå igenom ALLT så vi vet vad som ska göras sista veckan

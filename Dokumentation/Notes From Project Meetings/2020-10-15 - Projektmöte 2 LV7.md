@@ -1,5 +1,5 @@
 # Projektmöte 2 LV7 - 2020-10-15
-*Sekreterare: Joakim Tubring
+*Sekreterare: Joakim Tubring*
 
 ### Agenda:
 - Gå igenom Peer review på vårat projekt
