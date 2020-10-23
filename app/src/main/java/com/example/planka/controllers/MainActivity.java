@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements Observer<UpdateTy
     private static final String NOTIFICATIONCHANNELID = "10001";
     private final static String DEFAULTCHANNELID = "default";
     private String editContr;
+    private String minusTime;
 
     /**
      * Method running when creating a MainActivity
@@ -498,6 +499,18 @@ public class MainActivity extends AppCompatActivity implements Observer<UpdateTy
                 userRoute = null;
             }
         });
+
+        ((Spinner) findViewById(R.id.whenSpinner)).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                minusTime = (String) adapterView.getItemAtPosition(i);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                minusTime = null;
+            }
+        });
     }
 
 
@@ -510,9 +523,10 @@ public class MainActivity extends AppCompatActivity implements Observer<UpdateTy
         if (((RadioButton) findViewById(R.id.nowRadio)).isChecked()) {
             time = Date.from(Instant.now());
         } else {
-            time = null; // not implemented
+            time = Date.from(Instant.now().minusSeconds(60*Integer.parseInt(minusTime.replace(" min",""))));
         }
 
+        System.out.println(time);
         if (((RadioButton) findViewById(R.id.stationRadio)).isChecked() && noContr != null && time != null && station != null) {
             model.makeStationReport(noContr, time, image, station);
             if (userRoute != null && model.userRouteImpacted(userRoute)) {
